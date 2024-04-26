@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "removeComments": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "rootDirs": ["src"],
+    "outDir": "dist",
+    "lib": ["es2022"],
+    "target": "es2022",
+    // Type-graphql
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    "skipLibCheck" : true
+  }
+}

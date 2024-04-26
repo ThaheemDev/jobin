@@ -1,0 +1,81 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: template-service
+  namespace: kubernetes-service-account-ns
+spec:
+  selector:
+    app: template-service
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: template-service
+  namespace: kubernetes-service-account-ns
+  labels:
+    app: template-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: template-service
+      tier: backend
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: template-service
+        tier: backend
+        track: stable
+    spec:
+      #      https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#gcloud_3
+      serviceAccountName: jobin-cluster-ksa
+      containers:
+        - name: template-service
+          # noinspection KubernetesUnknownValues
+          image: LOCATION-docker.pkg.dev/PROJECT_ID/jobin-cloud/REPOSITORY:TAG
+          resources:
+            requests:
+              memory: "1000Mi"
+              cpu: "750m"
+          readinessProbe:
+            httpGet:
+              path: /template-service/health
+              port: 4000
+            initialDelaySeconds: 1 # default 0
+            periodSeconds: 10 # default 10
+            timeoutSeconds: 1 # default 1
+          livenessProbe:
+            httpGet:
+              path: /template-service/health
+              port: 4000
+            initialDelaySeconds: 1 # default 0
+            periodSeconds: 10 # default 10
+            timeoutSeconds: 1 # default 1
+#          startupProbe:
+#            httpGet:
+#              path: /template-service/gc-health
+#              port: 4000
+#            initialDelaySeconds: 0 # default 0
+#            periodSeconds: 10 # default 10
+#            timeoutSeconds: 1 # default 1
+#            failureThreshold: 15
+          ports:
+            - containerPort: 4000
+      #          lifecycle:
+      #            preStop:
+      #              exec:
+      #                command: [
+      #                  "sh", "-c",
+      #                  # Introduce a delay to the shutdown sequence to wait for the
+      #                  # pod eviction event to propagate. Then, gracefully shutdown
+      #                  # nginx.
+      #                  # "sleep 5 && /usr/bin/nodejs -s quit",
+      #                  "sleep 5",
+      #                ]
