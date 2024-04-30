@@ -9,7 +9,7 @@ export class CampaignStageInput {
 
     // in the document:"Field" we have all needed to point a Jobin DB field
     @RequiredGraphqlField(ObjectIdScalar)
-    campaignId?: ObjectId;
+    campaignId!: ObjectId;
 
     @GraphqlField(String)
     stagePositionCode?: string;

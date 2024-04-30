@@ -9,7 +9,10 @@ export class JobinJobInput {
     @NullableGraphqlId()
     _id!: ObjectId;
 
+    @GraphqlField()
     userId!: ObjectId
+
+    @GraphqlField()
     workGroupId!: ObjectId
 
     @GraphqlField()
