@@ -1,9 +1,10 @@
 {
-  "name": "microservice-graphl-template",
+  "name": "jobin-job-service",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
   "scripts": {
+    "codegen": "graphql-codegen",
     "compile": "tsc",
     "start": "npm run compile && node ./dist/index.js",
     "test": "ts-jest"
@@ -15,11 +16,23 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@jobin-cloud/subgraph-mongodb": "^1.0.26",
+    "@jobin-cloud/inter-service-communication": "^2.0.10",
+    "@jobin-cloud/subgraph-mongodb": "^1.0.30",
+    "@jobin-cloud/verify-jwt": "^1.0.33",
+    "bullmq": "^5.7.5",
+    "dayjs": "^1.11.10",
+    "lodash": "^4.17.21",
+    "node-cron": "^3.0.3",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/near-operation-file-preset": "^3.0.0",
+    "@graphql-codegen/typescript": "^4.0.6",
+    "@graphql-codegen/typescript-resolvers": "^4.0.6",
+    "@types/lodash": "^4.17.0",
     "@types/node": "^20.11.19",
+    "@types/node-cron": "^3.0.11",
     "typescript": "^5.3.3"
   }
 }

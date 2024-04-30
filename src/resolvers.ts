@@ -1,9 +1,5 @@
-/**
- * Reference to all the resolvers
- *
- */
-import {ExampleFeatureResolver} from "./schema/exampleFeatures/ExampleFeatureResolver";
+import {JobinJobResolver} from "./schema/jobinJobs/JobinJobResolver";
 
 export const resolvers: any = [
-    ExampleFeatureResolver
+    JobinJobResolver
 ]
