@@ -72,4 +72,8 @@ export function bootstrapListeners () {
         await stopJobinJobsWithError(data.campaignId, data.contactId, data.errorMsg)
     })
 
+    listenForMessagesByTopic('createJobinJob', async (jobinJob) => {
+        await JobinJobModel.create(jobinJob)
+    })
+
 }

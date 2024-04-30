@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@jobin-cloud/inter-service-communication": "^2.0.10",
+    "@jobin-cloud/inter-service-communication": "^2.0.11",
     "@jobin-cloud/subgraph-mongodb": "^1.0.30",
     "@jobin-cloud/verify-jwt": "^1.0.33",
     "bullmq": "^5.7.5",
