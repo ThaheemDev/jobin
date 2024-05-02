@@ -1,6 +1,5 @@
-import {Arg, Args, Authorized, Ctx, FieldResolver, Query, Resolver, Root} from 'type-graphql'
+import {Arg, Args, Authorized, Ctx, Query, Resolver} from 'type-graphql'
 import {ObjectId} from 'mongodb'
-import {JobinJobContact} from '../jobinJobs/JobinJobContact'
 import {JobinCompletedJob, JobinCompletedJobModel} from './JobinCompletedJob'
 import {getJobinJobsFilter} from "../../utils/getJobinJobsFilter";
 import {Context} from "@jobin-cloud/verify-jwt";

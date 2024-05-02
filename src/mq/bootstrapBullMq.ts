@@ -45,7 +45,7 @@ export async function bootstrapBullMq () {
     })
 
     queueEvents.jobinJobEmailQueue.on('failed', async ({ jobId, failedReason }) => {
-        console.log(`job ${jobId} failed!`)
+        console.log(`job ${jobId} failed!`, failedReason)
 
         const jobinJobId = splitRedisId(jobId).entityId
 
