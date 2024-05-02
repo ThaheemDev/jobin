@@ -6,10 +6,10 @@ import {
     GraphqlDateTime,
     GraphqlId,
     GraphqlProp,
-    ObjectIdScalar,
     RequiredGraphqlProp
 } from "@jobin-cloud/subgraph-mongodb";
 import {CampaignStage} from "../campaignStages/CampaignStage";
+import {Contact, JobinAccount} from "../../external";
 
 // ============================= STATUS =============================
 // Status is unneccessary because it will be available through it's properties
@@ -62,8 +62,11 @@ export class JobinJob extends TimeStamps {
     @GraphqlProp(String)
     status?: string // queue | running | complete | failed
 
-    @GraphqlProp(ObjectIdScalar)
-    contactId?: ObjectId
+    @GraphqlProp(Contact)
+    contact?: Contact
+
+    @GraphqlProp(JobinAccount)
+    account?: JobinAccount
 
     // Idempotence is the property of certain operations in mathematics and computer science whereby they can be applied multiple times without changing the result beyond the initial application.
     @GraphqlProp()

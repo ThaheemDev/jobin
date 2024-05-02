@@ -33,7 +33,7 @@ function getFeatureCodeNameFromJobinJob (jobinJob: {codename: string}): FeatureC
 }
 
 
-async function checkPrivileges (jobinJob: {codename: string, data?: string, totalCount: number}, userId: ObjectId, workGroupId: ObjectId) {
+async function checkPrivileges (jobinJob: any, userId: ObjectId, workGroupId: ObjectId) {
   const codename = getFeatureCodeNameFromJobinJob(jobinJob)
   if(!codename) return
 
@@ -450,8 +450,8 @@ export class JobinJobResolver {
   protected async updateJobinJob (
       @Arg('_id', _type => ObjectIdScalar) _id: ObjectId,
       @Arg('jobinJob', _type => JobinJobUpdateInput) jobinJob: JobinJobUpdateInput,
-      @Arg('updateLockedAt', _type => Boolean, { defaultValue: true }) updateLockedAt: boolean,
       @Ctx() ctx: Context,
+      @Arg('updateLockedAt', _type => Boolean, { nullable: true, defaultValue: true }) updateLockedAt: boolean = true,
       // @Arg('contactStatus', _type => JobinJobContactInput, { nullable: true }) contactStatus?: JobinJobContactInput,
       // @Arg('contactStatuses', _type => [JobinJobContactInput], { nullable: true }) contactStatuses?: JobinJobContactInput[],
   ) {

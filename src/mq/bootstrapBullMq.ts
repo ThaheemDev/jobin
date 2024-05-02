@@ -31,14 +31,14 @@ export async function bootstrapBullMq () {
             status: 'success'
         })
 
-        if(!jobinJob || !jobinJob.contactId || !jobinJob.campaignStage || !jobinJob.campaignStage.stagePositionCode) {
+        if(!jobinJob || !jobinJob.contact?._id || !jobinJob.campaignStage || !jobinJob.campaignStage.stagePositionCode) {
             return console.error(`JobinJob ${jobinJob?._id} -- is not compatible with outreach sequence or not found`)
         }
 
         publishMessage('contactSequencePositionUpdated', {
             userId: jobinJob.userId,
             workGroupId: jobinJob.workGroupId,
-            contactId: jobinJob.contactId,
+            contactId: jobinJob.contact._id,
             campaignId: jobinJob.campaignStage.campaignId,
             positionCode: jobinJob.campaignStage.stagePositionCode
         })
@@ -56,14 +56,14 @@ export async function bootstrapBullMq () {
             error: failedReason
         })
 
-        if(!jobinJob || !jobinJob.contactId || !jobinJob.campaignStage || !jobinJob.campaignStage.stagePositionCode) {
+        if(!jobinJob || !jobinJob.contact?._id || !jobinJob.campaignStage || !jobinJob.campaignStage.stagePositionCode) {
             return console.error(`JobinJob ${jobinJob?._id} -- is not compatible with outreach sequence or not found`)
         }
 
         publishMessage('contactExitCampaign', {
             userId: jobinJob.userId,
             workGroupId: jobinJob.workGroupId,
-            contactId: jobinJob.contactId,
+            contactId: jobinJob.contact._id,
             campaignId: jobinJob.campaignStage.campaignId,
             positionCode: jobinJob.campaignStage.stagePositionCode
         })

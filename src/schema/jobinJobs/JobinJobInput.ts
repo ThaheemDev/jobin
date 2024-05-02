@@ -1,22 +1,27 @@
-import {InputType, Int} from 'type-graphql'
+import {Field, InputType} from 'type-graphql'
 import {ObjectId} from 'mongodb'
-import {JobinJobContactInput} from './JobinJobContactInput'
-import {GraphqlArrayField, GraphqlField, NullableGraphqlId, RequiredGraphqlField} from "@jobin-cloud/subgraph-mongodb";
+import {
+    GraphqlField,
+    GraphqlId,
+    RequiredGraphqlField
+} from "@jobin-cloud/subgraph-mongodb";
+import {ExternalInput} from "../../external";
 import {CampaignStageInput} from "../campaignStages/CampaignStageInput";
 
 @InputType()
 export class JobinJobInput {
-    @NullableGraphqlId()
-    _id!: ObjectId;
+    @GraphqlId()
+    _id!: Readonly<ObjectId>
+
+    // owner of this contact
+    @GraphqlField()
+    userId!: ObjectId;
+
+    @Field()
+    workGroupId!: ObjectId;
 
     @GraphqlField()
-    userId!: ObjectId
-
-    @GraphqlField()
-    workGroupId!: ObjectId
-
-    @GraphqlField()
-    priority?: number
+    isInRedis!: boolean;
 
     @RequiredGraphqlField()
     codename!: string // code name for the job (ex. dedup)
@@ -25,41 +30,35 @@ export class JobinJobInput {
     title!: string // display name for the job (ex. Deduplicate profiles)
 
     @GraphqlField()
-    userLinkedinUrl?: string
-
-    @GraphqlField()
     error?: string
 
     @GraphqlField(CampaignStageInput)
     campaignStage?: CampaignStageInput;
 
     @RequiredGraphqlField()
-    queue!: string // linkedin, jobin
+    queue!: string // linkedinSales, linkedin, jobin
 
     @GraphqlField()
     operationType?: string // linkedinSales (if not specified normal linkedin free)
 
-    @RequiredGraphqlField(Int, { defaultValue: -1 })
-    totalCount!: number
-
-    @RequiredGraphqlField()
-    loaded!: number
-
+    // type is used for displaying icon and tabs
     @RequiredGraphqlField(String)
     iconName!: string
 
-    // @RequiredGraphqlField(String)
-    // status!: JobStatusT // queue | processing | complete | failed
+    @GraphqlField(String)
+    status?: string // queue | running | complete | failed
 
-    // necessary for linkedin and all operations that require to wait before they actually start processing
-    // this is also useful when an operation is interrupted. Operations that were "waiting" can be re-added to
-    // the queue while already processing operations must be added to failed and retried manually
+    @GraphqlField(ExternalInput)
+    contact?: ExternalInput
+
+    @GraphqlField(ExternalInput)
+    account?: ExternalInput
+
+    // Idempotence is the Fielderty of certain operations in mathematics and computer science whereby they can be applied multiple times without changing the result beyond the initial application.
     @GraphqlField()
-    waitTimeMs?: number
+    isIdempotent?: boolean;
 
-    // === used for scheduling events ===
-    // indicates when a given Job should run.
-    // If set to null it will never process.
+    // indicates when a given Job should run. If set to null it will never process
     @GraphqlField()
     nextRunAt?: Date;
 
@@ -70,21 +69,6 @@ export class JobinJobInput {
     // indicates when a given Job is processing and locks it so no other job will process it
     @GraphqlField()
     lockedAt?: Date;
-
-    @GraphqlArrayField(JobinJobContactInput)
-    contactStatuses?: JobinJobContactInput[];
-
-    @GraphqlField()
-    stop?: boolean;
-
-    @GraphqlField()
-    noResume?: boolean;
-
-    @GraphqlField()
-    isIdempotent?: boolean;
-
-    @GraphqlField()
-    hasNothingToProcess?: boolean;
 
     // all information necessary to execute the given operation (parameters)
     @GraphqlField()

@@ -36,7 +36,7 @@ export async function copyOperationsToRedis(skip: number = 0) {
                     userId: ObjectId,
                     workGroupId: ObjectId,
                     jobinJobId: operation._id,
-                    contactId: operation.contactId,
+                    contactId: operation.contact?._id,
                     data: operation.data
                 },
                 options: {
