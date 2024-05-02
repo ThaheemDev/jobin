@@ -2,16 +2,14 @@ import {ObjectId} from 'mongodb'
 import {Directive, ObjectType} from 'type-graphql'
 import {getModelForClass, index, prop} from '@typegoose/typegoose'
 import {TimeStamps} from '@typegoose/typegoose/lib/defaultClasses'
-import {JobinJobContact} from './JobinJobContact'
 import {
-    GraphqlArrayProp, GraphqlDateTime,
-    GraphqlField,
+    GraphqlDateTime,
     GraphqlId,
     GraphqlProp,
+    ObjectIdScalar,
     RequiredGraphqlProp
 } from "@jobin-cloud/subgraph-mongodb";
 import {CampaignStage} from "../campaignStages/CampaignStage";
-import {User} from "../../external";
 
 // ============================= STATUS =============================
 // Status is unneccessary because it will be available through it's properties
@@ -39,20 +37,11 @@ export class JobinJob extends TimeStamps {
     @GraphqlProp()
     isInRedis!: boolean;
 
-    @RequiredGraphqlProp(undefined, undefined, { default: 0 })
-    priority!: number
-
     @RequiredGraphqlProp()
     codename!: string // code name for the job (ex. dedup)
 
     @RequiredGraphqlProp()
     title!: string // display name for the job (ex. Deduplicate profiles)
-
-    @GraphqlProp()
-    userLinkedinUrl?: string
-
-    @GraphqlField(User)
-    linkedinUser?: User;
 
     @GraphqlProp()
     error?: string
@@ -63,48 +52,22 @@ export class JobinJob extends TimeStamps {
     @RequiredGraphqlProp()
     queue!: string // linkedinSales, linkedin, jobin
 
-    @RequiredGraphqlProp(undefined, undefined, { default: 1 })
-    totalCount!: number
-
     @GraphqlProp()
     operationType?: string // linkedinSales (if not specified normal linkedin free)
-
-    @RequiredGraphqlProp(undefined, undefined, { default: 1 })
-    loaded!: number
-
-    // this option is used to create the "overview" progress bar grouping all "similar" as one operation
-    // it will be used in order to filter out single completes (displayable statically) with grouped completes (updated)
-    // @GraphqlProp(Boolean)
-    // autoGroupSimilar?: boolean
 
     // type is used for displaying icon and tabs
     @RequiredGraphqlProp(String)
     iconName!: string
 
-    // @RequiredGraphqlProp(String)
-    // status!: string // queue | running | complete | failed
+    @GraphqlProp(String)
+    status?: string // queue | running | complete | failed
 
-    // necessary for linkedin and all operations that require to wait before they actually start processing
-    // this is also useful when an operation is interrupted. Operations that were "waiting" can be re-added to
-    // the queue while already processing operations must be added to failed and retried manually
-    @GraphqlProp()
-    waitTimeMs?: number
-
-    @GraphqlArrayProp(JobinJobContact)
-    contactStatuses?: JobinJobContact[]
-
-    @GraphqlProp()
-    stop?: boolean;
-
-    @GraphqlProp()
-    noResume?: boolean;
+    @GraphqlProp(ObjectIdScalar)
+    contactId?: ObjectId
 
     // Idempotence is the property of certain operations in mathematics and computer science whereby they can be applied multiple times without changing the result beyond the initial application.
     @GraphqlProp()
     isIdempotent?: boolean;
-
-    @GraphqlProp()
-    hasNothingToProcess?: boolean;
 
     // indicates when a given Job should run. If set to null it will never process
     @GraphqlProp()
@@ -128,6 +91,43 @@ export class JobinJob extends TimeStamps {
 
     @GraphqlDateTime()
     declare updatedAt: Date
+
+
+
+    // ========= DEPRECATED ===========
+
+    // @RequiredGraphqlProp(undefined, {deprecationReason: 'Never Implemented / Zombie'}, { default: 0 })
+    // priority!: number
+    //
+    // @RequiredGraphqlProp(undefined, {deprecationReason: 'Every Job contains a single action/contact'}, { default: 1 })
+    // totalCount!: number
+    //
+    // @RequiredGraphqlProp(undefined, {deprecationReason: 'Every Job contains a single action/contact'}, { default: 1 })
+    // loaded!: number
+    //
+    // // necessary for linkedin and all operations that require to wait before they actually start processing
+    // // this is also useful when an operation is interrupted. Operations that were "waiting" can be re-added to
+    // // the queue while already processing operations must be added to failed and retried manually
+    // @GraphqlProp(Int, {deprecationReason: 'Never Implemented / Zombie'})
+    // waitTimeMs?: number
+    //
+    // @GraphqlProp(Boolean, {deprecationReason: 'Every Job contains a single action/contact'})
+    // hasNothingToProcess?: boolean;
+    //
+    // @GraphqlProp(Boolean, {deprecationReason: 'Every Job contains a single action/contact'})
+    // stop?: boolean;
+    //
+    // @GraphqlProp(Boolean, {deprecationReason: 'Every Job contains a single action/contact'})
+    // noResume?: boolean;
+    //
+    // @GraphqlArrayProp(JobinJobContact, {deprecationReason: 'Every Job contains a single action/contact'})
+    // contactStatuses?: JobinJobContact[]
+    //
+    // @GraphqlProp(String, {deprecationReason: 'all operations will rely on userId, userId will have only 1 linkedin account'})
+    // userLinkedinUrl?: string
+    //
+    // @GraphqlField(User, {deprecationReason: 'all operations will rely on userId, userId will have only 1 linkedin account'})
+    // linkedinUser?: User;
 }
 
 export const JobinJobModel = getModelForClass(JobinJob)

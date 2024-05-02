@@ -1,8 +1,12 @@
-import {jobinJobEmailQueue} from "../index";
 import {CodeNameT} from "../data/jobinJobTypes.db";
-import {Queue} from "bullmq";
+import {queues} from "./bootstrapBullMq";
 
-export const queueMap: {[key in CodeNameT]: Queue} = {
-    sendBulkEmails: jobinJobEmailQueue
+export function getQueueByJobCodename (codename: CodeNameT) {
+    const queueName = queueMap[codename]
+    return queues[queueName]
+}
+
+const queueMap: {[key in CodeNameT]: string} = {
+    sendBulkEmails: 'jobinJobEmailQueue'
 }
 

@@ -18,13 +18,13 @@ export class JobinCompletedJobResolver {
     return JobinCompletedJobModel.findOne({ _id }).maxTimeMS(30000)
   }
 
-  @FieldResolver(_returns => [JobinJobContact])
-    contactStatuses (
-      @Root() jobinCompletedJob: JobinCompletedJob,
-      @Args() { skip, take }: SkipTakeArgs
-    ) {
-      return jobinCompletedJob.contactStatuses?.slice(skip, skip + take)
-    }
+  // @FieldResolver(_returns => [JobinJobContact])
+  //   contactStatuses (
+  //     @Root() jobinCompletedJob: JobinCompletedJob,
+  //     @Args() { skip, take }: SkipTakeArgs
+  //   ) {
+  //     return jobinCompletedJob.contactStatuses?.slice(skip, skip + take)
+  //   }
 
     @Authorized()
     @Query(_returns => [JobinCompletedJob])
