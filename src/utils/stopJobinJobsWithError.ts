@@ -1,13 +1,13 @@
 import {ObjectId} from "mongodb";
 import {JobinJobModel} from "../schema/jobinJobs/JobinJob";
-import {queueMap} from "../mq/queueMap";
+import {getQueueByJobCodename} from "../mq/queueMap";
 import {CodeNameT} from "../data/jobinJobTypes.db";
 import {getRedisId} from "./redisIdHelper";
 import {isWithinNextDay} from "./isWithinNextDay";
 
 export async function stopJobinJobsWithError (dripCampaignId: ObjectId, contactId: ObjectId, error?: string): Promise<void> {
     const singleJobinJobs = await JobinJobModel.find({
-        'contactStatuses.contactId': contactId,
+        contactId,
         'campaignStage.campaignId': dripCampaignId,
         error: null!,
         $or: [
@@ -19,8 +19,6 @@ export async function stopJobinJobsWithError (dripCampaignId: ObjectId, contactI
         codename: true,
         nextRunAt: true
     })
-
-    console.log('-0-0-', dripCampaignId, contactId, singleJobinJobs)
 
     if(!singleJobinJobs.length) return
 
@@ -34,7 +32,7 @@ export async function stopJobinJobsWithError (dripCampaignId: ObjectId, contactI
 
         for (const jobinJob of singleJobinJobs) {
             if(!jobinJob.nextRunAt || !isWithinNextDay(jobinJob.nextRunAt)) continue
-            queueMap[jobinJob.codename as CodeNameT]
+            getQueueByJobCodename(jobinJob.codename as CodeNameT)
                 .getJob(getRedisId('jobinJob', jobinJob._id))
                 .then(j => { j?.remove() })
         }

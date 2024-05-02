@@ -4,7 +4,7 @@ import {CodeNameT, jobinJobTypesDb} from "../data/jobinJobTypes.db";
 import dayjs from "dayjs";
 import {JobinJobModel} from "../schema/jobinJobs/JobinJob";
 import {ObjectId} from "mongodb";
-import {queueMap} from "../mq/queueMap";
+import {getQueueByJobCodename} from "../mq/queueMap";
 import {getRedisId} from "../utils/redisIdHelper";
 
 export function bootstrapListeners () {
@@ -30,34 +30,29 @@ export function bootstrapListeners () {
             codename: jobType.codename,
             title: jobType.title,
             isInRedis,
-            loaded: 0,
             nextRunAt,
-            totalCount: 1,
             campaignStage: {
                 _id: new ObjectId(),
                 campaignId: data.campaignStage.campaignId,
                 stagePositionCode: data.campaignStage.stagePositionCode
             },
-            contactStatuses: [
-                {
-                    _id: new ObjectId(),
-                    contactId: data.contactId,
-                    status: 'pending',
-                    // linkedinUrl: data.linkedinUrl,
-                    // linkedinSalesUrl: data.linkedinSalesUrl,
-                    // linkedinTalentId: data.linkedinTalentId,
-                    // profileId: data.profileId
-                }
-            ],
+            contactId: data.contactId,
+            status: 'pending',
             data: JSON.stringify(data.job.data)
         }))._id
 
         if(isInRedis) {
-            await queueMap[jobType.codename].add(
+            const queue = getQueueByJobCodename(jobType.codename)
+            if(!queue) throw new Error('No Queue available for Given Codename')
+
+            await queue.add(
                 'dripOperation',
                 {
+                    userId: data.userId,
+                    workGroupId: data.workGroupId,
                     jobinJobId: jobinJobId,
-                    contactId: data.contactId
+                    contactId: data.contactId,
+                    data: data.job.data
                 },
                 {
                     jobId: getRedisId('jobinJob', jobinJobId),

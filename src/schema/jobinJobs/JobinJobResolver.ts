@@ -1,4 +1,4 @@
-import {Arg, Args, Authorized, Ctx, FieldResolver, GraphQLISODateTime, Int, Mutation, Query, Resolver, Root} from 'type-graphql'
+import {Arg, Args, Authorized, Ctx, GraphQLISODateTime, Int, Mutation, Query, Resolver} from 'type-graphql'
 import {ObjectId} from 'mongodb'
 import {FilterQuery} from 'mongoose'
 import dayjs from 'dayjs'
@@ -7,20 +7,18 @@ import {updateJobinJob} from '../../utils/updateJobinJob'
 import {JobinJobInput} from './JobinJobInput'
 import {JobinJob, JobinJobModel} from './JobinJob'
 import {JobinJobUpdateInput} from './JobinJobUpdateInput'
-import {JobinJobContactInput} from './JobinJobContactInput'
 import {JobinJobsFilterArgs} from './JobinJobsFilterArgs'
-import {JobinJobContact} from './JobinJobContact'
 import {completeJobinJob} from '../../utils/completeJobinJob'
 import {JobinJobSubscription} from './JobinJobSubscription'
 import {Context} from "@jobin-cloud/verify-jwt";
 import {ObjectIdScalar, SkipTakeArgs} from "@jobin-cloud/subgraph-mongodb";
-import { FeatureCodenameT } from '../../data/pricingConsts'
-import { getJobinJobsFilter } from '../../utils/getJobinJobsFilter'
-import { JobinCompletedJobModel } from '../jobinCompletedJobs/JobinCompletedJob'
-import {queueMap} from "../../mq/queueMap";
+import {FeatureCodenameT} from '../../data/pricingConsts'
+import {getJobinJobsFilter} from '../../utils/getJobinJobsFilter'
+import {JobinCompletedJobModel} from '../jobinCompletedJobs/JobinCompletedJob'
 import {CodeNameT} from "../../data/jobinJobTypes.db";
 import {getRedisId} from "../../utils/redisIdHelper";
-import { isWithinNextDay } from '../../utils/isWithinNextDay'
+import {isWithinNextDay} from '../../utils/isWithinNextDay'
+import {getQueueByJobCodename} from "../../mq/queueMap";
 
 function getFeatureCodeNameFromJobinJob (jobinJob: {codename: string}): FeatureCodenameT | null {
   if(jobinJob.codename === 'sendLinkedinInvite') return 'normalInvite'
@@ -93,7 +91,7 @@ export class JobinJobResolver {
     const codename = jobinJob.codename as CodeNameT
 
     if(queue === 'jobin' && codename) {
-      await queueMap[codename].add(
+      await getQueueByJobCodename(codename).add(
           codename,
           {
             jobinJobId: jobinJobId,
@@ -128,7 +126,7 @@ export class JobinJobResolver {
     const codename = jobinJob.codename as CodeNameT
 
     if(queue === 'jobin' && codename && jobinJob.nextRunAt && isWithinNextDay(jobinJob.nextRunAt)) {
-        await queueMap[codename].add(
+        await getQueueByJobCodename(codename).add(
             codename,
             {
               jobinJobId: jobinJobId,
@@ -206,22 +204,22 @@ export class JobinJobResolver {
       if (+lockedJob.lockedAt! > +timeoutDate) return null
 
       // if locked job is stopped and and timeout date is reached. Set Job As failed
-      if (lockedJob.stop) {
-        // undefined, getDripOperationOption(lockedJob)
-
-
-        // @DANIEL PUBSUB ->
-        // await completeJobinJob(pubSub, lockedJob._id, userId, workGroupId, 'Operation Interrupted By User.')
-        return null
-      }
+      // if (lockedJob.stop) {
+      //   // undefined, getDripOperationOption(lockedJob)
+      //
+      //
+      //   // @DANIEL PUBSUB ->
+      //   // await completeJobinJob(pubSub, lockedJob._id, userId, workGroupId, 'Operation Interrupted By User.')
+      //   return null
+      // }
 
       // If operation cannot restart it should be closed
-      if (lockedJob.noResume && !lockedJob.isIdempotent) {
-        // , undefined, getDripOperationOption(lockedJob)
-        // @DANIEL PUBSUB ->
-        // await completeJobinJob(pubSub, lockedJob._id, userId, workGroupId, 'Operation Timed Out')
-        return null
-      }
+      // if (lockedJob.noResume && !lockedJob.isIdempotent) {
+      //   // , undefined, getDripOperationOption(lockedJob)
+      //   // @DANIEL PUBSUB ->
+      //   // await completeJobinJob(pubSub, lockedJob._id, userId, workGroupId, 'Operation Timed Out')
+      //   return null
+      // }
 
       // If not stopped retry...
       return lockedJob
@@ -387,38 +385,38 @@ export class JobinJobResolver {
   //   return Boolean((await updateJobinJob(workGroupId, { _id }, {lockedAt: null!, nextRunAt: newDate}, undefined, pubSubOnly)).modifiedCount)
   }
 
-  @FieldResolver(_returns => [JobinJobContact])
-  contactStatuses (
-      @Root() jobinJob: JobinJob,
-      @Args() { skip, take }: SkipTakeArgs,
-      @Arg('isLive', _type => Boolean, { nullable: true }) isLive?: boolean
-  ) {
-    if (!isLive) return jobinJob.contactStatuses?.slice(skip, skip + take)
-
-    const contactStatuses = skip ? jobinJob.contactStatuses?.slice(skip) : jobinJob.contactStatuses
-    if (!contactStatuses) return []
-
-    const allNotPending = contactStatuses.filter(j => j.status !== 'pending')
-
-    if (!allNotPending || !allNotPending.length) return contactStatuses.splice(0, take) || []
-
-    const allNotPendingLeng = allNotPending?.length || 0
-    if (allNotPendingLeng > take) {
-      const pending = contactStatuses.find(f => f.status === 'pending')
-
-      if (pending) {
-        const successfulStatuses = allNotPending.slice((allNotPendingLeng - take) || 0)
-        return [...successfulStatuses, pending]
-      } else {
-        return allNotPending.slice((allNotPendingLeng - take) || 0)
-      }
-    }
-
-    const successfulStatuses = allNotPending.slice(0, take)
-    const leng = take - (successfulStatuses?.length || 0)
-
-    return [...(successfulStatuses || []), ...(contactStatuses?.filter(j => j.status !== 'success').splice(0, leng) || [])]
-  }
+  // @FieldResolver(_returns => [JobinJobContact])
+  // contactStatuses (
+  //     @Root() jobinJob: JobinJob,
+  //     @Args() { skip, take }: SkipTakeArgs,
+  //     @Arg('isLive', _type => Boolean, { nullable: true }) isLive?: boolean
+  // ) {
+  //   if (!isLive) return jobinJob.contactStatuses?.slice(skip, skip + take)
+  //
+  //   const contactStatuses = skip ? jobinJob.contactStatuses?.slice(skip) : jobinJob.contactStatuses
+  //   if (!contactStatuses) return []
+  //
+  //   const allNotPending = contactStatuses.filter(j => j.status !== 'pending')
+  //
+  //   if (!allNotPending || !allNotPending.length) return contactStatuses.splice(0, take) || []
+  //
+  //   const allNotPendingLeng = allNotPending?.length || 0
+  //   if (allNotPendingLeng > take) {
+  //     const pending = contactStatuses.find(f => f.status === 'pending')
+  //
+  //     if (pending) {
+  //       const successfulStatuses = allNotPending.slice((allNotPendingLeng - take) || 0)
+  //       return [...successfulStatuses, pending]
+  //     } else {
+  //       return allNotPending.slice((allNotPendingLeng - take) || 0)
+  //     }
+  //   }
+  //
+  //   const successfulStatuses = allNotPending.slice(0, take)
+  //   const leng = take - (successfulStatuses?.length || 0)
+  //
+  //   return [...(successfulStatuses || []), ...(contactStatuses?.filter(j => j.status !== 'success').splice(0, leng) || [])]
+  // }
 
   @Authorized()
   @Query(_returns => Boolean)
@@ -454,14 +452,13 @@ export class JobinJobResolver {
       @Arg('jobinJob', _type => JobinJobUpdateInput) jobinJob: JobinJobUpdateInput,
       @Arg('updateLockedAt', _type => Boolean, { defaultValue: true }) updateLockedAt: boolean,
       @Ctx() ctx: Context,
-      @Arg('contactStatus', _type => JobinJobContactInput, { nullable: true }) contactStatus?: JobinJobContactInput,
-      @Arg('contactStatuses', _type => [JobinJobContactInput], { nullable: true }) contactStatuses?: JobinJobContactInput[],
+      // @Arg('contactStatus', _type => JobinJobContactInput, { nullable: true }) contactStatus?: JobinJobContactInput,
+      // @Arg('contactStatuses', _type => [JobinJobContactInput], { nullable: true }) contactStatuses?: JobinJobContactInput[],
   ) {
     const { userId, workGroupId } = ctx
     if (!userId || !workGroupId) throw new Error('Permission Denied')
 
-    const upd: any = jobinJob
-    let dbOnly: any
+    const upd: JobinJobUpdateInput = jobinJob
 
     const pubSubOnly: JobinJobSubscription = {
       _id,
@@ -472,67 +469,67 @@ export class JobinJobResolver {
     if (updateLockedAt) upd.lockedAt = new Date()
     const filter: FilterQuery<DocumentType<JobinJob>> = { _id }
 
-    if (contactStatus && (contactStatus.contactId || contactStatus.accountId)) {
-      if (contactStatus.contactId) filter['contactStatuses.contactId'] = contactStatus.contactId
-      else filter['contactStatuses.accountId'] = contactStatus.accountId
+    // if (contactStatus && (contactStatus.contactId || contactStatus.accountId)) {
+    //   if (contactStatus.contactId) filter['contactStatuses.contactId'] = contactStatus.contactId
+    //   else filter['contactStatuses.accountId'] = contactStatus.accountId
+    //
+    //   dbOnly = {}
+    //   dbOnly['contactStatuses.$.status'] = contactStatus.status
+    //   dbOnly['contactStatuses.$.errorMsg'] = contactStatus.errorMsg
+    //
+    //   pubSubOnly.updateContactStatus = {
+    //     _id: new ObjectId(),
+    //     contactId: contactStatus.contactId,
+    //     accountId: contactStatus.accountId,
+    //     status: contactStatus.status,
+    //     errorMsg: contactStatus.errorMsg
+    //   }
+    // }
 
-      dbOnly = {}
-      dbOnly['contactStatuses.$.status'] = contactStatus.status
-      dbOnly['contactStatuses.$.errorMsg'] = contactStatus.errorMsg
+    // if(contactStatuses?.length) {
+    //   const jobinJob = await JobinJobModel.findOne({_id}, {contactStatuses: true}).lean()
+    //
+    //   if(jobinJob?.contactStatuses) {
+    //     const newContactStatuses: JobinJobContactInput[] = [...jobinJob.contactStatuses]
+    //
+    //     for (const index in contactStatuses) {
+    //       const contactStatus = contactStatuses[index]
+    //       const newIndex = newContactStatuses.findIndex(c => c.contactId?.toHexString() === contactStatus.contactId?.toHexString())
+    //       if(newIndex !== -1) newContactStatuses[newIndex] = contactStatus
+    //     }
+    //
+    //     upd.contactStatuses = newContactStatuses
+    //   }
+    // }
 
-      pubSubOnly.updateContactStatus = {
-        _id: new ObjectId(),
-        contactId: contactStatus.contactId,
-        accountId: contactStatus.accountId,
-        status: contactStatus.status,
-        errorMsg: contactStatus.errorMsg
-      }
-    }
-
-    if(contactStatuses?.length) {
-      const jobinJob = await JobinJobModel.findOne({_id}, {contactStatuses: true}).lean()
-
-      if(jobinJob?.contactStatuses) {
-        const newContactStatuses: JobinJobContactInput[] = [...jobinJob.contactStatuses]
-
-        for (const index in contactStatuses) {
-          const contactStatus = contactStatuses[index]
-          const newIndex = newContactStatuses.findIndex(c => c.contactId?.toHexString() === contactStatus.contactId?.toHexString())
-          if(newIndex !== -1) newContactStatuses[newIndex] = contactStatus
-        }
-
-        upd.contactStatuses = newContactStatuses
-      }
-    }
-
-    return (await updateJobinJob(workGroupId, filter, upd, dbOnly, pubSubOnly)).modifiedCount
+    return (await updateJobinJob(workGroupId, filter, upd, undefined, pubSubOnly)).modifiedCount
   }
 
-  @Authorized()
-  @Mutation(_returns => Int)
-  protected async setContactStatusesToPending (
-      @Arg('_id', _type => ObjectIdScalar) _id: ObjectId,
-      @Arg('linkedinUrls', _type => [String]) linkedinUrls: string[],
-      @Ctx() ctx: Context,
-  ) {
-    const { userId, workGroupId } = ctx
-    if (!userId || !workGroupId) throw new Error('Permission Denied')
-
-    const jobinJob = await JobinJobModel.findOne({_id}, {contactStatuses: true}).lean()
-    if(!jobinJob) throw new Error('JobinJob not found')
-
-    const upd: any = jobinJob
-
-    if(jobinJob?.contactStatuses) {
-      for (const index in linkedinUrls) {
-        const linkedinUrl = linkedinUrls[index]
-        const contactStatusIndex = jobinJob.contactStatuses.findIndex(c => c.linkedinUrl === linkedinUrl)
-        if(contactStatusIndex !== -1) upd.contactStatuses[contactStatusIndex].status = 'pending'
-      }
-    }
-
-    return (await updateJobinJob(workGroupId, {_id}, upd)).modifiedCount
-  }
+  // @Authorized()
+  // @Mutation(_returns => Int)
+  // protected async setContactStatusesToPending (
+  //     @Arg('_id', _type => ObjectIdScalar) _id: ObjectId,
+  //     @Arg('linkedinUrls', _type => [String]) linkedinUrls: string[],
+  //     @Ctx() ctx: Context,
+  // ) {
+  //   const { userId, workGroupId } = ctx
+  //   if (!userId || !workGroupId) throw new Error('Permission Denied')
+  //
+  //   const jobinJob = await JobinJobModel.findOne({_id}, {contactStatuses: true}).lean()
+  //   if(!jobinJob) throw new Error('JobinJob not found')
+  //
+  //   const upd: any = jobinJob
+  //
+  //   if(jobinJob?.contactStatuses) {
+  //     for (const index in linkedinUrls) {
+  //       const linkedinUrl = linkedinUrls[index]
+  //       const contactStatusIndex = jobinJob.contactStatuses.findIndex(c => c.linkedinUrl === linkedinUrl)
+  //       if(contactStatusIndex !== -1) upd.contactStatuses[contactStatusIndex].status = 'pending'
+  //     }
+  //   }
+  //
+  //   return (await updateJobinJob(workGroupId, {_id}, upd)).modifiedCount
+  // }
 
   @Authorized()
   @Mutation(_returns => Int)
@@ -545,12 +542,7 @@ export class JobinJobResolver {
     const { userId, workGroupId } = ctx
     if (!userId || !workGroupId) throw new Error('Permission Denied')
 
-    const upd: any = { $unset: { error: true, stop: true }, nextRunAt: nextRunAt ?? new Date() }
-    if (reset) {
-      upd.loaded = 0
-      upd['contactStatuses.$[].status'] = 'pending'
-      upd['contactStatuses.$[].errorMsg'] = ''
-    }
+    const upd: any = { $unset: { error: true, stop: true }, status: 'pending', nextRunAt: nextRunAt ?? new Date() }
 
     // Problem in order to pub/sub these values we must distinguish a null (not defined in given query vs set to null)
     // No pub/sub because it needs a full refetch after running
@@ -597,7 +589,7 @@ export class JobinJobResolver {
     if(!jobinJob) return 0
 
     const codename = getFeatureCodeNameFromJobinJob(jobinJob)
-    if(codename && jobinJob.totalCount) {
+    if(codename) {
       // @DanielUrgent Inter-microservice communication
       // await PrivilegeModel.updateOne({userId, workGroupId, activeFeatureCodename: codename, used: {$gte: jobinJob.totalCount}}, {$inc: { used: -jobinJob.totalCount} })
     }
@@ -625,14 +617,14 @@ export class JobinJobResolver {
     const promise = stopDripCampaignIfConnected(userId, workGroupId, job)
     const codename = getFeatureCodeNameFromJobinJob(job)
 
-    let failed = 0
-    for(let contactStatus of job.contactStatuses || []) {
-      if(contactStatus.status === 'fail')
-        failed++;
-    }
-
-    const pending = job.totalCount - job.loaded + failed
-    if(codename && pending) {
+    // let failed = 0
+    // for(let contactStatus of job.contactStatuses || []) {
+    //   if(contactStatus.status === 'fail')
+    //     failed++;
+    // }
+    //
+    // const pending = job.totalCount - job.loaded + failed
+    if(codename) {
       // @DanielUrgent Inter-microservice communication
       // await PrivilegeModel.updateOne({userId, workGroupId, activeFeatureCodename: codename, used: {$gte: pending}}, {$inc: { used: -pending} })
     }
@@ -682,22 +674,22 @@ export class JobinJobResolver {
       promises.push(stopDripCampaignIfConnected(userId, workGroupId, job))
       const codename = getFeatureCodeNameFromJobinJob(job)
 
-      let failed = 0
-      for(let contactStatus of job.contactStatuses || []){
-        if(contactStatus.status === 'fail')
-          failed++;
-      }
+      // let failed = 0
+      // for(let contactStatus of job.contactStatuses || []){
+      //   if(contactStatus.status === 'fail')
+      //     failed++;
+      // }
+      //
+      // const pending = job.totalCount - job.loaded + failed
+      //
+      // if(pending < 0) continue
 
-      const pending = job.totalCount - job.loaded + failed
-
-      if(pending < 0) continue
-
-      ops.push({
-        updateOne: {
-          filter: {userId, workGroupId, activeFeatureCodename: codename, used: {$gte: pending}},
-          update: {$inc: { used: -pending} }
-        }
-      })
+      // ops.push({
+      //   updateOne: {
+      //     filter: {userId, workGroupId, activeFeatureCodename: codename, used: {$gte: pending}},
+      //     update: {$inc: { used: -pending} }
+      //   }
+      // })
     }
 
     await Promise.all(promises)
