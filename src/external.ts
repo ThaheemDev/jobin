@@ -5,11 +5,20 @@ import {GraphqlId} from "@jobin-cloud/subgraph-mongodb";
 
 
 @Directive("@extends")
-@Directive('@key(fields: "_id", resolvable: false)')
+@Directive('@key(fields: "_id")')
 @ObjectType()
 export class User {
 
-    @Directive("@external")
+    @GraphqlId()
+    _id!: ObjectId
+
+}
+
+@Directive("@extends")
+@Directive('@key(fields: "_id")')
+@ObjectType()
+export class WorkGroup {
+
     @GraphqlId()
     _id!: ObjectId
 

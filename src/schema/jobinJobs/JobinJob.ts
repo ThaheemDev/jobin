@@ -1,6 +1,6 @@
 import {ObjectId} from 'mongodb'
 import {Directive, ObjectType} from 'type-graphql'
-import {getModelForClass, index, prop} from '@typegoose/typegoose'
+import {getModelForClass, index} from '@typegoose/typegoose'
 import {TimeStamps} from '@typegoose/typegoose/lib/defaultClasses'
 import {
     GraphqlDateTime,
@@ -8,7 +8,7 @@ import {
     GraphqlProp,
     RequiredGraphqlProp
 } from "@jobin-cloud/subgraph-mongodb";
-import {Contact, JobinAccount} from "../../external";
+import {Contact, JobinAccount, User, WorkGroup} from "../../external";
 import {CampaignStage} from "@jobin-cloud/shared-schema";
 
 // ============================= STATUS =============================
@@ -28,11 +28,11 @@ export class JobinJob extends TimeStamps {
     _id!: Readonly<ObjectId>
 
     // owner of this contact
-    @GraphqlProp()
-    userId!: ObjectId;
+    @GraphqlProp(User)
+    user!: User;
 
-    @prop()
-    workGroupId!: ObjectId;
+    @GraphqlProp(WorkGroup)
+    workGroup!: WorkGroup;
 
     @GraphqlProp()
     isInRedis!: boolean;

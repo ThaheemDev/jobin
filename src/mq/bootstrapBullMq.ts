@@ -36,8 +36,8 @@ export async function bootstrapBullMq () {
         }
 
         publishMessage('contactSequencePositionUpdated', {
-            userId: jobinJob.userId,
-            workGroupId: jobinJob.workGroupId,
+            userId: jobinJob.user._id,
+            workGroupId: jobinJob.workGroup._id,
             contactId: jobinJob.contact._id,
             campaignId: jobinJob.campaignStage.campaignId,
             positionCode: jobinJob.campaignStage.stagePositionCode
@@ -61,8 +61,8 @@ export async function bootstrapBullMq () {
         }
 
         publishMessage('contactExitCampaign', {
-            userId: jobinJob.userId,
-            workGroupId: jobinJob.workGroupId,
+            userId: jobinJob.user._id,
+            workGroupId: jobinJob.workGroup._id,
             contactId: jobinJob.contact._id,
             campaignId: jobinJob.campaignStage.campaignId,
             positionCode: jobinJob.campaignStage.stagePositionCode
