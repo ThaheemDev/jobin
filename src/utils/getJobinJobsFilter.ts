@@ -26,6 +26,7 @@ export function getJobinJobsFilter (workGroupId: ObjectId, { selectedUserId, sta
         if (status === 'queued') {
             filter.nextRunAt = { $ne: null! }
             filter.lockedAt = null!
+            filter.error = null!
         } else if (status === 'running') filter.lockedAt = { $ne: null! }
         else if (status === 'completed') {
             filter.nextRunAt = null!
