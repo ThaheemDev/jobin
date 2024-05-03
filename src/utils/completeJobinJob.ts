@@ -1,6 +1,6 @@
 import {ObjectId} from 'mongodb'
-import {JobinJobUpdateInput} from '../schema/jobinJobs/JobinJobUpdateInput'
 import {updateJobinJob} from "./updateJobinJob";
+import {JobinJobInput} from "@jobin-cloud/shared-schema";
 
 // type DripOperationOptionT = {
 //   campaignId: ObjectId | undefined,
@@ -22,15 +22,10 @@ import {updateJobinJob} from "./updateJobinJob";
 
 
 // dripOperationOption?: DripOperationOptionT
-export async function completeJobinJob (jobinJobId: ObjectId, userId: ObjectId, workGroupId: ObjectId, error?: string, hasNothingToProcess?: boolean) {
-  const upd = { lockedAt: null!, nextRunAt: null! } as JobinJobUpdateInput
+export async function completeJobinJob (jobinJobId: ObjectId, userId: ObjectId, workGroupId: ObjectId, error?: string) {
+  const upd = { lockedAt: null, nextRunAt: null } as unknown as JobinJobInput
 
   if (error) upd.error = error
-  if (hasNothingToProcess) {
-    upd.hasNothingToProcess = true
-    upd.loaded = 0
-    upd.totalCount = 0
-  }
 
   // if(dripOperationOption && (dripOperationOption.contactIds.length || dripOperationOption.failedContactIds.length)) {
   //   getAgenda().now('runDripOperations', {

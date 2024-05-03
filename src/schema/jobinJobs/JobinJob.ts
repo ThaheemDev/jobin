@@ -8,8 +8,8 @@ import {
     GraphqlProp,
     RequiredGraphqlProp
 } from "@jobin-cloud/subgraph-mongodb";
-import {CampaignStage} from "../campaignStages/CampaignStage";
 import {Contact, JobinAccount} from "../../external";
+import {CampaignStage} from "@jobin-cloud/shared-schema";
 
 // ============================= STATUS =============================
 // Status is unneccessary because it will be available through it's properties

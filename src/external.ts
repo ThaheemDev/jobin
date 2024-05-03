@@ -1,14 +1,8 @@
-import {Directive, InputType, ObjectType} from "type-graphql";
+import {Directive, ObjectType} from "type-graphql";
 import {ObjectId} from "mongodb";
 import {GraphqlId} from "@jobin-cloud/subgraph-mongodb";
 
-@InputType()
-export class ExternalInput {
 
-    @GraphqlId()
-    _id!: ObjectId
-
-}
 
 @Directive("@extends")
 @Directive('@key(fields: "_id", resolvable: false)')

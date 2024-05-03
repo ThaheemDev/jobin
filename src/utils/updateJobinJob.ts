@@ -2,14 +2,11 @@ import {ReturnModelType} from '@typegoose/typegoose'
 import {FilterQuery, UpdateQuery} from 'mongoose'
 import {DocumentType} from '@typegoose/typegoose/lib/types'
 import {ObjectId} from 'mongodb'
-import {JobinJobInput} from "../schema/jobinJobs/JobinJobInput";
-import {JobinJobUpdateInput} from "../schema/jobinJobs/JobinJobUpdateInput";
 import {JobinJob, JobinJobModel} from "../schema/jobinJobs/JobinJob";
 import {JobinJobSubscription} from "../schema/jobinJobs/JobinJobSubscription";
+import {JobinJobInput} from "@jobin-cloud/shared-schema";
 
-type UpdateT = JobinJobInput | JobinJobUpdateInput
-
-export async function updateJobinJob (workGroupId: ObjectId, filter: FilterQuery<DocumentType<JobinJob>>, upd: UpdateT, dbOnly?: UpdateQuery<JobinJob>, pubSubOnly?: JobinJobSubscription): Promise<ReturnModelType<any>> {
+export async function updateJobinJob (workGroupId: ObjectId, filter: FilterQuery<DocumentType<JobinJob>>, upd: JobinJobInput, dbOnly?: UpdateQuery<JobinJob>, pubSubOnly?: JobinJobSubscription): Promise<ReturnModelType<any>> {
   if (upd.lockedAt === null) {
     if (!pubSubOnly) pubSubOnly = { _id: upd._id!, userId: upd.userId, workGroupId: upd.workGroupId! }
     pubSubOnly.nullifyLockedAt = true

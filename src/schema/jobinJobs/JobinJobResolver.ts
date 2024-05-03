@@ -4,9 +4,7 @@ import {FilterQuery} from 'mongoose'
 import dayjs from 'dayjs'
 import {DocumentType} from '@typegoose/typegoose/lib/types'
 import {updateJobinJob} from '../../utils/updateJobinJob'
-import {JobinJobInput} from './JobinJobInput'
 import {JobinJob, JobinJobModel} from './JobinJob'
-import {JobinJobUpdateInput} from './JobinJobUpdateInput'
 import {JobinJobsFilterArgs} from './JobinJobsFilterArgs'
 import {completeJobinJob} from '../../utils/completeJobinJob'
 import {JobinJobSubscription} from './JobinJobSubscription'
@@ -19,6 +17,7 @@ import {CodeNameT} from "../../data/jobinJobTypes.db";
 import {getRedisId} from "../../utils/redisIdHelper";
 import {isWithinNextDay} from '../../utils/isWithinNextDay'
 import {getQueueByJobCodename} from "../../mq/queueMap";
+import {JobinJobInput} from "@jobin-cloud/shared-schema";
 
 function getFeatureCodeNameFromJobinJob (jobinJob: {codename: string}): FeatureCodenameT | null {
   if(jobinJob.codename === 'sendLinkedinInvite') return 'normalInvite'
@@ -434,7 +433,6 @@ export class JobinJobResolver {
       @Arg('jobinJobId', _type => ObjectIdScalar) jobinJobId: ObjectId,
       @Ctx() ctx: Context,
       @Arg('error', _type => String, { nullable: true }) error?: string,
-      @Arg('hasNothingToProcess', _type => Boolean, { nullable: true }) hasNothingToProcess?: boolean
   ) {
     const { userId, workGroupId } = ctx
     if (!userId || !workGroupId) throw new Error('Permission Denied')
@@ -442,14 +440,14 @@ export class JobinJobResolver {
     // const jobinJob = await JobinJobModel.findOne({_id: jobinJobId}, {campaignStage: true, contactStatuses: true, campaignProcessedNr: true})
     // jobinJob ? getDripOperationOption(jobinJob) : undefined
 
-    return completeJobinJob(jobinJobId, userId, workGroupId, error, hasNothingToProcess)
+    return completeJobinJob(jobinJobId, userId, workGroupId, error)
   }
 
   @Authorized()
   @Mutation(_returns => Int)
   protected async updateJobinJob (
       @Arg('_id', _type => ObjectIdScalar) _id: ObjectId,
-      @Arg('jobinJob', _type => JobinJobUpdateInput) jobinJob: JobinJobUpdateInput,
+      @Arg('jobinJob', _type => JobinJobInput) jobinJob: JobinJobInput,
       @Ctx() ctx: Context,
       @Arg('updateLockedAt', _type => Boolean, { nullable: true, defaultValue: true }) updateLockedAt: boolean = true,
       // @Arg('contactStatus', _type => JobinJobContactInput, { nullable: true }) contactStatus?: JobinJobContactInput,
@@ -458,7 +456,7 @@ export class JobinJobResolver {
     const { userId, workGroupId } = ctx
     if (!userId || !workGroupId) throw new Error('Permission Denied')
 
-    const upd: JobinJobUpdateInput = jobinJob
+    const upd: JobinJobInput = jobinJob
 
     const pubSubOnly: JobinJobSubscription = {
       _id,
