@@ -7,7 +7,6 @@ import {updateJobinJob} from '../../utils/updateJobinJob'
 import {JobinJob, JobinJobModel} from './JobinJob'
 import {JobinJobsFilterArgs} from './JobinJobsFilterArgs'
 import {completeJobinJob} from '../../utils/completeJobinJob'
-import {JobinJobSubscription} from './JobinJobSubscription'
 import {Context} from "@jobin-cloud/verify-jwt";
 import {ObjectIdScalar, SkipTakeArgs} from "@jobin-cloud/subgraph-mongodb";
 import {FeatureCodenameT} from '../../data/pricingConsts'
@@ -155,7 +154,7 @@ export class JobinJobResolver {
     // const userLinkedinUrl = filter.selectedUserId ? (await UserModel.findOne({ _id: filter.selectedUserId }, { linkedinUrl: true}))?.linkedinUrl : undefined
     const userLinkedinUrl = undefined
 
-    const resultFilter = getJobinJobsFilter(workGroupId, filter, userLinkedinUrl)
+    const resultFilter = getJobinJobsFilter(workGroupId, filter)
     return JobinJobModel.find(resultFilter).sort({ priority: -1, nextRunAt: 1 }).skip(skip).limit(take).maxTimeMS(30000)
   }
 
@@ -172,7 +171,7 @@ export class JobinJobResolver {
     // const userLinkedinUrl = filter.selectedUserId ? (await UserModel.findOne({ _id: filter.selectedUserId }, { linkedinUrl: true}))?.linkedinUrl : undefined
     const userLinkedinUrl = undefined
 
-    const resultFilter = getJobinJobsFilter(workGroupId, filter, userLinkedinUrl)
+    const resultFilter = getJobinJobsFilter(workGroupId, filter)
     return JobinJobModel.find(resultFilter).maxTimeMS(30000).count()
   }
 
@@ -192,7 +191,7 @@ export class JobinJobResolver {
     const userLinkedinUrl = undefined
 
     if(userLinkedinUrl) baseFilter.userLinkedinUrl = userLinkedinUrl
-    else baseFilter.userId = userId
+    else baseFilter['user._id'] = userId
 
     const lockedJob = await JobinJobModel.findOne(Object.assign({}, baseFilter, {lockedAt: { $ne: null! }, nextRunAt: { $ne: null! }}))
     if (lockedJob) {
@@ -458,10 +457,14 @@ export class JobinJobResolver {
 
     const upd: JobinJobInput = jobinJob
 
-    const pubSubOnly: JobinJobSubscription = {
+    const pubSubOnly: JobinJobInput = {
       _id,
-      userId,
-      workGroupId
+      user: {
+        _id: userId
+      },
+      workGroup: {
+        _id: workGroupId
+      }
     }
 
     if (updateLockedAt) upd.lockedAt = new Date()
@@ -646,13 +649,17 @@ export class JobinJobResolver {
     const userLinkedinUrl = undefined
 
     const jobinJobs = await JobinJobModel.find({
-      workGroupId,
+      'workGroup._id': workGroupId,
+      'user._id': userId,
       // $and: [
       //   {
-          $or: [
-            {userLinkedinUrl},
-            {userLinkedinUrl: null!, userId},
-          ],
+      //     $or: [
+      //       {userLinkedinUrl},
+      //       {
+      //         userLinkedinUrl: null!,
+      //
+      //         userId},
+      //     ],
         // },
         // {
         //   $or: [
@@ -719,7 +726,7 @@ export class JobinJobResolver {
     }
 
 
-    return (await JobinJobModel.deleteMany({ userId, workGroupId, nextRunAt: null!, error: null! })).deletedCount
+    return (await JobinJobModel.deleteMany({ 'user._id': userId, 'workGroup._id': workGroupId, nextRunAt: null!, error: null! })).deletedCount
   }
 }
 

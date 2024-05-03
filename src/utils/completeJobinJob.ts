@@ -41,6 +41,6 @@ export async function completeJobinJob (jobinJobId: ObjectId, userId: ObjectId, 
   return (await updateJobinJob(
     workGroupId,
     { _id: jobinJobId },
-    Object.assign({}, { _id: jobinJobId, workGroupId, userId }, upd)
+    Object.assign({}, { _id: jobinJobId, workGroup: {_id: workGroupId}, user: { _id: userId } }, upd)
   )).modifiedCount
 }

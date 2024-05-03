@@ -33,8 +33,8 @@ export async function copyOperationsToRedis(skip: number = 0) {
             {
                 name: codename,
                 data: {
-                    userId: ObjectId,
-                    workGroupId: ObjectId,
+                    userId: operation.user._id,
+                    workGroupId: operation.workGroup._id,
                     jobinJobId: operation._id,
                     contactId: operation.contact?._id,
                     data: operation.data

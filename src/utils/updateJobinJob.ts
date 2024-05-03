@@ -3,24 +3,23 @@ import {FilterQuery, UpdateQuery} from 'mongoose'
 import {DocumentType} from '@typegoose/typegoose/lib/types'
 import {ObjectId} from 'mongodb'
 import {JobinJob, JobinJobModel} from "../schema/jobinJobs/JobinJob";
-import {JobinJobSubscription} from "../schema/jobinJobs/JobinJobSubscription";
 import {JobinJobInput} from "@jobin-cloud/shared-schema";
 
-export async function updateJobinJob (workGroupId: ObjectId, filter: FilterQuery<DocumentType<JobinJob>>, upd: JobinJobInput, dbOnly?: UpdateQuery<JobinJob>, pubSubOnly?: JobinJobSubscription): Promise<ReturnModelType<any>> {
-  if (upd.lockedAt === null) {
-    if (!pubSubOnly) pubSubOnly = { _id: upd._id!, userId: upd.userId, workGroupId: upd.workGroupId! }
-    pubSubOnly.nullifyLockedAt = true
-  }
-
-  if (upd.error === null) {
-    if (!pubSubOnly) pubSubOnly = { _id: upd._id!, userId: upd.userId, workGroupId: upd.workGroupId! }
-    pubSubOnly.nullifyError = true
-  }
-
-  if (upd.nextRunAt === null) {
-    if (!pubSubOnly) pubSubOnly = { _id: upd._id!, userId: upd.userId, workGroupId: upd.workGroupId! }
-    pubSubOnly.nullifyNextRunAt = true
-  }
+export async function updateJobinJob (workGroupId: ObjectId, filter: FilterQuery<DocumentType<JobinJob>>, upd: JobinJobInput, dbOnly?: UpdateQuery<JobinJob>, pubSubOnly?: JobinJobInput): Promise<ReturnModelType<any>> {
+  // if (upd.lockedAt === null) {
+  //   if (!pubSubOnly) pubSubOnly = { _id: upd._id!, userId: upd.userId, workGroupId: upd.workGroupId! }
+  //   pubSubOnly.nullifyLockedAt = true
+  // }
+  //
+  // if (upd.error === null) {
+  //   if (!pubSubOnly) pubSubOnly = { _id: upd._id!, userId: upd.userId, workGroupId: upd.workGroupId! }
+  //   pubSubOnly.nullifyError = true
+  // }
+  //
+  // if (upd.nextRunAt === null) {
+  //   if (!pubSubOnly) pubSubOnly = { _id: upd._id!, userId: upd.userId, workGroupId: upd.workGroupId! }
+  //   pubSubOnly.nullifyNextRunAt = true
+  // }
 
   const res = await JobinJobModel.updateOne(
     filter,

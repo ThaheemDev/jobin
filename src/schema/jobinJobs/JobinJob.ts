@@ -1,6 +1,6 @@
 import {ObjectId} from 'mongodb'
 import {Directive, ObjectType} from 'type-graphql'
-import {getModelForClass, index} from '@typegoose/typegoose'
+import {getModelForClass} from '@typegoose/typegoose'
 import {TimeStamps} from '@typegoose/typegoose/lib/defaultClasses'
 import {
     GraphqlDateTime,
@@ -17,9 +17,6 @@ import {CampaignStage} from "@jobin-cloud/shared-schema";
 // running = lockedAt !== null
 // completed = nextRunAt !== null && error === null
 // failed = nextRunAt !== null && error !== null
-
-@index({ workGroupId: 1, userLinkedinUrl: 1, userId: 1 }, { background: true })
-@index({ workGroupId: 1, queue: 1, userLinkedinUrl: 1, lockedAt: 1, nextRunAt: 1 }, { background: true })
 
 @Directive(`@key(fields: "_id")`)
 @ObjectType()

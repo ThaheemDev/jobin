@@ -4,15 +4,19 @@ import {DocumentType} from "@typegoose/typegoose/lib/types";
 import {JobinJobsFilterArgs} from "../schema/jobinJobs/JobinJobsFilterArgs";
 import {JobinJob} from "../schema/jobinJobs/JobinJob";
 
-export function getJobinJobsFilter (workGroupId: ObjectId, { selectedUserId, status, queue, operationType, codename }: JobinJobsFilterArgs, userLinkedinUrl?: string): FilterQuery<DocumentType<JobinJob>> {
-    const filter: FilterQuery<DocumentType<JobinJob>> = { workGroupId }
-    if (selectedUserId && userLinkedinUrl) {
-        filter.$or = [
-            ...filter.$or || [],
-            {userLinkedinUrl},
-            {userLinkedinUrl: null!, userId: selectedUserId},
-        ]
-    } else if (selectedUserId) filter.userId = selectedUserId
+export function getJobinJobsFilter (workGroupId: ObjectId, { selectedUserId, status, queue, operationType, codename }: JobinJobsFilterArgs): FilterQuery<DocumentType<JobinJob>> {
+    const filter: FilterQuery<DocumentType<JobinJob>> = { 'workGroup._id': workGroupId }
+
+    // if (selectedUserId && userLinkedinUrl) {
+    //     filter.$or = [
+    //         ...filter.$or || [],
+    //         {userLinkedinUrl},
+    //         {userLinkedinUrl: null!, userId: selectedUserId},
+    //     ]
+    // } else
+
+
+    if (selectedUserId) filter['user._id'] = selectedUserId
 
     if (queue) filter.queue = queue
     if (operationType) filter.operationType = operationType

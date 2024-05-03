@@ -23,8 +23,12 @@ export function bootstrapListeners () {
 
         const jobinJobId = (await JobinJobModel.create({
             _id: new ObjectId(),
-            userId: data.userId,
-            workGroupId: data.workGroupId,
+            user: {
+                _id: data.userId
+            },
+            workGroup: {
+                _id: data.workGroupId
+            },
             queue: jobType.queue,
             iconName: jobType.iconName,
             codename: jobType.codename,
@@ -48,8 +52,12 @@ export function bootstrapListeners () {
             await queue.add(
                 'dripOperation',
                 {
-                    userId: data.userId,
-                    workGroupId: data.workGroupId,
+                    user: {
+                        _id: data.userId
+                    },
+                    workGroup: {
+                        _id: data.workGroupId
+                    },
                     jobinJobId: jobinJobId,
                     contactId: data.contactId,
                     data: data.job.data
