@@ -39,9 +39,7 @@ export class JobinCompletedJobResolver {
       // @DanielUrgent this is only a quick temporary solution. In future linkedinUrl should be added to ctx
       // const userLinkedinUrl = selectedUserId ? (await UserModel.findOne({ _id: selectedUserId }, { linkedinUrl: true}))?.linkedinUrl : undefined
 
-      const userLinkedinUrl = undefined
-
-    const resultFilter = getJobinJobsFilter(workGroupId, {selectedUserId}, userLinkedinUrl)
+    const resultFilter = getJobinJobsFilter(workGroupId, {selectedUserId})
     return JobinCompletedJobModel.find(resultFilter).sort({ updatedAt: -1  }).skip(skip).limit(take).maxTimeMS(30000)
   }
 }
