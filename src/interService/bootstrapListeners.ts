@@ -54,16 +54,10 @@ export function bootstrapListeners () {
             await queue.add(
                 'dripOperation',
                 {
-                    user: {
-                        _id: data.userId
-                    },
-                    workGroup: {
-                        _id: data.workGroupId
-                    },
+                    userId: data.userId,
+                    workGroupId: data.workGroupId,
                     jobinJobId: jobinJobId,
-                    contact: {
-                        _id: data.contactId
-                    },
+                    contactId: data.contactId,
                     data: data.job.data
                 },
                 {
