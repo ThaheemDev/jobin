@@ -7,7 +7,7 @@ import {isWithinNextDay} from "./isWithinNextDay";
 
 export async function stopJobinJobsWithError (dripCampaignId: ObjectId, contactId: ObjectId, error?: string): Promise<void> {
     const singleJobinJobs = await JobinJobModel.find({
-        contactId,
+        'contact._id': contactId,
         'campaignStage.campaignId': dripCampaignId,
         error: null!,
         $or: [

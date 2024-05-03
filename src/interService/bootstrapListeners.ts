@@ -40,7 +40,9 @@ export function bootstrapListeners () {
                 campaignId: data.campaignStage.campaignId,
                 stagePositionCode: data.campaignStage.stagePositionCode
             },
-            contactId: data.contactId,
+            contact: {
+                _id: data.contactId
+            },
             status: 'pending',
             data: JSON.stringify(data.job.data)
         }))._id
@@ -59,7 +61,9 @@ export function bootstrapListeners () {
                         _id: data.workGroupId
                     },
                     jobinJobId: jobinJobId,
-                    contactId: data.contactId,
+                    contact: {
+                        _id: data.contactId
+                    },
                     data: data.job.data
                 },
                 {
