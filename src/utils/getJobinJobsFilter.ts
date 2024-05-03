@@ -21,18 +21,19 @@ export function getJobinJobsFilter (workGroupId: ObjectId, { selectedUserId, sta
     if (queue) filter.queue = queue
     if (operationType) filter.operationType = operationType
     if (codename) filter.codename = codename
+    if (status) filter.status = status
 
-    if (status) {
-        if (status === 'queued') {
-            filter.nextRunAt = { $ne: null! }
-            filter.lockedAt = null!
-            filter.error = null!
-        } else if (status === 'running') filter.lockedAt = { $ne: null! }
-        else if (status === 'completed') {
-            filter.nextRunAt = null!
-            filter.error = null!
-        } else if (status === 'failed') filter.error = { $ne: null! }
-    }
+    // if (status) {
+    //     if (status === 'queued') {
+    //         filter.nextRunAt = { $ne: null! }
+    //         filter.lockedAt = null!
+    //         filter.error = null!
+    //     } else if (status === 'running') filter.lockedAt = { $ne: null! }
+    //     else if (status === 'completed') {
+    //         filter.nextRunAt = null!
+    //         filter.error = null!
+    //     } else if (status === 'failed') filter.error = { $ne: null! }
+    // }
 
     return filter
 }
