@@ -17,9 +17,9 @@
   "license": "ISC",
   "dependencies": {
     "@jobin-cloud/inter-service-communication": "^2.0.15",
-    "@jobin-cloud/shared-schema": "^1.0.8",
+    "@jobin-cloud/shared-schema": "^1.0.9",
     "@jobin-cloud/subgraph-mongodb": "^1.0.30",
-    "@jobin-cloud/verify-jwt": "^1.0.33",
+    "@jobin-cloud/verify-jwt": "^1.0.34",
     "bullmq": "^5.7.5",
     "dayjs": "^1.11.10",
     "lodash": "^4.17.21",
