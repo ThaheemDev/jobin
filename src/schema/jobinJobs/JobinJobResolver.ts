@@ -12,11 +12,10 @@ import {ObjectIdScalar, SkipTakeArgs} from "@jobin-cloud/subgraph-mongodb";
 import {FeatureCodenameT} from '../../../../=== Packages ===/shared-schema/src/data/pricingConsts'
 import {getJobinJobsFilter} from '../../utils/getJobinJobsFilter'
 import {JobinCompletedJobModel} from '../jobinCompletedJobs/JobinCompletedJob'
-import {CodeNameT} from "../../../../=== Packages ===/shared-schema/src/data/jobinJobTypes.db";
 import {getRedisId} from "../../utils/redisIdHelper";
 import {isWithinNextDay} from '../../utils/isWithinNextDay'
 import {getQueueByJobCodename} from "../../mq/queueMap";
-import {JobinJobInput} from "@jobin-cloud/shared-schema";
+import {JobinJobCodenameT, JobinJobInput} from "@jobin-cloud/shared-schema";
 
 function getFeatureCodeNameFromJobinJob (jobinJob: {codename: string}): FeatureCodenameT | null {
   if(jobinJob.codename === 'sendLinkedinInvite') return 'normalInvite'
@@ -86,10 +85,10 @@ export class JobinJobResolver {
     })
 
     if(!jobinJob) return false
-    const codename = jobinJob.codename as CodeNameT
+    const codename = jobinJob.codename as JobinJobCodenameT
 
     if(queue === 'jobin' && codename) {
-      await getQueueByJobCodename(codename).add(
+      await getQueueByJobCodename(codename)?.add(
           codename,
           {
             jobinJobId: jobinJobId,
@@ -121,10 +120,10 @@ export class JobinJobResolver {
 
     if(!jobinJob) return false
 
-    const codename = jobinJob.codename as CodeNameT
+    const codename = jobinJob.codename as JobinJobCodenameT
 
     if(queue === 'jobin' && codename && jobinJob.nextRunAt && isWithinNextDay(jobinJob.nextRunAt)) {
-        await getQueueByJobCodename(codename).add(
+        await getQueueByJobCodename(codename)?.add(
             codename,
             {
               jobinJobId: jobinJobId,
