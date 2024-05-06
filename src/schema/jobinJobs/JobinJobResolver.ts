@@ -9,10 +9,10 @@ import {JobinJobsFilterArgs} from './JobinJobsFilterArgs'
 import {completeJobinJob} from '../../utils/completeJobinJob'
 import {Context} from "@jobin-cloud/verify-jwt";
 import {ObjectIdScalar, SkipTakeArgs} from "@jobin-cloud/subgraph-mongodb";
-import {FeatureCodenameT} from '../../data/pricingConsts'
+import {FeatureCodenameT} from '../../../../=== Packages ===/shared-schema/src/data/pricingConsts'
 import {getJobinJobsFilter} from '../../utils/getJobinJobsFilter'
 import {JobinCompletedJobModel} from '../jobinCompletedJobs/JobinCompletedJob'
-import {CodeNameT} from "../../data/jobinJobTypes.db";
+import {CodeNameT} from "../../../../=== Packages ===/shared-schema/src/data/jobinJobTypes.db";
 import {getRedisId} from "../../utils/redisIdHelper";
 import {isWithinNextDay} from '../../utils/isWithinNextDay'
 import {getQueueByJobCodename} from "../../mq/queueMap";

@@ -2,9 +2,9 @@ import {JobinJobModel} from "../schema/jobinJobs/JobinJob";
 import {ObjectId} from "mongodb";
 import {BulkJobOptions} from "bullmq/dist/esm/interfaces";
 import dayjs from "dayjs";
-import {CodeNameT} from "../data/jobinJobTypes.db";
 import {getRedisId} from "./redisIdHelper";
 import {getQueueByJobCodename} from "../mq/queueMap";
+import {JobinJobCodenameT} from "@jobin-cloud/shared-schema";
 
 export async function copyOperationsToRedis(skip: number = 0) {
     console.info(`copying operations to Redis queue [Skip = ${skip}]`);
@@ -21,10 +21,10 @@ export async function copyOperationsToRedis(skip: number = 0) {
         .lean()
 
     const operationIds: ObjectId[] = []
-    const queueJobs: {[key in CodeNameT]?: {name: string, data: any, options?: BulkJobOptions}[]} = {}
+    const queueJobs: {[key in JobinJobCodenameT]?: {name: string, data: any, options?: BulkJobOptions}[]} = {}
 
     for (const operation of operations) {
-        const codename = operation.codename as CodeNameT
+        const codename = operation.codename as JobinJobCodenameT
 
         operationIds.push(operation._id)
         if(!queueJobs[codename]) queueJobs[codename] = []
@@ -51,7 +51,10 @@ export async function copyOperationsToRedis(skip: number = 0) {
     let promises: Promise<any>[] = []
 
     for (const codename in queueJobs) {
-        promises.push(getQueueByJobCodename(codename as CodeNameT).addBulk(queueJobs[codename as CodeNameT]!))
+        const queue = getQueueByJobCodename(codename as JobinJobCodenameT)
+        if(!queue) continue
+
+        promises.push(queue.addBulk(queueJobs[codename as JobinJobCodenameT]!))
     }
 
     await Promise.all([

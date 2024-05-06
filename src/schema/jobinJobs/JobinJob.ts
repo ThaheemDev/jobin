@@ -47,7 +47,7 @@ export class JobinJob extends TimeStamps {
     campaignStage?: CampaignStage;
 
     @RequiredGraphqlProp()
-    queue!: string // linkedinSales, linkedin, jobin
+    queue!: string // linkedin, jobin
 
     @GraphqlProp()
     operationType?: string // linkedinSales (if not specified normal linkedin free)
@@ -57,7 +57,7 @@ export class JobinJob extends TimeStamps {
     iconName!: string
 
     @GraphqlProp(String)
-    status?: string // queue | running | complete | failed
+    status?: string // fail / success / pending / processing
 
     @GraphqlProp(Contact)
     contact?: Contact

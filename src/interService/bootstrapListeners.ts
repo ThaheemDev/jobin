@@ -1,17 +1,18 @@
 import {listenForMessagesByTopic} from "@jobin-cloud/inter-service-communication";
 import {stopJobinJobsWithError} from "../utils/stopJobinJobsWithError";
-import {CodeNameT, jobinJobTypesDb} from "../data/jobinJobTypes.db";
 import dayjs from "dayjs";
 import {JobinJobModel} from "../schema/jobinJobs/JobinJob";
 import {ObjectId} from "mongodb";
 import {getQueueByJobCodename} from "../mq/queueMap";
 import {getRedisId} from "../utils/redisIdHelper";
+import {jobinJobTypesDb} from "../data/jobinJobTypes.db";
+import {JobinJobCodenameT} from "@jobin-cloud/shared-schema";
 
 export function bootstrapListeners () {
 
     // ============ PUB SUB ============
     listenForMessagesByTopic('runSequenceAction', async (data) => {
-        const jobType = jobinJobTypesDb[data.job.codename as CodeNameT]
+        const jobType = jobinJobTypesDb[data.job.codename as JobinJobCodenameT]
         const nextRunAt = dayjs().add(data.waitMinutes, 'minute').toDate()
 
         /**

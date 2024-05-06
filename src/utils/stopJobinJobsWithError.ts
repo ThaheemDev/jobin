@@ -1,9 +1,9 @@
 import {ObjectId} from "mongodb";
 import {JobinJobModel} from "../schema/jobinJobs/JobinJob";
 import {getQueueByJobCodename} from "../mq/queueMap";
-import {CodeNameT} from "../data/jobinJobTypes.db";
 import {getRedisId} from "./redisIdHelper";
 import {isWithinNextDay} from "./isWithinNextDay";
+import {JobinJobCodenameT} from "@jobin-cloud/shared-schema";
 
 export async function stopJobinJobsWithError (dripCampaignId: ObjectId, contactId: ObjectId, error?: string): Promise<void> {
     const singleJobinJobs = await JobinJobModel.find({
@@ -32,9 +32,10 @@ export async function stopJobinJobsWithError (dripCampaignId: ObjectId, contactI
 
         for (const jobinJob of singleJobinJobs) {
             if(!jobinJob.nextRunAt || !isWithinNextDay(jobinJob.nextRunAt)) continue
-            getQueueByJobCodename(jobinJob.codename as CodeNameT)
-                .getJob(getRedisId('jobinJob', jobinJob._id))
-                .then(j => { j?.remove() })
+            const queue = getQueueByJobCodename(jobinJob.codename as JobinJobCodenameT)
+            if(!queue) continue
+
+            queue.getJob(getRedisId('jobinJob', jobinJob._id)).then(j => { j?.remove() })
         }
 
         if(error) JobinJobModel.updateMany({_id: {$in: singleJobinJobIds}}, {error, stop: true, nextRunAt: null!})
