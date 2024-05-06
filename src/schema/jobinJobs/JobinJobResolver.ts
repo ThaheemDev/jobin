@@ -9,13 +9,13 @@ import {JobinJobsFilterArgs} from './JobinJobsFilterArgs'
 import {completeJobinJob} from '../../utils/completeJobinJob'
 import {Context} from "@jobin-cloud/verify-jwt";
 import {ObjectIdScalar, SkipTakeArgs} from "@jobin-cloud/subgraph-mongodb";
-import {FeatureCodenameT} from '../../../../=== Packages ===/shared-schema/src/data/pricingConsts'
 import {getJobinJobsFilter} from '../../utils/getJobinJobsFilter'
 import {JobinCompletedJobModel} from '../jobinCompletedJobs/JobinCompletedJob'
 import {getRedisId} from "../../utils/redisIdHelper";
 import {isWithinNextDay} from '../../utils/isWithinNextDay'
 import {getQueueByJobCodename} from "../../mq/queueMap";
 import {JobinJobCodenameT, JobinJobInput} from "@jobin-cloud/shared-schema";
+import {FeatureCodenameT} from "../../data/pricingConsts";
 
 function getFeatureCodeNameFromJobinJob (jobinJob: {codename: string}): FeatureCodenameT | null {
   if(jobinJob.codename === 'sendLinkedinInvite') return 'normalInvite'

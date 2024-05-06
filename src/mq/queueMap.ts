@@ -1,5 +1,6 @@
 import {queues} from "./bootstrapBullMq";
 import {JobinJobCodenameT} from "@jobin-cloud/shared-schema";
+import {Job} from "bullmq";
 
 
 export function getQueueByJobCodename (codename: JobinJobCodenameT) {
@@ -15,7 +16,7 @@ export type QueueNameT =
     'jobinJobConditionQueue' |
     'jobinJobAssignQueue'
 
-type QueueMapT = {codename: JobinJobCodenameT, queue: QueueNameT}
+type QueueMapT = {codename: JobinJobCodenameT, queue: QueueNameT, localWorker?: (job: Job) => Promise<void>}
 
 export const queueMap: QueueMapT[] = [
     {
@@ -24,11 +25,12 @@ export const queueMap: QueueMapT[] = [
     },
     {
         codename: 'bulkEnrichContacts',
-        queue: 'jobinJobBulkEnrichContactsQueue'
+        queue: 'jobinJobBulkEnrichContactsQueue',
+        // todo implement
     },
     {
         codename: 'condition',
-        queue: 'jobinJobConditionQueue'
+        queue: 'jobinJobConditionQueue',
     },
     {
         codename: 'assign',

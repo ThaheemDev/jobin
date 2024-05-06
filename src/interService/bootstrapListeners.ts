@@ -13,6 +13,10 @@ export function bootstrapListeners () {
     // ============ PUB SUB ============
     listenForMessagesByTopic('runSequenceAction', async (data) => {
         const jobType = jobinJobTypesDb[data.job.codename as JobinJobCodenameT]
+
+
+        console.log('here!', jobType, data)
+
         const nextRunAt = dayjs().add(data.waitMinutes, 'minute').toDate()
 
         /**
