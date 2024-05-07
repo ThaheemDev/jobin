@@ -34,6 +34,7 @@ export function bootstrapListeners () {
             workGroup: {
                 _id: data.workGroupId
             },
+            userLinkedinUrl: data.fromLinkedinUrl,
             queue: jobType.queue,
             iconName: jobType.iconName,
             codename: jobType.codename,
@@ -62,6 +63,7 @@ export function bootstrapListeners () {
                     userId: data.userId,
                     workGroupId: data.workGroupId,
                     jobinJobId: jobinJobId,
+                    userLinkedinUrl: data.fromLinkedinUrl,
                     contactId: data.contactId,
                     data: data.job.data
                 },

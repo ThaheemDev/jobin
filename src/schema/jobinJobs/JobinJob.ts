@@ -24,12 +24,23 @@ export class JobinJob extends TimeStamps {
     @GraphqlId()
     _id!: Readonly<ObjectId>
 
+    // ==============
+
     // owner of this contact
     @GraphqlProp(User)
     user!: User;
 
     @GraphqlProp(WorkGroup)
     workGroup!: WorkGroup;
+
+    @GraphqlProp(String)
+    userLinkedinUrl?: string
+
+    @RequiredGraphqlProp()
+    queue!: string // linkedin, jobin
+    // =================
+
+
 
     @GraphqlProp()
     isInRedis!: boolean;
@@ -45,9 +56,6 @@ export class JobinJob extends TimeStamps {
 
     @GraphqlProp(CampaignStage)
     campaignStage?: CampaignStage;
-
-    @RequiredGraphqlProp()
-    queue!: string // linkedin, jobin
 
     @GraphqlProp()
     operationType?: string // linkedinSales (if not specified normal linkedin free)
