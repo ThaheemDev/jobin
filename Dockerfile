@@ -25,7 +25,7 @@ ENV NODE_ENV development
 ENV SERVICE_NAME jobin-job-service
 ENV ORIGINS http://34.149.199.143
 
-ENV REDIS_HOST 10.113.93.11
+ENV REDIS_HOST 10.212.148.75
 ENV REDIS_PORT 6379
 
 ENV DB_URL mongodb+srv://jobinTesting:cS3aLRuH4ob4jTA4@jobin-testing.oirp3de.mongodb.net/jobin-job-service?retryWrites=true&w=majority
