@@ -31,7 +31,7 @@ COPY . .
 RUN npm run compile
 
 # Add metadata to the image to describe which port the container is listening on at runtime.
-EXPOSE 4000
+EXPOSE 4011
 
 # Run the specified command within the container. ##
 #CMD [ "npm", "run", "start" ]

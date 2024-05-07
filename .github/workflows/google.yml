@@ -13,17 +13,16 @@
 
 name: Build and Deploy to GKE
 
-# TODO uncomment this
-#on:
-#  push:
-#    branches: [ "master" ]
+on:
+  push:
+    branches: [ "master" ]
 
 env:
   PROJECT_ID: staging-413411
   GAR_LOCATION: europe-west1
   GKE_CLUSTER: jobin-staging-cluster
   GKE_ZONE: europe-west1
-  DEPLOYMENT_NAME: template-service # TODO: update to deployment name
+  DEPLOYMENT_NAME: jobin-job-service
   REPOSITORY: ${{ github.event.repository.name }}
 
 jobs:
