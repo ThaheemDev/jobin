@@ -92,7 +92,8 @@ export async function bootstrapBullMq () {
     redisConnection = {
         host: process.env.REDIS_HOST, // Replace with IP address or hostname
         port: process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT) : undefined, // Default Redis port
-        // password: 'YOUR_REDIS_PASSWORD', // If authentication is enabled
+        username: process.env.REDIS_USERNAME,
+        password: process.env.REDIS_PWD,
     }
 
     for (const queue of queueMap) {
