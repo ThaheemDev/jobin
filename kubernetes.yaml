@@ -42,8 +42,9 @@ spec:
           image: LOCATION-docker.pkg.dev/PROJECT_ID/jobin-cloud/REPOSITORY:TAG
           resources:
             requests:
-              memory: "1000Mi"
-              cpu: "750m"
+              memory: "200Mi" # 512Mi
+              cpu: "100m" # 250m
+              ephemeral-storage: "0.1Gi" # 0.5Gi
           readinessProbe:
             httpGet:
               path: /jobin-job-service/health
