@@ -25,10 +25,10 @@ ENV NODE_ENV development
 ENV SERVICE_NAME jobin-job-service
 ENV ORIGINS http://34.149.199.143
 
-ENV REDIS_HOST=redis-12704.c327.europe-west1-2.gce.redns.redis-cloud.com
-ENV REDIS_PORT=12704
-ENV REDIS_USERNAME=default
-ENV REDIS_PWD=OmBtrmrreneQ1IYiPECQtZDB1gws7cap
+ENV REDIS_HOST redis-12704.c327.europe-west1-2.gce.redns.redis-cloud.com
+ENV REDIS_PORT 12704
+ENV REDIS_USERNAME default
+ENV REDIS_PWD OmBtrmrreneQ1IYiPECQtZDB1gws7cap
 
 ENV DB_URL mongodb+srv://jobinTesting:cS3aLRuH4ob4jTA4@jobin-testing.oirp3de.mongodb.net/jobin-job-service?retryWrites=true&w=majority
 # ENV DB_URL
