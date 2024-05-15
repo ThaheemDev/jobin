@@ -55,8 +55,6 @@ async function onSequenceJobinJobFailed (jobId: string, failedReason: string) {
         }
 
         publishMessage('contactExitCampaign', {
-            userId: jobinJob.user._id,
-            workGroupId: jobinJob.workGroup._id,
             contactId: jobinJob.contact._id,
             campaignId: jobinJob.campaignStage.campaignId,
             positionCode: jobinJob.campaignStage.stagePositionCode

@@ -24,6 +24,7 @@ ENV NODE_ENV development
 
 ENV SERVICE_NAME jobin-job-service
 ENV ORIGINS http://34.149.199.143
+ENV GATEWAY_URL http://34.149.199.143/apollo-gateway/graphql
 
 ENV REDIS_HOST redis-12704.c327.europe-west1-2.gce.redns.redis-cloud.com
 ENV REDIS_PORT 12704
