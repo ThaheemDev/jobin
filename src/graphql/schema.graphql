@@ -1,0 +1,5384 @@
+type AbstractContact {
+  _id: ObjectId!
+  academicTitle: String
+  accomplishments: [Accomplishment!]
+  attachments: [UploadedFile!]
+  avatarUrl: String
+  calendlyUrl: String
+  communicationChannels: [CommunicationChannel!]
+
+  """e.g. BestTimeToCall, preferredSN, Origin, etc."""
+  contactSpecification: ContactSpecification
+  createdAt: DateTimeISO
+  cvExtRepoUrl: String
+  cvFile: UploadedFile
+  educExperiences: [EducExperience!]
+  facebookId: String
+  facebookUrl: String
+  facebookUsername: String
+  firstName: String
+  gender: String
+  githubUrl: String
+  githubUsername: String
+  gravatarCheckTimestamp: Int
+  gravatarUrl: String
+  hasEmail: Boolean
+  hasMobilePhone: Boolean
+  hasPageUrls: Boolean
+  hasPhone: Boolean
+  industry: String
+  instagramUrl: String
+  jobseekerCriterion: JobseekerCriterion
+  languageUsed: String
+  languages: [Language!]
+  lastLinkedinUpdate: DateTimeISO
+  lastName: String
+  linkedinDetail: LinkedinDetail
+  linkedinSalesUrl: String
+  linkedinTalentId: String
+  linkedinUrl: String
+  mainLocation: MainLocation
+  mainProfExperience: ProfExperience
+  mainRoleTitle: String
+  mediumUrl: String
+  middleName: String
+  oldLinkedinUrls: [String!]
+  otherEmails: [String!]
+  otherMobilePhones: [String!]
+  otherPhones: [String!]
+  pageUrls: [String!]
+  pdlId: String
+
+  """DoB, Nationality, marital status, etc"""
+  personalDetail: PersonalDetail
+  personalInterest: String
+  privateEmail: String
+  privateMobilePhone: String
+  privatePhone: String
+  profExperiences: [ProfExperience!]
+  quoraUrl: String
+  skills: [Skill!]
+  summary: String
+  tiktokUrl: String
+  twitterUrl: String
+  twitterUsername: String
+  updatedAt: DateTimeISO
+  voluntExperiences: [VoluntExperience!]
+  want: String
+  wechatUrl: String
+  workEmail: String
+  workMobilePhone: String
+  workPhone: String
+  xingUrl: String
+  yearsInCurrentRole: Int
+  yearsOfExperience: Int
+  youtubeUrl: String
+}
+
+input AbstractContactInput {
+  _id: ObjectId
+  academicTitle: String
+  accomplishments: [AccomplishmentInput!]
+  attachments: [UploadedFileInput!]
+  avatarUrl: String
+  calendlyUrl: String
+  communicationChannels: [CommunicationChannelInput!]
+
+  """e.g. BestTimeToCall, preferredSN, Origin, etc."""
+  contactSpecification: ContactSpecificationInput
+  cvExtRepoUrl: String
+  cvFile: UploadedFileInput
+  educExperiences: [EducExperienceInput!]
+  facebookId: String
+  facebookUrl: String
+  facebookUsername: String
+  firstName: String
+  gender: String
+  githubUrl: String
+  githubUsername: String
+  industry: String
+  instagramUrl: String
+  jobseekerCriterion: JobseekerCriterionInput
+  languageUsed: String
+  languages: [LanguageInput!]
+  lastLinkedinUpdate: DateTimeISO
+  lastName: String
+  linkedinDetail: LinkedinDetailInput
+  linkedinSalesUrl: String
+  linkedinTalentId: String
+  linkedinUrl: String
+  mainLocation: MainLocationInput
+  mainProfExperience: ProfExperienceInput
+  mainRoleTitle: String
+  mediumUrl: String
+  middleName: String
+  oldLinkedinUrls: [String!]
+  otherEmails: [String!]
+  otherMobilePhones: [String!]
+  otherPhones: [String!]
+  pageUrls: [String!]
+  pdlId: String
+
+  """DoB, Nationality, marital status, etc"""
+  personalDetail: PersonalDetailInput
+  personalInterest: String
+  privateEmail: String
+  privateMobilePhone: String
+  privatePhone: String
+  profExperiences: [ProfExperienceInput!]
+  quoraUrl: String
+  skills: [SkillInput!]
+  summary: String
+  tiktokUrl: String
+  twitterUrl: String
+  twitterUsername: String
+  voluntExperiences: [VoluntExperienceInput!]
+  want: String
+  wechatUrl: String
+  workEmail: String
+  workMobilePhone: String
+  workPhone: String
+  xingUrl: String
+  youtubeUrl: String
+}
+
+type AbstractContactsFilter {
+  _id: ObjectId!
+  _ids: [ObjectId!]
+  companyEmployeeCountRanges: [StrCurrentOrPastAdvancedFilter!]
+  contactsAvailability: ContactsAvailabilityFilter
+  contactsCareer: ContactsCareerFilter
+  contactsEducation: ContactsEducationFilter
+  contactsLastEvent: ContactsDateRangeFilter
+  contactsLastInteraction: ContactsDateRangeFilter
+  contactsLastUnansweredReply: ContactsDateRangeFilter
+  createdAt: DateTimeISO
+  dripCampaignFilter: DripCampaignFilter
+  dripCampaignsFilter: [IdAdvancedFilter!]
+  gender: StrAdvancedFilter
+  hasCv: Boolean
+  hasInteraction: Boolean
+  hasLinkedinId: Boolean
+  hasUnansweredReply: Boolean
+  insertionDate: InsertionDateFilter
+  isMiniProfile: Boolean
+  jobseekerStatuses: [StrAdvancedFilter!]
+  jobspecFilter: ContactsJobspecFilter
+  languageNames: [StrAdvancedFilter!]
+  linkedinTagsFilter: LinkedinTagsFilter
+  locations: [MainLocationFilter!]
+  minShouldMatch: MinShouldMatch
+  ownerId: ObjectId
+  searchName: String
+  searchSurname: String
+  searchValue: String
+  showNoCurrentCompany: Boolean
+  showUnsubscribed: Boolean
+  skillNames: [StrAdvancedFilter!]
+  sortBy: ContactsSortBy
+  summary: [StrAdvancedFilter!]
+  tags: [IdAdvancedFilter!]
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  yearsInCurrentRole: [ContactsTimeRangeFilter!]
+  yearsOfExperience: [ContactsTimeRangeFilter!]
+}
+
+type Accomplishment {
+  _id: ObjectId!
+  accomplishmentType: BaseTemplateIconName
+
+  """When this accomplishment happened"""
+  date: DateTimeISO
+
+  """Longer description of this accomplishment"""
+  description: String
+  issuer: String
+  organizationLogo: OrganizationLogoLinkedin
+
+  """Main name/title of this accomplishment"""
+  value: String
+}
+
+input AccomplishmentInput {
+  _id: ObjectId
+  accomplishmentType: BaseTemplateIconNameInput
+
+  """When this accomplishment happened"""
+  date: DateTimeISO
+
+  """Longer description of this accomplishment"""
+  description: String
+  issuer: String
+  organizationLogo: OrganizationLogoLinkedinInput
+  value: String
+}
+
+type AccomplishmentType {
+  _id: ObjectId!
+  createdAt: DateTimeISO
+  iconName: String
+  updatedAt: DateTimeISO
+  value: String!
+}
+
+input AccomplishmentTypeInput {
+  _id: ObjectId
+  iconName: String
+  value: String!
+}
+
+type AccountLogo {
+  _id: ObjectId!
+
+  """The Full organization)"""
+  accountId: ObjectId
+  logoUrl: String
+  name: String
+}
+
+input AccountLogoInput {
+  _id: ObjectId
+  accountId: ObjectId
+  logoUrl: String
+  name: String
+}
+
+type AccountTag {
+  _id: ObjectId!
+  color: String
+  iconName: String
+  value: String!
+}
+
+input AccountTagInput {
+  _id: ObjectId
+  color: String
+  iconName: String
+  value: String!
+}
+
+type AccountType {
+  _id: ObjectId!
+  value: String!
+}
+
+type AccountWithJobspecs {
+  _id: ObjectId!
+
+  """The Employer Organization for this Jobspec"""
+  accountLogo: AccountLogo
+  jobspecs: [Jobspec!]
+}
+
+type ActiveFeature {
+  _id: ObjectId!
+  codename: String!
+  isDaily: Boolean
+  isFixed: Boolean
+  isInfinite: Boolean
+  isPerWorkGroup: Boolean
+  limit: Int
+}
+
+type ActiveFeatureLabel {
+  _id: ObjectId!
+  activeFeature: ActiveFeature!
+  featureLabel: String!
+  queryForUsed: Boolean
+  used: Int
+}
+
+type ActivePipelineStage {
+  _id: ObjectId!
+  createdAt: DateTimeISO
+  fittingIndex: Int @deprecated(reason: "Necessary due to extension update")
+  jobspec: Jobspec
+  pipelineId: ObjectId!
+  pipelineStage: FullPipelineStage
+  stage: String
+  subStage: String
+  updatedAt: DateTimeISO
+  userId: ObjectId!
+}
+
+input ActivePipelineStageInput {
+  _id: ObjectId
+  pipelineId: ObjectId!
+  stage: String = "Assigned"
+  subStage: String
+  userId: ObjectId
+}
+
+input ActivePipelineStageWithEventIdAndTitle {
+  _id: ObjectId
+  activePipelineStage: ActivePipelineStageInput!
+  jobinEventId: ObjectId!
+  jobspecTitle: String
+}
+
+type ActiveSubscription {
+  _id: ObjectId!
+  activeSubscriptionFeatures: [ActiveFeatureLabel!]!
+  assignedSeatIds: [ObjectId!]!
+  assignedSeatsCount: Int!
+  currency: String!
+  currencyCode: String!
+  currentPlanId: ObjectId!
+  currentPlanName: String!
+  iconName: String!
+  isBilledMonthly: Boolean!
+  monthlyCost: Int!
+  productId: ObjectId!
+  solutionId: ObjectId!
+  solutionName: String!
+  totalSeats: Int!
+  userHasAssignedSeat: Boolean!
+}
+
+type AdditionalField {
+  _id: ObjectId!
+  default: String
+
+  """label displayed on GUIs. If undefined == do not display on GUI"""
+  display: String
+  isBoolean: Boolean
+  isNumber: Boolean
+  isPlural: Boolean
+  path: String!
+}
+
+type AffiliateCodeAvailability {
+  _id: ObjectId
+  affiliateCouponCodeIsAvailable: Boolean
+  affiliateLinkIsAvailable: Boolean
+}
+
+type AffiliateLead {
+  _id: ObjectId!
+  country: String
+  couponPercentage: Int
+  email: String
+  firstPaymentDate: DateTimeISO
+  ip: String
+  jobinInvoiceId: ObjectId
+  jobinSubscriptionId: ObjectId
+  linkClickedDate: DateTimeISO
+  linkedinUrl: String
+  originalUserId: ObjectId
+  overwriteMessage: String
+  payableAmount: Int
+  payableAmountCurrency: Currency
+  referredUserAvatar: Avatar
+  referredUserId: ObjectId
+  signupDate: DateTimeISO
+  status: String
+  totalAffiliateFeeLost: Int
+  totalAffiliateFeeReceived: Int
+  userId: ObjectId!
+  wasCanceled: Boolean
+  wasRefunded: Boolean
+}
+
+type AffiliateLeadTotals {
+  _id: ObjectId!
+  cancelled: Int
+  clicks: Int
+  customers: Int
+  inGracePeriod: Int
+  signups: Int
+}
+
+type AffiliatePayout {
+  _id: ObjectId!
+  payoutBatchId: String!
+  payoutItem: PayoutItem!
+  payoutItemFee: MoneyAmountObj!
+  payoutItemId: String!
+  timeProcessed: DateTimeISO
+  transactionId: String
+  transactionStatus: String!
+  userId: ObjectId!
+}
+
+type AffiliateTotalPayout {
+  _id: ObjectId!
+  totalPastPayouts: [MoneyAmountObj!]
+  totalPendingNext2Payouts: [MoneyAmountObj!]
+  totalPendingNextPayouts: [MoneyAmountObj!]
+  totalPendingPayouts: [MoneyAmountObj!]
+}
+
+input AssignSeatPrivilegeInput {
+  _id: ObjectId
+  jobinProductId: ObjectId!
+  userId: ObjectId!
+}
+
+type AvailabilityPeriod {
+  _id: ObjectId!
+  availableOn: DateTimeISO
+  isNegotiable: Boolean
+  text: String
+}
+
+input AvailabilityPeriodInput {
+  _id: ObjectId
+  availableOn: DateTimeISO
+  isNegotiable: Boolean
+  text: String
+}
+
+type AvailabilityRow {
+  _id: ObjectId
+  isAvailable: Boolean
+  searchValue: String
+}
+
+input AvailabilityRowInput {
+  _id: ObjectId
+  isAvailable: Boolean
+  searchValue: String
+}
+
+type Avatar {
+  _id: ObjectId!
+  firstName: String
+  fullAvatarUrl: String
+  lastName: String
+}
+
+type AvatarWithValue {
+  _id: ObjectId!
+  firstName: String
+  fullAvatarUrl: String
+  lastName: String
+  value: String
+}
+
+type BaseTemplate {
+  _id: ObjectId!
+  value: String!
+}
+
+type BaseTemplateColorIconName {
+  _id: ObjectId!
+  color: String
+  iconName: String
+  value: String!
+}
+
+input BaseTemplateColorIconNameInput {
+  _id: ObjectId
+  color: String
+  iconName: String
+  value: String!
+}
+
+type BaseTemplateIconName {
+  _id: ObjectId!
+  iconName: String
+  value: String!
+}
+
+input BaseTemplateIconNameInput {
+  _id: ObjectId
+  iconName: String
+  value: String!
+}
+
+type BaseTemplateLevel {
+  _id: ObjectId!
+  level: Int
+  value: String!
+}
+
+input BaseTemplateLevelInput {
+  _id: ObjectId
+  level: Int
+  value: String!
+}
+
+type BaseTemplateStyleIconName {
+  _id: ObjectId!
+  iconName: String
+  style: String
+  value: String!
+}
+
+input BaseTemplateStyleIconNameInput {
+  _id: ObjectId
+  iconName: String
+  style: String
+  value: String!
+}
+
+type Benefit {
+  _id: ObjectId!
+  benefitType: BaseTemplateIconName
+  value: String
+}
+
+input BenefitInput {
+  _id: ObjectId
+  benefitType: BaseTemplateIconNameInput
+  value: String
+}
+
+type BenefitTemplate {
+  _id: ObjectId!
+  benefitType: BaseTemplateIconName
+  createdAt: DateTimeISO
+  iconName: String
+  updatedAt: DateTimeISO
+  value: String!
+}
+
+input BenefitTemplateInput {
+  _id: ObjectId
+  benefitType: BaseTemplateIconNameInput
+  iconName: String
+  value: String
+}
+
+type BenefitType {
+  _id: ObjectId!
+  iconName: String
+  value: String!
+}
+
+type BillingDetail {
+  _id: ObjectId!
+  addressLine1: String
+  addressLine2: String
+  city: String
+  companyName: String!
+  companyRegistrationNr: String
+  country: String!
+  countryCode: String!
+  currency: Currency!
+  invoiceEmail: String
+  removeCountryCodeOnVatId: Boolean
+  stateProvinceRegion: String
+  vatCompanyName: String
+  vatId: String
+  zipCode: String
+}
+
+input BillingDetailInput {
+  _id: ObjectId
+  addressLine1: String
+  addressLine2: String
+  city: String
+  companyName: String!
+  companyRegistrationNr: String
+  country: String!
+  countryCode: String!
+  currency: CurrencyInput!
+  invoiceEmail: String
+  removeCountryCodeOnVatId: Boolean
+  stateProvinceRegion: String
+  vatCompanyName: String
+  vatId: String
+  zipCode: String
+}
+
+type CampaignStage {
+  _id: ObjectId!
+  campaignId: ObjectId!
+  stagePositionCode: String
+}
+
+input CampaignStageInput {
+  _id: ObjectId
+  campaignId: ObjectId!
+  stagePositionCode: String
+}
+
+type CareerOverview {
+  _id: ObjectId!
+  careerLevel: BaseTemplateLevel
+  careerPath: String
+  careerSubPath: String
+  monthsOfExperience: Int
+}
+
+input CareerOverviewInput {
+  _id: ObjectId
+  careerLevel: BaseTemplateLevelInput
+  careerPath: String
+  careerSubPath: String
+  monthsOfExperience: Int
+}
+
+input ChatGptMessage {
+  content: String!
+  role: String!
+}
+
+type ChatGptPrompt {
+  _id: ObjectId!
+  code: String!
+  createdAt: DateTimeISO
+  frequencyPenalty: Float
+  label: String!
+  listOf3: Boolean
+  maxTokens: Int
+  noWordLimit: Boolean
+  numOfWords: Int
+  presencePenalty: Float
+  temperature: Float
+  text: String!
+  topP: Float
+  updatedAt: DateTimeISO
+  useChatGPT4: Boolean
+  writeAsExpert: String
+  writingStyle: String
+}
+
+input ChatGptPromptInput {
+  _id: ObjectId
+  code: String!
+  frequencyPenalty: Float
+  label: String!
+  listOf3: Boolean
+  maxTokens: Int
+  noWordLimit: Boolean
+  numOfWords: Int
+  presencePenalty: Float
+  temperature: Float
+  text: String!
+  topP: Float
+  useChatGPT4: Boolean
+  writeAsExpert: String
+  writingStyle: String
+}
+
+type ChatGptPublicPrompt {
+  _id: ObjectId!
+  categoryCode: String!
+  contentExample: String
+  contentPlaceholder: String
+  createdAt: DateTimeISO
+  label: String!
+  language: String
+  text(strLength: Int): String!
+  tone: String
+  updatedAt: DateTimeISO
+  writeAsExpert: String
+  writingStyle: String
+}
+
+type CheckoutAmount {
+  _id: ObjectId!
+  alreadyPaid: Int
+  alreadyPaidFull: Int
+  billingDetail: BillingDetail!
+  bundleDiscountAmount: Int
+  bundleDiscountPercentage: Int
+  coupon: Coupon
+  couponAmount: Int
+  currency: Currency!
+  isReverseCharged: Boolean
+  nrOfMonths: Float!
+  solutionWithProducts: [SolutionWithProduct!]!
+  stripePaymentMethod: StripePaymentMethod
+  subscriptionIsMonthly: Boolean
+  taxAmount: Int
+  taxRatePercentage: Int
+  totalToPay: Int!
+  yearlyDiscountAmount: Int
+}
+
+type CommunicationChannel {
+  _id: ObjectId!
+  communicationChannelType: String
+  contactSubtype: String
+  value: String
+}
+
+input CommunicationChannelInput {
+  _id: ObjectId
+  communicationChannelType: String
+  contactSubtype: String
+  value: String
+}
+
+type CommunicationChannelType {
+  _id: ObjectId!
+  value: String!
+}
+
+input CommunicationChannelTypeInput {
+  _id: ObjectId
+  value: String!
+}
+
+type CompletedContactDripCampaignStage {
+  _id: ObjectId!
+  bulkPaused: Boolean
+  campaignId: ObjectId!
+  campaignName: String!
+  contactId: ObjectId!
+  createdAt: DateTimeISO
+  endStagePositionCode: String
+  goalReached: Boolean!
+  stopped: Boolean!
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  workGroupId: ObjectId
+}
+
+input CompletedContactDripCampaignStageInput {
+  _id: ObjectId
+  bulkPaused: Boolean
+  campaignId: ObjectId!
+  campaignName: String!
+  contactId: ObjectId
+  endStagePositionCode: String
+  goalReached: Boolean!
+  stopped: Boolean!
+  userId: ObjectId
+  workGroupId: ObjectId
+}
+
+type Contact {
+  _id: ObjectId!
+  academicTitle: String
+  accomplishments: [Accomplishment!]
+  activePipelineStage(activePipelineId: ObjectId): ActivePipelineStage
+  activePipelineStages: [ActivePipelineStage!]
+  activePipelineStagesNr: Int
+  alwaysKeepOriginalOnOverwrite: Boolean
+  attachments: [UploadedFile!]
+  avatarUrl: String
+  calendlyUrl: String
+  campaignStage: CampaignStage
+  communicationChannels: [CommunicationChannel!]
+
+  """e.g. BestTimeToCall, preferredSN, Origin, etc."""
+  contactSpecification: ContactSpecification
+  createdAt: DateTimeISO
+  customFieldList: [CustomField!]
+  cvExtRepoUrl: String
+  cvFile: UploadedFile
+  educExperiences: [EducExperience!]
+  facebookId: String
+  facebookUrl: String
+  facebookUsername: String
+  firstLinesOfMostRecentNote: ContactNote
+  firstName: String
+  fittingIndex(activePipelineId: ObjectId): Int
+  fittingIndexes: [FittingIndex!]
+  fullAvatarUrl: String
+  gender: String
+  githubUrl: String
+  githubUsername: String
+  gravatarCheckTimestamp: Int
+  gravatarUrl: String
+  hasBeenManuallyUpdated: Boolean
+  hasDuplicate: Boolean
+  hasEmail: Boolean
+  hasMobilePhone: Boolean
+  hasPageUrls: Boolean
+  hasPendingInvitation: Boolean
+  hasPhone: Boolean
+  industry: String
+  instagramUrl: String
+  jobseekerCriterion: JobseekerCriterion
+  languageUsed: String
+  languages: [Language!]
+  last4JobinEvents: [JobinEvent!]
+  lastEventDate: DateTimeISO
+  lastInteractionDate: DateTimeISO
+  lastLinkedinUpdate: DateTimeISO
+  lastName: String
+  lastUnansweredReplyDate: DateTimeISO
+  linkedinConnectionLevel: String
+  linkedinConnectionLevelAvatars: [AvatarWithValue!]
+  linkedinConnectionLevels: [LinkedinConnectionLevel!]
+  linkedinDetail: LinkedinDetail
+  linkedinSalesUrl: String
+  linkedinTalentId: String
+  linkedinUrl: String
+  mainExperienceStudent: MainExperienceStudent
+  mainLocation: MainLocation
+  mainProfExperience: ProfExperience
+  mainRoleTitle: String
+  mediumUrl: String
+  middleName: String
+  notes: [ContactNote!]
+  oldLinkedinUrls: [String!]
+  otherEmails: [String!]
+  otherMobilePhones: [String!]
+  otherPhones: [String!]
+  pageUrls: [String!]
+  pdlId: String
+
+  """DoB, Nationality, marital status, etc"""
+  personalDetail: PersonalDetail
+  personalInterest: String
+  privateEmail: String
+  privateMobilePhone: String
+  privatePhone: String
+  profExperienceHasBeenManuallyUpdated: Boolean
+  profExperiences: [ProfExperience!]
+  quoraUrl: String
+  refereeId: ObjectId
+  skills: [Skill!]
+  summary: String
+  tags: [BaseTemplateColorIconName!]
+  tiktokUrl: String
+  twitterUrl: String
+  twitterUsername: String
+  unsubscribed: Boolean
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  voluntExperiences: [VoluntExperience!]
+  want: String
+  wechatUrl: String
+  workEmail: String
+  workMobilePhone: String
+  workPhone: String
+  xingUrl: String
+  yearsInCurrentRole: Int
+  yearsOfExperience: Int
+  youtubeUrl: String
+}
+
+type ContactEnrichmentObj {
+  _id: ObjectId!
+  enrichedData: AbstractContact
+  status: String!
+}
+
+input ContactInput {
+  _id: ObjectId
+  academicTitle: String
+  accomplishments: [AccomplishmentInput!]
+  activePipelineStages: [ActivePipelineStageInput!]
+  activePipelineStagesNr: Int
+  alwaysKeepOriginalOnOverwrite: Boolean
+  attachments: [UploadedFileInput!]
+  avatarUrl: String
+  calendlyUrl: String
+  campaignStage: CampaignStageInput
+  communicationChannels: [CommunicationChannelInput!]
+
+  """e.g. BestTimeToCall, preferredSN, Origin, etc."""
+  contactSpecification: ContactSpecificationInput
+  cvExtRepoUrl: String
+  cvFile: UploadedFileInput
+  educExperiences: [EducExperienceInput!]
+  facebookId: String
+  facebookUrl: String
+  facebookUsername: String
+  firstName: String
+  fittingIndexes: [FittingIndexInput!]
+  gender: String
+  githubUrl: String
+  githubUsername: String
+  gravatarCheckTimestamp: Int
+  gravatarUrl: String
+  hasBeenManuallyUpdated: Boolean
+  hasDuplicate: Boolean
+  industry: String
+  instagramUrl: String
+  jobseekerCriterion: JobseekerCriterionInput
+  languageUsed: String
+  languages: [LanguageInput!]
+  lastEventDate: DateTimeISO
+  lastInteractionDate: DateTimeISO
+  lastLinkedinUpdate: DateTimeISO
+  lastName: String
+  lastUnansweredReplyDate: DateTimeISO
+  linkedinConnectionLevels: [LinkedinConnectionLevelInput!]
+  linkedinDetail: LinkedinDetailInput
+  linkedinSalesUrl: String
+  linkedinTalentId: String
+  linkedinUrl: String
+  mainLocation: MainLocationInput
+  mainProfExperience: ProfExperienceInput
+  mainRoleTitle: String
+  mediumUrl: String
+  middleName: String
+  oldLinkedinUrls: [String!]
+  otherEmails: [String!]
+  otherMobilePhones: [String!]
+  otherPhones: [String!]
+  pageUrls: [String!]
+  pdlId: String
+
+  """DoB, Nationality, marital status, etc"""
+  personalDetail: PersonalDetailInput
+  personalInterest: String
+  privateEmail: String
+  privateMobilePhone: String
+  privatePhone: String
+  profExperienceHasBeenManuallyUpdated: Boolean
+  profExperiences: [ProfExperienceInput!]
+  quoraUrl: String
+  refereeId: ObjectId
+  skills: [SkillInput!]
+  summary: String
+  tags: [BaseTemplateColorIconNameInput!]
+  tiktokUrl: String
+  twitterUrl: String
+  twitterUsername: String
+  unsubscribed: Boolean
+  voluntExperiences: [VoluntExperienceInput!]
+  want: String
+  wechatUrl: String
+  workEmail: String
+  workMobilePhone: String
+  workPhone: String
+  xingUrl: String
+  youtubeUrl: String
+}
+
+type ContactNote {
+  _id: ObjectId!
+  createdAt: DateTimeISO
+  privacyLevel: PrivacyLevel
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  value: String!
+}
+
+input ContactNoteInput {
+  _id: ObjectId
+  contactId: String
+  privacyLevel: PrivacyLevelInput
+  value: String
+}
+
+type ContactPerson {
+  _id: ObjectId!
+  accountId: ObjectId
+  contactId: ObjectId!
+  dealId: ObjectId
+  jobspecId: ObjectId
+}
+
+input ContactPersonInput {
+  _id: ObjectId
+  accountId: ObjectId
+  contactId: ObjectId!
+  dealId: ObjectId
+  jobspecId: ObjectId
+}
+
+input ContactSpecialInput {
+  _id: ObjectId
+  contactId: ObjectId
+  url: String
+}
+
+type ContactSpecification {
+  _id: ObjectId!
+  bestTimeToCall: String
+  createdAt: DateTimeISO
+  fullProfileDisclosed: Boolean
+
+  """
+  Personal Data can be kept in DB for the reasonable time needed to perform the service (GDPR Art.e)
+  """
+  gdprExpiryDate: String
+  origin: Origin
+  preferredContactTypes: [CommunicationChannel!]
+  preferredSocialNetworks: [String!]
+  updatedAt: DateTimeISO
+}
+
+input ContactSpecificationInput {
+  _id: ObjectId
+  bestTimeToCall: String
+  fullProfileDisclosed: Boolean
+  gdprExpiryDate: String
+  origin: OriginInput
+  preferredContactTypes: CommunicationChannelInput
+  preferredSocialNetworks: [String!]
+}
+
+type ContactSubtype {
+  _id: ObjectId!
+  value: String!
+}
+
+type ContactTag {
+  _id: ObjectId!
+  color: String
+  createdAt: DateTimeISO
+  iconName: String
+  rank: Int
+  updatedAt: DateTimeISO
+  value: String!
+}
+
+input ContactTagInput {
+  _id: ObjectId
+  color: String
+  iconName: String
+  rank: Int
+  value: String
+}
+
+type ContactsAvailabilityFilter {
+  _id: ObjectId
+  calendlyUrl: AvailabilityRow
+  email: AvailabilityRow
+  facebookUrl: AvailabilityRow
+  githubUrl: AvailabilityRow
+  instagramUrl: AvailabilityRow
+  linkedinSalesUrl: AvailabilityRow
+  linkedinTalentId: AvailabilityRow
+  linkedinUrl: AvailabilityRow
+  mediumUrl: AvailabilityRow
+  mobilePhone: AvailabilityRow
+  pageUrls: AvailabilityRow
+  phone: AvailabilityRow
+  quoraUrl: AvailabilityRow
+  tiktokUrl: AvailabilityRow
+  twitterUrl: AvailabilityRow
+  wechatUrl: AvailabilityRow
+  xingUrl: AvailabilityRow
+  youtubeUrl: AvailabilityRow
+}
+
+input ContactsAvailabilityFilterInput {
+  _id: ObjectId
+  calendlyUrl: AvailabilityRowInput
+  email: AvailabilityRowInput
+  facebookUrl: AvailabilityRowInput
+  githubUrl: AvailabilityRowInput
+  instagramUrl: AvailabilityRowInput
+  linkedinSalesUrl: AvailabilityRowInput
+  linkedinTalentId: AvailabilityRowInput
+  linkedinUrl: AvailabilityRowInput
+  mediumUrl: AvailabilityRowInput
+  mobilePhone: AvailabilityRowInput
+  pageUrls: AvailabilityRowInput
+  phone: AvailabilityRowInput
+  quoraUrl: AvailabilityRowInput
+  tiktokUrl: AvailabilityRowInput
+  twitterUrl: AvailabilityRowInput
+  wechatUrl: AvailabilityRowInput
+  xingUrl: AvailabilityRowInput
+  youtubeUrl: AvailabilityRowInput
+}
+
+type ContactsCareerFilter {
+  _id: ObjectId
+  careerLevels: [StrCurrentOrPastAdvancedFilter!]
+  careerPaths: [StrCurrentOrPastAdvancedFilter!]
+  employmentTypes: [StrCurrentOrPastAdvancedFilter!]
+  industries: [StrCurrentOrPastAdvancedFilter!]
+  jobDescriptionKeywords: [StrCurrentOrPastAdvancedFilter!]
+  managementLevels: [StrCurrentOrPastAdvancedFilter!]
+  organizations: [StrCurrentOrPastAdvancedFilter!]
+  roleTitles: [StrCurrentOrPastAdvancedFilter!]
+}
+
+input ContactsCareerFilterInput {
+  _id: ObjectId
+  careerLevels: [StrCurrentOrPastAdvancedFilterInput!]
+  careerPaths: [StrCurrentOrPastAdvancedFilterInput!]
+  employmentTypes: [StrCurrentOrPastAdvancedFilterInput!]
+  industries: [StrCurrentOrPastAdvancedFilterInput!]
+  jobDescriptionKeywords: [StrCurrentOrPastAdvancedFilterInput!]
+  managementLevels: [StrCurrentOrPastAdvancedFilterInput!]
+  organizations: [StrCurrentOrPastAdvancedFilterInput!]
+  roleTitles: [StrCurrentOrPastAdvancedFilterInput!]
+}
+
+type ContactsDateRangeFilter {
+  _id: ObjectId
+  boost: Float
+  fromDate: DateTimeISO
+  toDate: DateTimeISO
+  type: String
+}
+
+input ContactsDateRangeFilterInput {
+  _id: ObjectId
+  boost: Float
+  fromDate: DateTimeISO
+  toDate: DateTimeISO
+  type: String = "should"
+}
+
+type ContactsEducationFilter {
+  _id: ObjectId
+  accomplishments: [StrAdvancedFilter!]
+  fieldOfStudies: [StrAdvancedFilter!]
+  schoolNames: [StrAdvancedFilter!]
+}
+
+input ContactsEducationFilterInput {
+  _id: ObjectId
+  accomplishments: [StrAdvancedFilterInput!]
+  fieldOfStudies: [StrAdvancedFilterInput!]
+  schoolNames: [StrAdvancedFilterInput!]
+}
+
+type ContactsFilter {
+  _id: ObjectId!
+  _ids: [ObjectId!]
+  companyEmployeeCountRanges: [StrCurrentOrPastAdvancedFilter!]
+  contactsAvailability: ContactsAvailabilityFilter
+  contactsCareer: ContactsCareerFilter
+  contactsEducation: ContactsEducationFilter
+  contactsLastEvent: ContactsDateRangeFilter
+  contactsLastInteraction: ContactsDateRangeFilter
+  contactsLastUnansweredReply: ContactsDateRangeFilter
+  createdAt: DateTimeISO
+  dripCampaignFilter: DripCampaignFilter
+  dripCampaignsFilter: [IdAdvancedFilter!]
+  filterName: String
+  gender: StrAdvancedFilter
+  hasCv: Boolean
+  hasInteraction: Boolean
+  hasLinkedinId: Boolean
+  hasUnansweredReply: Boolean
+  insertionDate: InsertionDateFilter
+  isMiniProfile: Boolean
+  jobseekerStatuses: [StrAdvancedFilter!]
+  jobspecFilter: ContactsJobspecFilter
+  languageNames: [StrAdvancedFilter!]
+  linkedinTagsFilter: LinkedinTagsFilter
+  locations: [MainLocationFilter!]
+  minShouldMatch: MinShouldMatch
+  ownerId: ObjectId
+  searchName: String
+  searchSurname: String
+  searchValue: String
+  showNoCurrentCompany: Boolean
+  showUnsubscribed: Boolean
+  skillNames: [StrAdvancedFilter!]
+  sortBy: ContactsSortBy
+  summary: [StrAdvancedFilter!]
+  tags: [IdAdvancedFilter!]
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  yearsInCurrentRole: [ContactsTimeRangeFilter!]
+  yearsOfExperience: [ContactsTimeRangeFilter!]
+}
+
+input ContactsFilterInput {
+  _ids: [ObjectId!]
+  companyEmployeeCountRanges: [StrCurrentOrPastAdvancedFilterInput!]
+  contactsAvailability: ContactsAvailabilityFilterInput
+  contactsCareer: ContactsCareerFilterInput
+  contactsEducation: ContactsEducationFilterInput
+  contactsLastEvent: ContactsDateRangeFilterInput
+  contactsLastInteraction: ContactsDateRangeFilterInput
+  contactsLastUnansweredReply: ContactsDateRangeFilterInput
+  customField: CustomFieldFilterInput
+  dripCampaignFilter: DripCampaignFilterInput
+  dripCampaignsFilter: [IdAdvancedFilterInput!]
+  gender: StrAdvancedFilterInput
+  hasCv: Boolean
+  hasInteraction: Boolean
+  hasLinkedinId: Boolean
+  hasUnansweredReply: Boolean
+  insertionDate: InsertionDateFilterInput
+  isMiniProfile: Boolean
+  jobseekerStatuses: [StrAdvancedFilterInput!]
+  jobspecFilter: ContactsJobspecFilterInput
+  languageNames: [StrAdvancedFilterInput!]
+  linkedinTagsFilter: LinkedinTagsFilterInput
+  locations: [MainLocationFilterInput!]
+  minShouldMatch: MinShouldMatchInput
+  ownerId: ObjectId
+  recentSearchId: ObjectId
+  savedSearchId: ObjectId
+  searchName: String
+  searchSurname: String
+  searchValue: String
+  showNoCurrentCompany: Boolean
+  showUnsubscribed: Boolean
+  skillNames: [StrAdvancedFilterInput!]
+  sortBy: ContactsSortByInput
+  summary: [StrAdvancedFilterInput!]
+  tags: [IdAdvancedFilterInput!]
+  yearsInCurrentRole: [ContactsTimeRangeFilterInput!]
+  yearsOfExperience: [ContactsTimeRangeFilterInput!]
+}
+
+input ContactsFilterSaveInput {
+  _id: ObjectId
+  _ids: [ObjectId!]
+  companyEmployeeCountRanges: [StrCurrentOrPastAdvancedFilterInput!]
+  contactsAvailability: ContactsAvailabilityFilterInput
+  contactsCareer: ContactsCareerFilterInput
+  contactsEducation: ContactsEducationFilterInput
+  contactsLastEvent: ContactsDateRangeFilterInput
+  contactsLastInteraction: ContactsDateRangeFilterInput
+  contactsLastUnansweredReply: ContactsDateRangeFilterInput
+  customField: CustomFieldFilterInput
+  dripCampaignFilter: DripCampaignFilterInput
+  dripCampaignsFilter: [IdAdvancedFilterInput!]
+  filterName: String
+  gender: StrAdvancedFilterInput
+  hasCv: Boolean
+  hasInteraction: Boolean
+  hasLinkedinId: Boolean
+  hasUnansweredReply: Boolean
+  insertionDate: InsertionDateFilterInput
+  isMiniProfile: Boolean
+  jobseekerStatuses: [StrAdvancedFilterInput!]
+  jobspecFilter: ContactsJobspecFilterInput
+  languageNames: [StrAdvancedFilterInput!]
+  linkedinTagsFilter: LinkedinTagsFilterInput
+  locations: [MainLocationFilterInput!]
+  minShouldMatch: MinShouldMatchInput
+  ownerId: ObjectId
+  recentSearchId: ObjectId
+  savedSearchId: ObjectId
+  searchName: String
+  searchSurname: String
+  searchValue: String
+  showNoCurrentCompany: Boolean
+  showUnsubscribed: Boolean
+  skillNames: [StrAdvancedFilterInput!]
+  sortBy: ContactsSortByInput
+  summary: [StrAdvancedFilterInput!]
+  tags: [IdAdvancedFilterInput!]
+  yearsInCurrentRole: [ContactsTimeRangeFilterInput!]
+  yearsOfExperience: [ContactsTimeRangeFilterInput!]
+}
+
+type ContactsJobspecFilter {
+  _id: ObjectId
+  activePipelineId: ObjectId
+  exclStages: [String!]
+  minFittingIndexPercentage: Int
+  showCandidates: String!
+  showExitStages: Boolean
+  stages: [String!]
+  subStages: [String!]
+}
+
+input ContactsJobspecFilterInput {
+  _id: ObjectId
+  activePipelineId: ObjectId
+  exclStages: [String!]
+  minFittingIndexPercentage: Int
+  showCandidates: String!
+  showExitStages: Boolean
+  stages: [String!]
+  subStages: [String!]
+}
+
+type ContactsSortBy {
+  _id: ObjectId
+  fieldName: String!
+  order: Int
+}
+
+input ContactsSortByInput {
+  _id: ObjectId
+  fieldName: String!
+  order: Int = -1
+}
+
+type ContactsTimeRangeFilter {
+  _id: ObjectId
+  boost: Float
+  max: Int
+  min: Int
+  type: String
+}
+
+input ContactsTimeRangeFilterInput {
+  _id: ObjectId
+  boost: Float
+  max: Int
+  min: Int
+  type: String = "should"
+}
+
+input ConversationMessageGroupInput {
+  linkedinMessages: [LinkedinMessageInput!]!
+  participantLinkedinUrls: [String!]!
+}
+
+type Coord {
+  _id: ObjectId
+  coordinates: [Float!]!
+  type: String!
+}
+
+input CoordInput {
+  _id: ObjectId
+  coordinates: [Float!]!
+  type: String!
+}
+
+type CoordWithRadius {
+  _id: ObjectId
+  coord: Coord!
+  radius: Int!
+}
+
+input CoordWithRadiusInput {
+  _id: ObjectId
+  coord: CoordInput!
+  radius: Int!
+}
+
+type Country {
+  ISO: String!
+  ISO3: String!
+  ISOnr: Int!
+  _id: ObjectId!
+  area: Int!
+  capital: String
+  continent: String!
+  country: String!
+  currency: String
+  currencyCode: String
+  fips: String
+  fullCurrency: CurrencyTemplate
+  languages: [String!]
+  neighbours: [String!]
+  phone: Int
+  population: Int!
+  postalCodeFormat: String
+  postalCodeRegex: String
+  tld: String
+}
+
+type Coupon {
+  _id: ObjectId!
+  affiliate: User
+  expireDate: DateTimeISO!
+  isFirstPayment: Boolean
+  isYearly: Boolean
+  name: String!
+  overwriteYearlyDiscount: Boolean
+  percentage: Int!
+  planId: ObjectId
+  recurrentDurationMonths: Int
+  solutionId: ObjectId
+}
+
+type CsvColumnAssociation {
+  _id: ObjectId!
+  csvInputs: [CsvInput!]!
+  fieldId: ObjectId!
+}
+
+type CsvColumnAssociationGroup {
+  _id: ObjectId!
+  csvAssociations: [CsvColumnAssociation!]!
+  csvHeaders: String!
+  inputObjectName: String
+  name: String
+}
+
+input CsvColumnAssociationGroupInput {
+  _id: ObjectId
+  csvAssociations: [CsvColumnAssociationInput!] = []
+  csvHeaders: String
+  inputObjectName: String
+  name: String
+}
+
+input CsvColumnAssociationInput {
+  _id: ObjectId
+  csvInputs: [CsvInputInput!]
+  fieldId: ObjectId
+}
+
+type CsvInput {
+  _id: ObjectId!
+  additionalFieldValues: [String!]
+  header: String
+  obj: String
+  value: String
+}
+
+input CsvInputInput {
+  _id: ObjectId
+  additionalFieldValues: [String!]
+  header: String
+  obj: String
+  value: String
+}
+
+type Currency {
+  _id: ObjectId!
+  code: String!
+  nameFullPlural: String
+  value: String!
+}
+
+input CurrencyInput {
+  _id: ObjectId
+  code: String!
+  nameFullPlural: String
+  value: String!
+}
+
+type CurrencyTemplate {
+  _id: ObjectId!
+  code: String!
+  currencySymbolFull: String!
+  decimalDigits: Int!
+  importanceOrder: Int
+  name: String!
+  nameFullPlural: String!
+  value: String!
+}
+
+type CustomField {
+  _id: ObjectId!
+  fieldName: String
+  value: String
+}
+
+input CustomFieldFilterInput {
+  _id: ObjectId
+  customFields: [StrAdvancedFilterInput!]
+  hasSome: Boolean
+  noField: Boolean
+}
+
+input CustomFieldInput {
+  _id: ObjectId
+  contactId: ObjectId
+  fieldName: String
+  value: String
+}
+
+type DateObj {
+  _id: ObjectId!
+  day: Int
+  month: Int
+  year: Int
+}
+
+input DateObjInput {
+  _id: ObjectId!
+  day: Int
+  month: Int
+  year: Int
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
+type Department {
+  _id: ObjectId!
+
+  """Company that added this record"""
+  organizationId: ObjectId
+  value: String!
+}
+
+type DripAssignOption {
+  _id: ObjectId!
+  activePipelineStage: ActivePipelineStage
+  categories: [String!]
+  tags: [ContactTag!]
+}
+
+input DripAssignOptionInput {
+  _id: ObjectId
+  activePipelineStage: ActivePipelineStageInput
+  categories: [String!]
+  tags: [ExternalInput!]
+}
+
+type DripCampaign {
+  _id: ObjectId!
+  contactSubtype: String
+  continueSequence: Boolean
+  createdAt: DateTimeISO
+  dripStages: [DripStage!]
+  emailSender: EmailSender
+  fromLinkedinUrl: String
+  fromLinkedinUser: User
+  goal: String
+  isActive: Boolean
+  isMessaging: Boolean
+  name: String!
+  pendingEmailCheck: Boolean
+  updatedAt: DateTimeISO
+  useAnyAsFallback: Boolean
+  userId: ObjectId
+  workGroupId: ObjectId
+}
+
+type DripCampaignAndContact {
+  campaignName: String
+  campaignStage: CampaignStage
+  dripStages: [DripStage!]
+  firstName: String
+  fullAvatarUrl: String
+  jobinJob: JobinJob
+  lastName: String
+  middleName: String
+}
+
+type DripCampaignFilter {
+  _id: ObjectId
+  dripCampaignId: ObjectId
+  isNull: Boolean
+  positionCode: String
+}
+
+input DripCampaignFilterInput {
+  _id: ObjectId
+  dripCampaignId: ObjectId
+  isNull: Boolean
+  positionCode: String
+}
+
+input DripCampaignInput {
+  _id: ObjectId
+  contactSubtype: String
+  continueSequence: Boolean
+  dripStages: [DripStageInput!]
+  emailSender: ExternalInput
+  fromLinkedinUrl: String
+  goal: String
+  isActive: Boolean
+  isMessaging: Boolean
+  name: String
+  pendingEmailCheck: Boolean
+  useAnyAsFallback: Boolean
+  userId: ObjectId
+  workGroupId: ObjectId
+}
+
+type DripConditionOption {
+  _id: ObjectId!
+  categories: [String!]
+  hasEmail: Boolean
+  hasLinkedinSalesUrl: Boolean
+  hasLinkedinTalentId: Boolean
+  hasLinkedinUrl: Boolean
+  hasMobile: Boolean
+  hasPageUrl: Boolean
+  hasPhone: Boolean
+  is1stConnection: Boolean
+  is2ndConnection: Boolean
+  is3rdConnection: Boolean
+  isLinkedinPremium: Boolean
+  isOpenProfile: Boolean
+  isOpenToWork: Boolean
+  isPendingConnection: Boolean
+  mustHaveTagIds: [ObjectId!]
+  mustNotHaveTagIds: [ObjectId!]
+}
+
+input DripConditionOptionInput {
+  _id: ObjectId
+  categories: [String!]
+  hasEmail: Boolean
+  hasLinkedinSalesUrl: Boolean
+  hasLinkedinTalentId: Boolean
+  hasLinkedinUrl: Boolean
+  hasMobile: Boolean
+  hasPageUrl: Boolean
+  hasPhone: Boolean
+  is1stConnection: Boolean
+  is2ndConnection: Boolean
+  is3rdConnection: Boolean
+  isLinkedinPremium: Boolean
+  isOpenProfile: Boolean
+  isOpenToWork: Boolean
+  isPendingConnection: Boolean
+  mustHaveTagIds: [ObjectId!]
+  mustNotHaveTagIds: [ObjectId!]
+}
+
+type DripEmailOption {
+  _id: ObjectId!
+  attachments: [UploadedFile!]
+  jobspecId: ObjectId
+  subject: String
+  text: String
+}
+
+input DripEmailOptionInput {
+  _id: ObjectId
+  attachments: [UploadedFileInput!]
+  jobspecId: ObjectId
+  subject: String
+  text: String
+}
+
+type DripLinkedinConnectionOption {
+  _id: ObjectId!
+  bypass: Boolean
+  jobspecId: ObjectId
+  text: String
+}
+
+input DripLinkedinConnectionOptionInput {
+  _id: ObjectId
+  bypass: Boolean
+  jobspecId: ObjectId
+  text: String
+}
+
+type DripLinkedinMessageOption {
+  _id: ObjectId!
+  attachment: UploadedFile
+  jobCodename: String!
+  jobspecId: ObjectId
+  subject: String
+  text: String
+}
+
+input DripLinkedinMessageOptionInput {
+  _id: ObjectId
+  attachment: UploadedFileInput
+  jobCodename: String
+  jobspecId: ObjectId
+  subject: String
+  text: String
+}
+
+type DripStage {
+  _id: ObjectId!
+  dripActionTypeId: ObjectId
+  name: String!
+  positionCode: String
+  selectedBranches: [String!]
+}
+
+type DripStageInformation {
+  dripCampaign: DripCampaign!
+  dripStage: DripStage
+  dripStageOption: DripStageOption
+}
+
+input DripStageInput {
+  _id: ObjectId!
+  dripActionTypeId: ObjectId
+  name: String!
+  positionCode: String
+  selectedBranches: [String!]
+}
+
+type DripStageOption {
+  _id: ObjectId!
+  continueOnPermanentFailure: Boolean
+  dripAssignOption: DripAssignOption
+  dripAutoUpdateNoEmail: Boolean
+  dripCampaign: DripCampaign
+  dripCampaignId: ObjectId
+  dripConditionOption: DripConditionOption
+  dripEmailOption: DripEmailOption
+  dripGoalReached: Boolean
+  dripLinkedinConnectionOption: DripLinkedinConnectionOption
+  dripLinkedinMessageOption: DripLinkedinMessageOption
+  dripStage: DripStage
+  dripStageId: ObjectId
+  dripWaitMinutes: Int
+  userId: ObjectId
+  workGroupId: ObjectId
+}
+
+input DripStageOptionInput {
+  _id: ObjectId
+  continueOnPermanentFailure: Boolean
+  dripAssignOption: DripAssignOptionInput
+  dripAutoUpdateNoEmail: Boolean
+  dripCampaignId: ObjectId
+  dripConditionOption: DripConditionOptionInput
+  dripEmailOption: DripEmailOptionInput
+  dripGoalReached: Boolean
+  dripLinkedinConnectionOption: DripLinkedinConnectionOptionInput
+  dripLinkedinMessageOption: DripLinkedinMessageOptionInput
+  dripStageId: ObjectId
+  dripWaitMinutes: Int
+  userId: ObjectId
+  workGroupId: ObjectId
+}
+
+type Duplicate {
+  _id: ObjectId!
+  duplicateId: ObjectId!
+  mainId: ObjectId!
+  mergeErrors: [MergeError!]!
+}
+
+type DuplicateContainer {
+  _id: ObjectId!
+  duplicate: Duplicate!
+  duplicateContact: Contact!
+  mainContact: Contact!
+}
+
+type EducExperience {
+  _id: ObjectId!
+  course: String
+  createdAt: DateTimeISO
+  degrees: [String!]
+  description: String
+  educationalLevel: BaseTemplateIconName
+  fieldOfStudy: String
+  gpa: Float
+  grade: String
+  mainLocation: MainLocation
+  majors: [String!]
+  minors: [String!]
+  organization: OrganizationLogoLinkedin
+  period: Period!
+  status: String
+  updatedAt: DateTimeISO
+}
+
+input EducExperienceInput {
+  _id: ObjectId
+  course: String
+  degrees: [String!]
+  description: String
+  educationalLevel: BaseTemplateIconNameInput
+  fieldOfStudy: String
+  gpa: Float
+  grade: String
+  mainLocation: MainLocationInput
+  majors: [String!]
+  minors: [String!]
+  organization: OrganizationLogoLinkedinInput
+  period: PeriodInput
+  status: String
+}
+
+type EducationalLevel {
+  _id: ObjectId!
+  iconName: String
+  value: String!
+}
+
+input EducationalLevelInput {
+  _id: ObjectId
+  iconName: String
+  value: String!
+}
+
+type EmailSender {
+  _id: ObjectId!
+  addUnsubscribeButton: Boolean
+  applyRandomDelay: Boolean
+  emailAddress: String!
+  html: String
+  imapDownloadFrom: Int
+  isDefault: Boolean
+  isMailboxOnline: Boolean!
+  isOutboundMailerOnline: Boolean
+  lastOnlineCheck: DateTimeISO
+  latestMicrosoftEmailId: String
+  mailboxError: String
+  oauthSetting: OauthSetting
+  outboundMailerErrorCode: String
+  outboundMailerErrorMessage: String
+  perDayLimit: Int
+  perHourLimit: Int
+  perMinuteLimit: Int
+  signature: String
+  smtpSetting: SmtpSetting
+}
+
+input EmailSenderInput {
+  _id: ObjectId!
+  addUnsubscribeButton: Boolean
+  applyRandomDelay: Boolean
+  emailAddress: String
+  html: String
+  isDefault: Boolean
+  oauthSetting: OauthSettingInput
+  perDayLimit: Int
+  perHourLimit: Int
+  perMinuteLimit: Int
+  signature: String
+  smtpSetting: SmtpSettingInput
+}
+
+type EmailSendersByWorkGroup {
+  _id: ObjectId!
+  emailSenders: [EmailSender!]
+  workGroup: WorkGroup
+}
+
+type EmailTemplate {
+  _id: ObjectId!
+  contactSubtype: String!
+  emailTemplateTypeId: ObjectId
+  label: String!
+  privacyLevel: PrivacyLevel
+  subject: String
+  text: String!
+  useAnyAsFallback: Boolean
+}
+
+input EmailTemplateInput {
+  _id: ObjectId
+  contactSubtype: String!
+  emailTemplateTypeId: ObjectId
+  label: String!
+  privacyLevel: PrivacyLevelInput
+  subject: String
+  text: String
+  useAnyAsFallback: Boolean
+}
+
+type EmailTemplateType {
+  _id: ObjectId!
+  color: String
+  iconName: String
+  value: String!
+}
+
+type EmployeeCountRange {
+  _id: ObjectId!
+  value: String!
+}
+
+type EvaluationStage {
+  _id: ObjectId!
+  value: String!
+}
+
+type EventAttachment {
+  _id: ObjectId!
+  byteSize: Int
+  mediaType: String
+  name: String
+  reference: String
+}
+
+input EventAttachmentInput {
+  _id: ObjectId
+  byteSize: Int
+  mediaType: String
+  name: String
+  reference: String
+}
+
+type EventType {
+  _id: ObjectId!
+  bckColor: String
+  description: String
+  foreColor: String
+  iconName: String
+  isInteraction: Boolean
+  isMessage: Boolean @deprecated(reason: "replaced by isInteraction")
+  value: String!
+}
+
+input EventTypeInput {
+  _id: ObjectId
+  bckColor: String
+  description: String
+  foreColor: String
+  iconName: String
+  isInteraction: Boolean
+  value: String!
+}
+
+type ExitStageTemplate {
+  _id: ObjectId!
+  description: String
+  name: String!
+}
+
+input ExitStageTemplateInput {
+  _id: ObjectId
+  description: String
+  name: String
+}
+
+input ExternalInput {
+  _id: ObjectId!
+}
+
+type Field {
+  _id: ObjectId!
+  additionalFields: [AdditionalField!]
+  display: String!
+  fieldGroupId: ObjectId
+  inputObjectName: String!
+  isBoolean: Boolean
+  isNotSeparatedByComma: Boolean
+  isNumber: Boolean
+  isPlural: Boolean
+  parentFieldName: String
+  parentObjectName: String
+  path: String!
+  referenceFields: [ReferenceField!]
+  templateCodeName: String
+  tooltipModalText: [String!]
+}
+
+type FieldGroup {
+  _id: ObjectId!
+  fieldGroupTypeId: ObjectId!
+  value: String!
+}
+
+type FittingIndex {
+  _id: ObjectId!
+  fittingIndex: Int
+  normalizedFittingIndex: Int
+  pipelineId: ObjectId!
+}
+
+input FittingIndexInput {
+  _id: ObjectId
+  fittingIndex: Int
+  normalizedFittingIndex: Int
+  pipelineId: ObjectId!
+}
+
+input FollowUpMessageInput {
+  _id: ObjectId
+  connectionRequestWithMessage: Boolean
+  delay: Int
+  jobspecId: ObjectId
+  label: String!
+  text: String!
+}
+
+type FrequentlyAskedQuestion {
+  _id: ObjectId!
+  answer: String!
+  question: String!
+  questionTags: [String!]
+  questionType: String
+  sortNumber: Int!
+}
+
+type FrequentlyAskedQuestionType {
+  _id: ObjectId!
+  value: String!
+}
+
+type FullContactPerson {
+  _id: ObjectId!
+  account: JobinAccount
+  accountId: ObjectId
+  contact: Contact!
+  contactId: ObjectId!
+  dealId: ObjectId
+  jobspec: Jobspec
+  jobspecId: ObjectId
+}
+
+type FullPipelineStage {
+  _id: ObjectId!
+  stage: Stage
+  subStage: SubStage
+}
+
+type Funnel {
+  _id: ObjectId!
+  funnelBlocks: [FunnelBlock!]!
+  successfulExits: Int!
+  total: Int!
+  unsuccessfulExits: Int!
+}
+
+type FunnelBlock {
+  _id: ObjectId!
+  stage: Stage!
+  total: Int!
+}
+
+type GroupScore {
+  _id: ObjectId!
+  change: Int
+  groupSize: Int
+  groupType: String
+  industry: String
+  rank: Int
+  score: Score
+}
+
+input GroupScoreInput {
+  _id: ObjectId
+  change: Int
+  groupSize: Int
+  groupType: String
+  industry: String
+  rank: Int
+  score: ScoreInput
+}
+
+type HelpdeskMessage {
+  _id: ObjectId!
+  answeredToAutoMessageId: ObjectId
+  createdAt: DateTimeISO
+  ip: String
+  text: String
+  threadId: ObjectId
+  updatedAt: DateTimeISO
+  user: User
+  userId: ObjectId
+  workGroup: WorkGroup
+  workGroupId: ObjectId
+}
+
+input HelpdeskMessageInput {
+  _id: ObjectId
+  answeredToAutoMessageId: ObjectId
+  text: String
+  threadId: ObjectId
+}
+
+type IdAdvancedFilter {
+  _id: ObjectId
+  boost: Float
+  guiValue: String
+  id: ObjectId
+  type: String
+}
+
+input IdAdvancedFilterInput {
+  _id: ObjectId
+  boost: Float
+  guiValue: String
+  id: ObjectId
+  type: String = "should"
+}
+
+type IdealCandidateFilter {
+  _id: ObjectId!
+  _ids: [ObjectId!]
+  assignedJobspecId: ObjectId!
+  companyEmployeeCountRanges: [StrCurrentOrPastAdvancedFilter!]
+  contactsAvailability: ContactsAvailabilityFilter
+  contactsCareer: ContactsCareerFilter
+  contactsEducation: ContactsEducationFilter
+  contactsLastEvent: ContactsDateRangeFilter
+  contactsLastInteraction: ContactsDateRangeFilter
+  contactsLastUnansweredReply: ContactsDateRangeFilter
+  createdAt: DateTimeISO
+  dripCampaignFilter: DripCampaignFilter
+  dripCampaignsFilter: [IdAdvancedFilter!]
+  gender: StrAdvancedFilter
+  hasCv: Boolean
+  hasInteraction: Boolean
+  hasLinkedinId: Boolean
+  hasUnansweredReply: Boolean
+  insertionDate: InsertionDateFilter
+  isMiniProfile: Boolean
+  jobseekerStatuses: [StrAdvancedFilter!]
+  jobspecFilter: ContactsJobspecFilter
+  languageNames: [StrAdvancedFilter!]
+  linkedinTagsFilter: LinkedinTagsFilter
+  locations: [MainLocationFilter!]
+  minShouldMatch: MinShouldMatch
+  ownerId: ObjectId
+  searchName: String
+  searchSurname: String
+  searchValue: String
+  showNoCurrentCompany: Boolean
+  showUnsubscribed: Boolean
+  skillNames: [StrAdvancedFilter!]
+  sortBy: ContactsSortBy
+  summary: [StrAdvancedFilter!]
+  tags: [IdAdvancedFilter!]
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  yearsInCurrentRole: [ContactsTimeRangeFilter!]
+  yearsOfExperience: [ContactsTimeRangeFilter!]
+}
+
+input IdealCandidateFilterInput {
+  _id: ObjectId
+  _ids: [ObjectId!]
+  assignedJobspecId: ObjectId!
+  companyEmployeeCountRanges: [StrCurrentOrPastAdvancedFilterInput!]
+  contactsAvailability: ContactsAvailabilityFilterInput
+  contactsCareer: ContactsCareerFilterInput
+  contactsEducation: ContactsEducationFilterInput
+  contactsLastEvent: ContactsDateRangeFilterInput
+  contactsLastInteraction: ContactsDateRangeFilterInput
+  contactsLastUnansweredReply: ContactsDateRangeFilterInput
+  customField: CustomFieldFilterInput
+  dripCampaignFilter: DripCampaignFilterInput
+  dripCampaignsFilter: [IdAdvancedFilterInput!]
+  filterName: String
+  gender: StrAdvancedFilterInput
+  hasCv: Boolean
+  hasInteraction: Boolean
+  hasLinkedinId: Boolean
+  hasUnansweredReply: Boolean
+  insertionDate: InsertionDateFilterInput
+  isMiniProfile: Boolean
+  jobseekerStatuses: [StrAdvancedFilterInput!]
+  jobspecFilter: ContactsJobspecFilterInput
+  languageNames: [StrAdvancedFilterInput!]
+  linkedinTagsFilter: LinkedinTagsFilterInput
+  locations: [MainLocationFilterInput!]
+  minShouldMatch: MinShouldMatchInput
+  ownerId: ObjectId
+  recentSearchId: ObjectId
+  savedSearchId: ObjectId
+  searchName: String
+  searchSurname: String
+  searchValue: String
+  showNoCurrentCompany: Boolean
+  showUnsubscribed: Boolean
+  skillNames: [StrAdvancedFilterInput!]
+  sortBy: ContactsSortByInput
+  summary: [StrAdvancedFilterInput!]
+  tags: [IdAdvancedFilterInput!]
+  yearsInCurrentRole: [ContactsTimeRangeFilterInput!]
+  yearsOfExperience: [ContactsTimeRangeFilterInput!]
+}
+
+type Indicator {
+  _id: ObjectId!
+  iconName: String!
+  style: String!
+  value: String!
+}
+
+type Industry {
+  _id: ObjectId!
+  value: String!
+}
+
+type IndustrySector {
+  _id: ObjectId!
+  industries: [String!]
+  value: String!
+}
+
+type InsertionDateFilter {
+  _id: ObjectId
+  fromDate: DateTimeISO
+  isUpdatedAt: Boolean
+  toDate: DateTimeISO
+}
+
+input InsertionDateFilterInput {
+  _id: ObjectId
+  fromDate: DateTimeISO
+  isUpdatedAt: Boolean
+  toDate: DateTimeISO
+}
+
+type JobinAccount {
+  _id: ObjectId!
+  calendlyUrl: String
+  communicationChannels: [CommunicationChannel!]
+  companyCrunchbaseUrl: String
+  createdAt: DateTimeISO
+  departments: [String!]
+  description: String
+  emailDomainsAssociated: Boolean
+  emails: [String!]
+  employeeCount: Float
+  employeeCountRange: String
+  facebookUrl: String
+  foundedOn: DateTimeISO
+  githubUrl: String
+  headquarter: MainLocation
+  incorporationType: String
+  industries: [String!]
+  industrySectors: [String!]
+  instagramUrl: String
+  isHiring: Boolean
+  isSchool: Boolean
+  isStaffingCompany: Boolean
+  jobSearchLinkedinPageUrl: String
+  linkedinDetail: LinkedinDetail
+  linkedinSalesUrl: String
+  linkedinUrl: String
+  locations: [MainLocation!]
+  logoUrl: String
+  mobilePhones: [String!]
+  name: String
+  operatingStatus: String
+  organizationId: ObjectId
+  organizationTypes: [String!]
+  pageUrls: [String!]
+  phones: [String!]
+  revenueAmount: Float
+  revenueCurrencyCode: String
+  tagline: String
+  tags: [BaseTemplateColorIconName!]
+  tiktokUrl: String
+  twitterUrl: String
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  website: String
+  xingUrl: String
+  youtubeUrl: String
+}
+
+input JobinAccountInput {
+  _id: ObjectId
+  calendlyUrl: String
+  communicationChannels: [CommunicationChannelInput!]
+  companyCrunchbaseUrl: String
+  departments: [String!]
+  description: String
+  emailDomainsAssociated: Boolean
+  emails: [String!]
+  employeeCount: Float
+  employeeCountRange: String
+  facebookUrl: String
+  foundedOn: DateTimeISO
+  githubUrl: String
+  headquarter: MainLocationInput
+  incorporationType: String
+  industries: [String!]
+  industrySectors: [String!]
+  instagramUrl: String
+  isHiring: Boolean
+  isSchool: Boolean
+  isStaffingCompany: Boolean
+  jobSearchLinkedinPageUrl: String
+  linkedinDetail: LinkedinDetailInput
+  linkedinSalesUrl: String
+  linkedinUrl: String
+  locations: [MainLocationInput!]
+  logoUrl: String
+  mobilePhones: [String!]
+  name: String
+  operatingStatus: String
+  organizationDetail: ObjectId
+  organizationId: ObjectId
+  organizationTypes: [String!]
+  pageUrls: [String!]
+  phones: [String!]
+  revenueAmount: Float
+  revenueCurrencyCode: String
+  tagline: String
+  tags: [BaseTemplateColorIconNameInput!]
+  tiktokUrl: String
+  twitterUrl: String
+  website: String
+  xingUrl: String
+  youtubeUrl: String
+}
+
+type JobinAccountNote {
+  _id: ObjectId!
+  createdAt: DateTimeISO
+  privacyLevel: PrivacyLevel
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  value: String!
+}
+
+input JobinAccountNoteInput {
+  _id: ObjectId
+  jobinAccountId: String
+  privacyLevel: PrivacyLevelInput
+  value: String
+}
+
+type JobinCompletedJob {
+  _id: ObjectId!
+  account: JobinAccount
+  campaignStage: CampaignStage
+  codename: String!
+  contact: Contact
+  createdAt: DateTimeISO
+  data: String
+  error: String
+  iconName: String!
+  isIdempotent: Boolean
+  isInRedis: Boolean
+  lockedAt: DateTimeISO
+  nextRunAt: DateTimeISO
+  operationType: String
+  previousNextRunAt: DateTimeISO
+  queue: String!
+  status: String
+  title: String!
+  updatedAt: DateTimeISO
+  user: User
+  userLinkedinUrl: String
+  workGroup: WorkGroup
+}
+
+type JobinDailyQuotas {
+  emailSenderEmail: String
+  emailSenderId: ObjectId
+  emails: JobinQuotaAndLimit!
+  fullProfileImport: JobinQuotaAndLimit!
+  fullProfileImportWithEmail: JobinQuotaAndLimit!
+  invitations: JobinQuotaAndLimit!
+  messages: JobinQuotaAndLimit!
+}
+
+type JobinEvent {
+  _id: ObjectId!
+  accountId: ObjectId
+  arguments: [String!]
+  attachments: [EventAttachment!]
+  content: String
+  dealId: ObjectId
+  emailSenderId: ObjectId
+  eventCreatedAt: DateTimeISO!
+  fromContactId: ObjectId
+  indicators: [BaseTemplateStyleIconName!]
+  jobspecId: ObjectId
+  participantAvatars: [Avatar!]
+  participantsNr: Int
+  sender: Avatar
+  subject: String
+  temporary: Boolean
+  toContactIds: [ObjectId!]
+  toUserIds: [ObjectId!]
+  type: EventType!
+  userId: ObjectId
+  userLinkedinUrl: String
+}
+
+input JobinEventInput {
+  _id: ObjectId
+  accountId: ObjectId
+  arguments: [String!]
+  attachments: [EventAttachmentInput!]
+  content: String
+  dealId: ObjectId
+  emailSenderId: ObjectId
+  eventCreatedAt: DateTimeISO!
+  fromContactId: ObjectId
+  indicators: [BaseTemplateStyleIconNameInput!]
+  jobspecId: ObjectId
+  subject: String
+  temporary: Boolean
+  toContactIds: [ObjectId!]
+  toUserIds: [ObjectId!]
+  type: EventTypeInput
+  userLinkedinUrl: String
+}
+
+type JobinFeature {
+  _id: ObjectId!
+  codename: String!
+  description: String
+  featurePlans: [JobinFeaturePlan!]!
+  hasSubFeatures: Boolean
+  jobinFeatureGroupId: ObjectId!
+  name: String!
+  sortOrder: Int
+}
+
+type JobinFeatureGroup {
+  _id: ObjectId!
+  name: String!
+  solutionId: ObjectId!
+  sortOrder: Int
+}
+
+type JobinFeaturePlan {
+  _id: ObjectId!
+  description: String
+  isDaily: Boolean
+  isFixed: Boolean
+  isInfinite: Boolean
+  isPerWorkGroup: Boolean
+  planId: ObjectId!
+  quantity: Int
+}
+
+type JobinInvoice {
+  _id: ObjectId!
+  checkoutAmount: CheckoutAmount!
+  createdAt: DateTimeISO
+  periodFrom: DateTimeISO!
+  periodTo: DateTimeISO!
+}
+
+type JobinJob {
+  _id: ObjectId!
+  account: JobinAccount
+  campaignStage: CampaignStage
+  codename: String!
+  contact: Contact
+  createdAt: DateTimeISO
+  data: String
+  error: String
+  iconName: String!
+  isIdempotent: Boolean
+  isInRedis: Boolean
+  lockedAt: DateTimeISO
+  nextRunAt: DateTimeISO
+  operationType: String
+  previousNextRunAt: DateTimeISO
+  queue: String!
+  status: String
+  title: String!
+  updatedAt: DateTimeISO
+  user: User
+  userLinkedinUrl: String
+  workGroup: WorkGroup
+}
+
+type JobinJobContact {
+  _id: ObjectId!
+  account: JobinAccount
+  accountId: ObjectId
+  altText: String
+  contact: Contact
+  contactId: ObjectId
+  email: String
+  errorMsg: String
+  linkedinSalesUrl: String
+  linkedinTalentId: String
+  linkedinUrl: String
+  profileId: String
+  status: String!
+}
+
+input JobinJobContactInput {
+  _id: ObjectId
+  accountId: ObjectId
+  altText: String
+  contactId: ObjectId
+  email: String
+  errorMsg: String
+  linkedinSalesUrl: String
+  linkedinTalentId: String
+  linkedinUrl: String
+  profileId: String
+  status: String!
+}
+
+type JobinJobFromFilterResult {
+  jobinJobIds: [ObjectId!]
+  totalContactIds: [ObjectId!]
+  totalContacts: Int
+}
+
+input JobinJobInput {
+  _id: ObjectId
+  account: ExternalInput
+  campaignStage: CampaignStageInput
+  codename: String
+  contact: ExternalInput
+  data: String
+  error: String
+  iconName: String
+  isIdempotent: Boolean
+  isInRedis: Boolean
+  lockedAt: DateTimeISO
+  nextRunAt: DateTimeISO
+  operationType: String
+  previousNextRunAt: DateTimeISO
+  queue: String
+  status: String
+  title: String
+  user: ExternalInput
+  userLinkedinUrl: String
+  workGroup: ExternalInput
+}
+
+type JobinJobSubscription {
+  _id: ObjectId!
+  codename: String
+  contactStatuses: [JobinJobContact!]
+  createdAt: DateTimeISO
+  data: String
+  error: String
+  hasNothingToProcess: Boolean
+  iconName: String
+  isIdempotent: Boolean
+  loaded: Float
+  lockedAt: DateTimeISO
+  nextRunAt: DateTimeISO
+  noResume: Boolean
+  nullifyError: Boolean
+  nullifyLockedAt: Boolean
+  nullifyNextRunAt: Boolean
+  operationType: String
+  priority: Float
+  queue: String
+  stop: Boolean
+  title: String
+  totalCount: Float
+  updateContactStatus: JobinJobContact
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  waitTimeMs: Float
+  workGroupId: ObjectId!
+}
+
+input JobinJobUpdateInput {
+  _id: ObjectId
+  codename: String
+  contactStatuses: [JobinJobContactInput!]
+  data: String
+  error: String
+  hasNothingToProcess: Boolean
+  iconName: String
+  isIdempotent: Boolean
+  loaded: Float
+  lockedAt: DateTimeISO
+  nextRunAt: DateTimeISO
+  noResume: Boolean
+  priority: Float
+  queue: String
+  status: String
+  stop: Boolean
+  title: String
+  totalCount: Float
+  waitTimeMs: Float
+}
+
+type JobinPrice {
+  _id: ObjectId!
+  currency: Currency
+  currencyCode: String!
+  price: Int!
+}
+
+type JobinProduct {
+  _id: ObjectId!
+  activeFeatures: [ActiveFeature!]!
+  deprecated: DateTimeISO
+  features: [String!]!
+  featuresOverview: [String!]!
+  monthlyPrices: [JobinPrice!]
+  planId: ObjectId!
+  price(currencyCode: String, isMonthly: Boolean!, noIp: Boolean): JobinPrice
+  prices: [JobinPrice!]
+  replaceWithProductId: ObjectId
+  solutionId: ObjectId!
+  sortOrder: Int
+}
+
+type JobinQuotaAndLimit {
+  limit: Int
+  usedQuota: Int!
+}
+
+type JobinSolution {
+  _id: ObjectId!
+  description: String!
+  iconName: String!
+  name: String!
+}
+
+type JobinSubFeature {
+  _id: ObjectId!
+  description: String
+  jobinFeatureId: ObjectId!
+  name: String!
+}
+
+type JobinSubscription {
+  _id: ObjectId!
+  alreadyPaid: Int
+  cancelAtPeriodEnd: Boolean
+  checkoutAmount: CheckoutAmount
+  countryCode: String!
+  couponName: String
+  createdAt: DateTimeISO
+  currency: Currency
+  currencyCode: String!
+  currentPeriodEnd: DateTimeISO
+  currentPeriodStart: DateTimeISO
+  doNotReplaceOnRenewal: Boolean
+  endedAt: DateTimeISO
+  enterprisePrice: Int
+  fullAccess: Boolean
+  isBilledMonthly: Boolean!
+  paymentFailCode: String
+  paymentFailReason: String
+  paymentItems: [PaymentItem!]!
+  status: String!
+  stripeCustomerId: String
+  stripePaymentMethod: StripePaymentMethod
+  stripePaymentMethodId: String
+  totalPaidAmount: Int!
+  trialEnd: DateTimeISO
+  trialEndEmail: Int
+  updatedAt: DateTimeISO
+  vatId: String
+}
+
+type JobseekerAim {
+  _id: ObjectId!
+  value: String!
+}
+
+type JobseekerCriterion {
+  _id: ObjectId!
+  availabilityPeriod: AvailabilityPeriod
+  benefits: [Benefit!]
+  careerAspirationNote: String
+  careerLevels: [String!]
+  careerPaths: [String!]
+  createdAt: DateTimeISO
+  desiredLocations: [MainLocation!]
+
+  """desired company size(s)"""
+  employeeCountRanges: [String!]
+  employmentTypes: [String!]
+
+  """desired industries"""
+  industries: [String!]
+
+  """
+  Indicate which are the moving factors for a jobseeker into the next job
+  """
+  jobseekerAims: [String!]
+  jobseekerStatus: BaseTemplateLevel
+  managementLevels: [String!]
+  mobilityArea: String
+  moneyAmount: MoneyAmount
+  motivationForChange: String
+  noticePeriod: NoticePeriod
+  organizationTypes: [String!]
+  quietOffice: Int
+  remoteWork: RemoteWork
+  roleTitles: [String!]
+  travelRequired: TravelRequired
+  updatedAt: DateTimeISO
+}
+
+input JobseekerCriterionInput {
+  _id: ObjectId
+  availabilityPeriod: AvailabilityPeriodInput
+  benefits: [BenefitInput!]
+  careerAspirationNote: String
+  careerLevels: [String!]
+  careerPaths: [String!]
+  desiredLocations: [MainLocationInput!]
+
+  """desired company size(s)"""
+  employeeCountRanges: [String!]
+  employmentTypes: [String!]
+
+  """desired industries"""
+  industries: [String!]
+
+  """
+  Indicate which are the moving factors for a jobseeker into the next job
+  """
+  jobseekerAims: [String!]
+  jobseekerStatus: BaseTemplateLevelInput
+  managementLevels: [String!]
+  mobilityArea: String
+  moneyAmount: MoneyAmountInput
+  motivationForChange: String
+  noticePeriod: NoticePeriodInput
+  organizationTypes: [String!]
+  quietOffice: Int
+  remoteWork: RemoteWorkInput
+  roleTitles: [String!]
+  travelRequired: TravelRequiredInput
+}
+
+type JobseekerStatus {
+  _id: ObjectId!
+  level: Int
+  value: String!
+}
+
+type Jobspec {
+  _id: ObjectId!
+  careerOverview: CareerOverview
+  createdAt: DateTimeISO
+  desiredSkills: [String!]
+
+  """The Employer Organization for this Jobspec"""
+  employerOrganization: AccountLogo
+  employmentType: String
+  funnel: Funnel
+  hasCandidates: Boolean
+  idealCandidateId: ObjectId @deprecated(reason: "Obsolete due to new IdealCandidate system")
+  industries: [String!]
+
+  """subDocument with a list of details used for internal admin"""
+  internalDetail: JobspecInternalDetail
+  jobspecDescriptions: [JobspecDescription!]
+  jobspecStatus: JobspecStatus
+
+  """Job vacancy type e.g. only for internal employees, public, etc"""
+  jobspecType: String
+  lastEventDate: DateTimeISO
+  latestEvent: JobinEvent
+  locations: [MainLocation!]
+  moneyAmount: MoneyAmount
+  notes: [JobspecNote!]
+  pipeline: Pipeline
+  pipelineId: ObjectId
+
+  """Do not show Logo and Name of the employer in the Job Advertising"""
+  publishingAnonymously: Boolean
+
+  """
+  the Logo to be used in the Job Advertising (sometimes a Jobspec is published with the Logo of the Recruiting Agency instead of the real employer company)
+  """
+  publishingLogo: String
+
+  """List of Recruiters (and their roles) assigned to this Jobspec"""
+  recruiters: [ObjectId!]
+
+  """
+  Each Jobspec can be supported by a number of Referees (People that help searching for Candidates)
+  """
+  referees: [ObjectId!]
+  remoteWork: RemoteWork
+  requiredSkills: [String!]
+  shortJobAdvText: String
+  tags: [String!]
+  title: String
+  travelRequired: TravelRequired
+  updatedAt: DateTimeISO
+  userId: ObjectId
+}
+
+type JobspecDescription {
+  _id: ObjectId!
+  heading: String
+  jobspecDescriptionTemplateTypeId: ObjectId
+  value: String
+}
+
+input JobspecDescriptionInput {
+  _id: ObjectId
+  heading: String
+  jobspecDescriptionTemplateTypeId: ObjectId
+  value: String
+}
+
+type JobspecDescriptionTemplate {
+  _id: ObjectId!
+  heading: String
+  jobspecDescriptionTemplateTypeId: ObjectId
+  value: String
+}
+
+input JobspecDescriptionTemplateInput {
+  _id: ObjectId
+  heading: String
+  jobspecDescriptionTemplateTypeId: ObjectId
+  value: String
+}
+
+type JobspecDescriptionType {
+  _id: ObjectId!
+  value: String!
+}
+
+input JobspecInput {
+  _id: ObjectId
+  careerOverview: CareerOverviewInput
+  desiredSkills: [String!]
+  employerOrganization: AccountLogoInput
+  employmentType: String
+  industries: [String!]
+
+  """subDocument with a list of details used for internal admin"""
+  internalDetail: JobspecInternalDetailInput
+  jobspecDescriptions: [JobspecDescriptionInput!]
+  jobspecStatus: JobspecStatusInput
+  jobspecType: String
+  lastEventDate: DateTimeISO
+  locations: [MainLocationInput!]
+  moneyAmount: MoneyAmountInput
+  pipelineId: ObjectId
+  publishingAnonymously: Boolean
+
+  """
+  the Logo to be used in the Job Advertising (sometimes a Jobspec is published with the Logo of the Recruiting Agency instead of the real employer company)
+  """
+  publishingLogo: String
+
+  """List of Recruiters (and their roles) assigned to this Jobspec"""
+  recruiters: [ObjectId!]
+  referees: [ObjectId!]
+  remoteWork: RemoteWorkInput
+  requiredSkills: [String!]
+  shortJobAdvText: String
+  tags: [String!]
+  title: String
+  travelRequired: TravelRequiredInput
+  userId: ObjectId
+}
+
+type JobspecInternalDetail {
+  _id: ObjectId!
+  closingDeadline: String
+  department: String
+  email: String
+  isPublicContactPerson: Boolean
+  jobInsight: String
+  jobReferenceCode: String
+  nrVacantPositions: Int
+
+  """In which URLs this Jobspec is published"""
+  pageUrls: [String!]
+  website: String
+}
+
+input JobspecInternalDetailInput {
+  _id: ObjectId
+  closingDeadline: String
+  department: String
+  email: String
+  isPublicContactPerson: Boolean
+  jobInsight: String
+  jobReferenceCode: String
+  nrVacantPositions: Int
+  pageUrls: [String!]
+  website: String
+}
+
+type JobspecNote {
+  _id: ObjectId!
+  createdAt: DateTimeISO
+  privacyLevel: PrivacyLevel
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  value: String!
+}
+
+input JobspecNoteInput {
+  _id: ObjectId
+  privacyLevel: PrivacyLevelInput
+  value: String
+}
+
+type JobspecStatus {
+  _id: ObjectId!
+  color: String
+  description: String
+  value: String!
+}
+
+input JobspecStatusInput {
+  _id: ObjectId
+  color: String
+  description: String
+  value: String!
+}
+
+type JobspecTag {
+  _id: ObjectId!
+  value: String!
+}
+
+type JobspecType {
+  _id: ObjectId!
+  description: String
+  value: String!
+}
+
+input JobspecTypeInput {
+  _id: ObjectId
+  description: String
+
+  """List of Recruiters (and their roles) assigned to this Jobspec"""
+  organizationId: ObjectId
+  value: String!
+}
+
+type JobyChatGptPrompt {
+  _id: ObjectId!
+  code: String!
+  createdAt: DateTimeISO
+  frequencyPenalty: Float
+  label: String!
+  language: String
+  listOf3: Boolean
+  maxTokens: Int
+  noWordLimit: Boolean
+  numOfWords: Int
+  presencePenalty: Float
+  temperature: Float
+  text: String!
+  tone: String
+  topP: Float
+  updatedAt: DateTimeISO
+  useChatGPT4: Boolean
+  writeAsExpert: String
+  writingStyle: String
+}
+
+input JobyChatGptPromptInput {
+  _id: ObjectId
+  code: String!
+  frequencyPenalty: Float
+  label: String!
+  language: String
+  listOf3: Boolean
+  maxTokens: Int
+  noWordLimit: Boolean
+  numOfWords: Int
+  presencePenalty: Float
+  temperature: Float
+  text: String!
+  tone: String
+  topP: Float
+  useChatGPT4: Boolean
+  writeAsExpert: String
+  writingStyle: String
+}
+
+type JobyChatGptResponse {
+  status: String!
+  value: String!
+}
+
+type Language {
+  _id: ObjectId!
+  level: Int
+  monthsOfExperience: Int
+  note: String
+  period: Period!
+  value: String
+}
+
+input LanguageInput {
+  _id: ObjectId
+  level: Int
+  monthsOfExperience: Int
+  note: String
+  period: PeriodInput
+  value: String
+}
+
+type LanguageName {
+  _id: ObjectId!
+  languageCode: String
+  value: String!
+}
+
+type LatestLinkedinConnectionConnectedOnDate {
+  latestConnectedOn: DateTimeISO
+  pendingConnectionImportCount: Int
+  pendingLatestConnectedOn: DateTimeISO
+}
+
+input LinkedinAccountInput {
+  autoGenerated: Boolean
+  importTaskHandle: String
+  importTransactionId: String
+  specialBypass: Boolean
+  userLinkedinUrl: String
+}
+
+type LinkedinAccountWithDefaultCountry {
+  _id: ObjectId!
+  autoGenerated: Boolean
+  countryCode: String
+  importTaskHandle: String
+  importTransactionId: String
+  specialBypass: Boolean
+  userLinkedinUrl: String
+}
+
+type LinkedinAnalytic {
+  _id: ObjectId!
+  createdAt: DateTimeISO
+  linkedinInvitation: LinkedinInvitation
+  linkedinProfile: LinkedinProfile
+  linkedinSalesApiScore: LinkedinSalesApiScore
+  numConnections: Int
+  updatedAt: DateTimeISO
+  userLinkedinUrl: String
+}
+
+input LinkedinAnalyticInput {
+  _id: ObjectId
+  linkedinInvitation: LinkedinInvitationInput
+  linkedinProfile: LinkedinProfileInput
+  linkedinSalesApiScore: LinkedinSalesApiScoreInput
+  numConnections: Int
+}
+
+type LinkedinAnalyticTimeline {
+  daysPerGroup: Int
+  timelineRecords: [LinkedinAnalyticTimelineRecords!]!
+  totalDays: Int
+}
+
+type LinkedinAnalyticTimelineRecords {
+  fromDate: DateTimeISO!
+  numConnections: Int
+  numInvitationsSent: Int
+  numMessagesReceived: Int
+  numMessagesSent: Int
+  numProfileViews: Int
+  toDate: DateTimeISO!
+}
+
+type LinkedinAnalyticTotals {
+  first: LinkedinAnalytic!
+  last: LinkedinAnalytic!
+}
+
+type LinkedinConnectionLevel {
+  _id: ObjectId!
+  connectedOn: DateTimeISO
+  isPending: Boolean
+  userLinkedinUrl: String!
+  value: String
+}
+
+input LinkedinConnectionLevelInput {
+  _id: ObjectId
+  connectedOn: DateTimeISO
+  isPending: Boolean
+  userLinkedinUrl: String!
+  value: String
+}
+
+type LinkedinConversation {
+  _id: ObjectId!
+  conversationId: String!
+  importedAt: DateTimeISO
+  lastActivityAt: Float!
+  participantLinkedinUrls: [String!]!
+  totalEventCount: Float
+}
+
+input LinkedinConversationInput {
+  _id: ObjectId
+  conversationId: String!
+  importedAt: DateTimeISO
+  lastActivityAt: Float!
+  participantLinkedinUrls: [String!]!
+  totalEventCount: Float
+}
+
+type LinkedinDetail {
+  _id: ObjectId
+  connectedOn: DateTimeISO @deprecated(reason: "Replaced By ")
+  followerCount: Int
+  influencer: Boolean
+  isMiniProfile: Boolean
+  jobSeeker: Boolean
+  numOfConnections: Int
+  openLink: Boolean
+  openToWork: Boolean
+  premium: Boolean
+  profileId: String
+}
+
+input LinkedinDetailInput {
+  _id: ObjectId
+  followerCount: Int
+  influencer: Boolean
+  isMiniProfile: Boolean
+  jobSeeker: Boolean
+  numOfConnections: Int
+  openLink: Boolean
+  openToWork: Boolean
+  premium: Boolean
+  profileId: String
+}
+
+type LinkedinInvitation {
+  _id: ObjectId!
+  numNewInvitations: Int
+  numPendingInvitations: Int
+  numSingleSentInvitations: Int
+  numTotalSentInvitations: Int
+}
+
+input LinkedinInvitationInput {
+  _id: ObjectId
+  numNewInvitations: Int
+  numPendingInvitations: Int
+  numSingleSentInvitations: Int
+  numTotalSentInvitations: Int
+}
+
+input LinkedinMessageInput {
+  attachments: [EventAttachmentInput!]
+  eventTypeId: ObjectId
+  fromUrl: String
+  messageCreatedAt: Float!
+  subject: String
+  text: String!
+  toUrl: String
+  userLinkedinUrl: String
+}
+
+input LinkedinNoteInput {
+  _id: ObjectId
+  content: String
+  createdAt: DateTimeISO
+  ownerLinkedinId: String
+  updatedAt: DateTimeISO
+}
+
+type LinkedinProfile {
+  _id: ObjectId!
+  allStar: Boolean
+  marketplacePreferences: Boolean
+  menteePreferencesActive: Boolean
+  mentorPreferencesActive: Boolean
+  numProfileViews: Int
+  numSavedArticles: Int
+  numSavedItems: Int
+  numSavedJobs: Int
+  numSearchAppearances: Int
+  profileOpenToRecruiter: Boolean
+  student: Boolean
+}
+
+input LinkedinProfileInput {
+  _id: ObjectId
+  allStar: Boolean
+  marketplacePreferences: Boolean
+  menteePreferencesActive: Boolean
+  mentorPreferencesActive: Boolean
+  numProfileViews: Int
+  numSavedArticles: Int
+  numSavedItems: Int
+  numSavedJobs: Int
+  numSearchAppearances: Int
+  profileOpenToRecruiter: Boolean
+  student: Boolean
+}
+
+type LinkedinSalesApiScore {
+  _id: ObjectId!
+  activeSeat: Boolean
+  endTime: Float
+  groupScore: [GroupScore!]
+  memberScore: MemberScore
+}
+
+input LinkedinSalesApiScoreInput {
+  _id: ObjectId
+  activeSeat: Boolean
+  endTime: Float
+  groupScore: [GroupScoreInput!]
+  memberScore: MemberScoreInput
+  profileUrn: String
+}
+
+type LinkedinSalesConversation {
+  _id: ObjectId!
+  conversationId: String!
+  importedAt: DateTimeISO
+  lastActivityAt: Float!
+  participantLinkedinUrls: [String!]!
+  totalEventCount: Float
+}
+
+type LinkedinTagsFilter {
+  _id: ObjectId
+  hasPendingInvitation: String
+  hasProfileId: Boolean
+  influencer: String
+  isFirstConnection: String
+  isOpenLink: String
+  isPremium: String
+  isSecondConnection: String
+  isThirdConnection: String
+  openToWork: String
+}
+
+input LinkedinTagsFilterInput {
+  _id: ObjectId
+  hasPendingInvitation: String
+  hasProfileId: Boolean
+  influencer: String
+  isFirstConnection: String
+  isOpenLink: String
+  isPremium: String
+  isSecondConnection: String
+  isThirdConnection: String
+  openToWork: String
+}
+
+type LinkedinThrottlingSetting {
+  _id: ObjectId!
+  fullProfileImport: Int
+  fullProfileImportWithEmail: Int
+  invitations: Int
+  messages: Int
+}
+
+input LinkedinThrottlingSettingInput {
+  _id: ObjectId
+  fullProfileImport: Int
+  fullProfileImportWithEmail: Int
+  invitations: Int
+  messages: Int
+}
+
+type LinkedinUrlAndId {
+  _id: ObjectId!
+  linkedinUrl: String!
+}
+
+type LoginObject {
+  attempts: Int
+  lastAttempt: String
+  refreshToken: String
+  status: String!
+  token: String
+}
+
+type MainExperienceStudent {
+  mainLocation: MainLocation
+  organization: MainOrganization
+  roleTitle: String
+}
+
+type MainJobspec {
+  _id: ObjectId!
+
+  """The Employer Organization for this Jobspec"""
+  employerOrganization: AccountLogo
+  idealCandidateId: ObjectId @deprecated(reason: "Obsolete due to new IdealCandidate system")
+  jobspecId: ObjectId!
+  locations: [MainLocation!]
+  title: String
+}
+
+input MainJobspecInput {
+  _id: ObjectId
+  employerOrganization: AccountLogoInput
+  jobspecId: ObjectId!
+  locations: [MainLocationInput!]
+  title: String
+}
+
+type MainLocation {
+  _id: ObjectId!
+  address: String
+  addressLine2: String
+  city: String
+  coord: Coord
+  country: String
+  countryCode: String
+  fullAddress: String
+  landlinePhone: String
+  locationLastUpdated: DateTimeISO
+  locationType: String
+  postalCode: String
+  region: String
+  rooms: [String!]
+  timeZone: String
+  worldLocationId: ObjectId
+}
+
+input MainLocationCoordFilter {
+  _id: ObjectId
+  city: String!
+  coord: CoordInput!
+  field: String!
+  radius: Int!
+  worldLocationId: ObjectId!
+}
+
+type MainLocationFilter {
+  _id: ObjectId
+  address: String
+  boost: Float
+  city: String
+  coordWithRadius: CoordWithRadius
+  country: String
+  postalCode: String
+  region: String
+  type: String
+  worldLocationId: ObjectId
+}
+
+input MainLocationFilterInput {
+  _id: ObjectId
+  address: String
+  boost: Float
+  city: String
+  coordWithRadius: CoordWithRadiusInput
+  country: String
+  postalCode: String
+  region: String
+  type: String = "should"
+  worldLocationId: ObjectId
+}
+
+input MainLocationInput {
+  _id: ObjectId
+  address: String
+  addressLine2: String
+  city: String
+  coord: CoordInput
+  country: String
+  countryCode: String
+  fullAddress: String
+  landlinePhone: String
+  locationLastUpdated: DateTimeISO
+  locationType: String
+  postalCode: String
+  region: String
+  rooms: [String!]
+  timeZone: String
+  worldLocationId: ObjectId
+}
+
+type MainLocationWorldLocationMatch {
+  _id: ObjectId!
+  city: String
+  coord: Coord
+  country: String
+  postalCode: String
+  region: String
+  worldLocationId: ObjectId
+}
+
+type MainOrganization {
+  logoUrl: String
+  name: String
+}
+
+type MaritalStatus {
+  _id: ObjectId!
+  value: String!
+}
+
+type MemberRole {
+  _id: ObjectId!
+  privileges: [String!]
+  user: User
+}
+
+input MemberRoleInput {
+  _id: ObjectId
+  privileges: [String!]
+}
+
+type MemberScore {
+  _id: ObjectId!
+  calculatedAt: Float
+  change: Float
+  overall: Float
+  subScores: [SubScore!]
+}
+
+input MemberScoreInput {
+  _id: ObjectId
+  calculatedAt: Float
+  change: Float
+  overall: Float
+  subScores: [SubScoreInput!]
+}
+
+type MergeError {
+  _id: ObjectId!
+  destination: String!
+  duplicate: String!
+  fieldPath: String!
+}
+
+input MessageSendWithDelayInput {
+  chatGptPostCleaning: Boolean
+  connectionRequestWithMessage: Boolean
+  delay: Int
+  jobspecId: ObjectId
+  label: String
+  message: String
+  subject: String
+}
+
+type MessageTemplate {
+  _id: ObjectId!
+  emailTemplateTypeId: ObjectId
+  label: String!
+  subject: String
+  text: String!
+}
+
+input MessageTemplateInput {
+  _id: ObjectId
+  emailTemplateTypeId: ObjectId
+  label: String!
+  subject: String
+  text: String!
+}
+
+type MessagesSentAndReceivedCount {
+  _id: ObjectId!
+  messagesReceived: Int!
+  messagesSent: Int!
+  msgReceivedSentRatio: Int!
+}
+
+type MicrosoftLinkedAccount {
+  _id: ObjectId!
+  createdAt: DateTimeISO
+  displayName: String
+  email: String
+  homeAccountId: String
+  mobilePhone: String
+  refreshToken: String
+  timeZone: String
+  updatedAt: DateTimeISO
+  userIds: [ObjectId!]
+  workGroupIds: [ObjectId!]
+}
+
+type MinShouldMatch {
+  _id: ObjectId
+  accomplishments: Float
+  careerLevels: Float
+  careerPaths: Float
+  companyEmployeeCountRanges: Float
+  dripCampaignsFilter: Float
+  employmentTypes: Float
+  fieldOfStudies: Float
+  industries: Float
+  jobDescriptionKeywords: Float
+  jobseekerStatuses: Float
+  languageNames: Float
+  locations: Float
+  managementLevels: Float
+  organizations: Float
+  roleTitles: Float
+  schoolNames: Float
+  skillNames: Float
+  summary: Float
+  tags: Float
+  yearsInCurrentRole: Float
+  yearsOfExperience: Float
+}
+
+input MinShouldMatchInput {
+  _id: ObjectId
+  accomplishments: Float
+  careerLevels: Float
+  careerPaths: Float
+  companyEmployeeCountRanges: Float
+  dripCampaignsFilter: Float
+  employmentTypes: Float
+  fieldOfStudies: Float
+  industries: Float
+  jobDescriptionKeywords: Float
+  jobseekerStatuses: Float
+  languageNames: Float
+  locations: Float
+  managementLevels: Float
+  organizations: Float
+  roleTitles: Float
+  schoolNames: Float
+  skillNames: Float
+  summary: Float
+  tags: Float
+  yearsInCurrentRole: Float
+  yearsOfExperience: Float
+}
+
+type MoneyAmount {
+  _id: ObjectId!
+  amount: Int
+  amountMax: Int
+  amountMin: Int
+  createdAt: DateTimeISO
+  currency: Currency
+  moneyAmountPercentage: MoneyAmountPercentage
+  moneyAmountType: String
+  text: String
+  updatedAt: DateTimeISO
+}
+
+input MoneyAmountInput {
+  _id: ObjectId
+  amount: Int
+  amountMax: Int
+  amountMin: Int
+  currency: CurrencyInput
+  moneyAmountPercentage: MoneyAmountPercentageInput
+  moneyAmountType: String
+  text: String
+}
+
+type MoneyAmountObj {
+  _id: ObjectId!
+  currency: Currency!
+  value: Int!
+}
+
+type MoneyAmountPercentage {
+  _id: ObjectId!
+  moneyAmountPercentageType: String
+  percentage: Int
+}
+
+input MoneyAmountPercentageInput {
+  _id: ObjectId
+  moneyAmountPercentageType: String
+  percentage: Int
+}
+
+type MoneyAmountPercentageType {
+  _id: ObjectId!
+  value: String!
+}
+
+type MoneyAmountType {
+  _id: ObjectId!
+  createdAt: DateTimeISO
+  percent: Boolean
+  updatedAt: DateTimeISO
+  value: String!
+}
+
+type Mutation {
+  acquireMicrosoftTokenByCode(clientInfo: String!, code: String!): String!
+  activateAccount(_id: ObjectId!, email: String!, referralLinkCode: String): RegisterObject! @deprecated(reason: "Always require email for login even in sandbox")
+  activateFreeAccount: Boolean!
+  addBulkCustomFields(contacts: [String!]!, customFieldsInput: [CustomFieldInput!]!): Boolean!
+  addCustomField(customFieldsInput: CustomFieldInput!): [CustomField!]
+  addLinkedinAnalytic(linkedinAnalytic: LinkedinAnalyticInput!): Int!
+  addReferralToAffiliateLeads(referralLinkCode: String!): Boolean!
+  archiveAllCompletedJobinJobs: Int!
+  archiveJobinJob(_id: ObjectId!): ObjectId!
+  bulkAssignToCampaign(campaignId: ObjectId!, filter: ContactsFilterInput!): Int!
+  bulkAssignToPausedCampaign(campaignId: ObjectId!, dripCampaignName: String!, filter: ContactsFilterInput!): Int!
+  bulkCreatePendingInvitations(followUpMessage: FollowUpMessageInput, pendingInvitations: [PendingInvitationInput!]!): [ObjectId!]!
+  bulkPushOverwriteContacts(_ids: [ObjectId!]!, contact: ContactInput!, labelFieldName: String! = "value"): Int!
+  bulkPushOverwriteContactsByFilter(contact: ContactInput!, filter: ContactsFilterInput!, labelFieldName: String! = "value"): Int!
+  bulkPushUpdateContacts(_ids: [ObjectId!]!, contact: ContactInput!, labelFieldName: String! = "value"): Int!
+  bulkUpdateContacts(_ids: [ObjectId!]!, contact: ContactInput!): Int!
+  bulkUpsertContactActivePipelineStages(filter: ContactsFilterInput!, pipelineStage: ActivePipelineStageInput!): Int!
+  cancelAutoRenewal(shouldCancel: Boolean!): Boolean!
+  changeAffiliatePaypalEmail(email: String!): Boolean!
+  changeEmail(email: String!): Boolean!
+  clearAllDripCampaignProspects(campaignId: ObjectId!, dripCampaignName: String!): Boolean!
+  closeJobspec(_id: ObjectId!): Int!
+  completeJobinJob(error: String, jobinJobId: ObjectId!): Int!
+  contactSales(companyName: String!, companyWebsite: String!, contactPerson: String!, description: String!, seats: Int!, workEmail: String!): Boolean!
+  copyDripCampaign(campaignId: ObjectId!): ObjectId!
+  copyLinkedinConnectionsToContacts: Int!
+  copyToWorkgroup(_id: ObjectId!): ObjectId!
+  createAccomplishmentType(accomplishmentType: AccomplishmentTypeInput!): ObjectId
+  createAccomplishmentTypes(accomplishmentTypes: [AccomplishmentTypeInput!]!): [ObjectId!]!
+  createAccount(account: JobinAccountInput!): ObjectId!
+  createAccountFromOrganization(organizationId: ObjectId!): ObjectId!
+  createAccountTag(accountTag: AccountTagInput!): ObjectId
+  createAccountTags(accountTags: [AccountTagInput!]!): [ObjectId!]!
+  createAffiliateCoupon(name: String!): ObjectId!
+  createBenefitTemplate(benefitTemplate: BenefitTemplateInput!): ObjectId
+  createBenefitTemplates(benefitTemplates: [BenefitTemplateInput!]!): [ObjectId!]!
+  createChatGptPrompt(chatGptPrompt: ChatGptPromptInput!): ObjectId
+  createChatGptPrompts(chatGptPrompts: [ChatGptPromptInput!]!): [ObjectId!]!
+  createCommunicationChannelType(communicationChannelType: CommunicationChannelTypeInput!): ObjectId
+  createCommunicationChannelTypes(communicationChannelTypes: [CommunicationChannelTypeInput!]!): [ObjectId!]!
+  createCompletedContactDripCampaignStage(completedContactDripCampaignStage: CompletedContactDripCampaignStageInput!): ObjectId!
+  createContact(contact: ContactInput!): ObjectId!
+  createContactFromSocialProfile(url: String!, urlFieldName: String!): Boolean!
+  createContactFromSocialProfileById(contactTags: [BaseTemplateColorIconNameInput!], isEnrichWithContactsActive: Boolean, pipelineIdAndJobTitle: PipelineIdAndJobTitle, socialProfileId: ObjectId!): ObjectId!
+  createContactNote(contactNote: ContactNoteInput!): ObjectId!
+  createContactPerson(contactPerson: ContactPersonInput!): ObjectId!
+  createContactPersons(contactPersons: [ContactPersonInput!]!): [ObjectId!]!
+  createContactTag(contactTag: ContactTagInput!): ObjectId
+  createContactTags(contactTags: [ContactTagInput!]!): [ObjectId!]!
+  createContactsFilter(contactsFilter: ContactsFilterSaveInput!): ObjectId!
+  createCsvColumnAssociationGroup(csvColumnAssociationGroup: CsvColumnAssociationGroupInput!): CsvColumnAssociationGroup!
+  createCustomPaymentIntent(token: String!): String!
+  createDripCampaign(dripCampaign: DripCampaignInput!): ObjectId!
+  createDripStageOption(dripStageOption: DripStageOptionInput!): ObjectId!
+  createEducationalLevel(educationalLevel: EducationalLevelInput!): ObjectId
+  createEducationalLevels(educationalLevels: [EducationalLevelInput!]!): [ObjectId!]!
+  createEmailSender(emailSender: EmailSenderInput!): ObjectId!
+  createEmailTemplate(emailTemplate: EmailTemplateInput!): ObjectId
+  createEmailTemplates(emailTemplates: [EmailTemplateInput!]!): [ObjectId!]!
+  createExitStageTemplate(exitStageTemplate: ExitStageTemplateInput!): ObjectId
+  createExitStageTemplates(exitStageTemplates: [ExitStageTemplateInput!]!): [ObjectId!]!
+  createExternalEventFromLinkedinMessages(linkedinMessages: [LinkedinMessageInput!]!, participantLinkedinUrls: [String!]!, urlFieldName: String!, userUrl: String): [ObjectId!]!
+  createFilterFromContactIds(contactIds: [ObjectId!]!): ObjectId
+  createHelpdeskMessage(helpdeskMessage: HelpdeskMessageInput!, notify: Boolean, threadId: ObjectId!): Boolean!
+  createIdealCandidateFilter(idealCandidateFilter: IdealCandidateFilterInput!): ObjectId!
+  createJobinAccountNote(jobinAccountNote: JobinAccountNoteInput!): ObjectId!
+  createJobinEvent(eventTypeId: ObjectId!, jobinEvent: JobinEventInput!): ObjectId!
+  createJobinEventByContactFilter(eventTypeId: ObjectId!, filter: ContactsFilterInput!, jobinEvent: JobinEventInput!): ObjectId!
+  createJobinJob(jobinJob: JobinJobInput!): ObjectId
+  createJobinJobFromFilter(filter: ContactsFilterInput!, jobinJob: JobinJobInput!): JobinJobFromFilterResult
+  createJobspec(jobspec: JobspecInput!): ObjectId!
+  createJobspecDescriptionTemplate(jobspecDescriptionTemplate: JobspecDescriptionTemplateInput!): ObjectId
+  createJobspecDescriptionTemplates(jobspecDescriptionTemplates: [JobspecDescriptionTemplateInput!]!): [ObjectId!]!
+  createJobspecNote(jobspecNote: JobspecNoteInput!): ObjectId!
+  createJobspecType(jobspecType: JobspecTypeInput!): ObjectId
+  createJobspecTypes(jobspecTypes: [JobspecTypeInput!]!): [ObjectId!]!
+  createJobspecWithPipeline(jobspec: JobspecInput!): ObjectId!
+  createJobyChatGptPrompt(jobyChatGptPrompt: JobyChatGptPromptInput!): ObjectId
+  createJobyChatGptPrompts(jobyChatGptPrompts: [JobyChatGptPromptInput!]!): [ObjectId!]!
+  createLinkedinInvitesFromFilter(filter: ContactsFilterInput!, operationOptionsInput: OperationOptionsInput!): JobinJobFromFilterResult
+  createMessageTemplate(messageTemplate: MessageTemplateInput!): ObjectId
+  createMessageTemplates(messageTemplates: [MessageTemplateInput!]!): [ObjectId!]!
+  createMultipleExternalEventFromLinkedinMessages(conversationMessageGroups: [ConversationMessageGroupInput!]!, urlFieldName: String!, userUrl: String): [ObjectId!]!
+  createOrganization(organization: OrganizationInput!): ObjectId!
+  createPaymentIntent(couponName: String, isBilledMonthly: Boolean!, items: [PaymentItemInput!]!, renewal: Boolean): String!
+  createPendingInvitation(pendingInvitation: PendingInvitationInput!): ObjectId!
+  createPipeline(pipeline: PipelineInput!): Pipeline!
+  createPipelineTemplate(pipelineTemplate: PipelineTemplateInput!): ObjectId
+  createPipelineTemplates(pipelineTemplates: [PipelineTemplateInput!]!): [ObjectId!]!
+  createRecentContactsFilter(recentContactsFilter: ContactsFilterSaveInput!): ObjectId!
+  createSetupIntent: String!
+  createSkillType(skillType: SkillTypeInput!): ObjectId
+  createSkillTypes(skillTypes: [SkillTypeInput!]!): [ObjectId!]!
+  createStageTemplate(stageTemplate: StageTemplateInput!): ObjectId
+  createStageTemplates(stageTemplates: [StageTemplateInput!]!): [ObjectId!]!
+  createSubStageTemplate(subStageTemplate: SubStageTemplateInput!): ObjectId
+  createSubStageTemplates(subStageTemplates: [SubStageTemplateInput!]!): [ObjectId!]!
+  createSuccessfulExitStageTemplate(successfulExitStageTemplate: SuccessfulExitStageTemplateInput!): ObjectId
+  createSuccessfulExitStageTemplates(successfulExitStageTemplates: [SuccessfulExitStageTemplateInput!]!): [ObjectId!]!
+  createWorkGroup(workGroup: WorkGroupInput!): ObjectId!
+  customModifySubscription(token: String!): Boolean!
+  deleteAccomplishmentType(_id: ObjectId!): Int
+  deleteAccount(_id: ObjectId!): Int!
+  deleteAccountTag(_id: ObjectId!): Int
+  deleteBenefitTemplate(_id: ObjectId!): Int
+  deleteChatGptPrompt(_id: ObjectId!): Int
+  deleteCommunicationChannelType(_id: ObjectId!): Int
+  deleteCompletedContactDripCampaignStage(_id: ObjectId!): Int
+  deleteContact(_id: ObjectId!): Int!
+  deleteContactAttachment(_id: ObjectId!, attachmentId: ObjectId!): Boolean!
+  deleteContactCv(_id: ObjectId!): Boolean!
+  deleteContactNote(_id: ObjectId!): Int!
+  deleteContactNotes(_ids: [ObjectId!]!): Int!
+  deleteContactPerson(_id: ObjectId!): Int!
+  deleteContactPersons(_ids: [ObjectId!]!): Int!
+  deleteContactTag(_id: ObjectId!): Int
+  deleteContacts(filter: ContactsFilterInput!, take: Int): Int!
+  deleteContactsFilter(_id: ObjectId!): Int
+  deleteCurrentUser: Int!
+  deleteCustomField(_id: String!, contactId: String!): Boolean!
+  deleteDripCampaign(_id: ObjectId!): Int
+  deleteDripStageOption(_id: ObjectId!): Int!
+  deleteDripStageOptionsByStageIds(stageIds: [ObjectId!]!): Int!
+  deleteEducationalLevel(_id: ObjectId!): Int
+  deleteEmailSender(_id: ObjectId!): Int
+  deleteEmailTemplate(_id: ObjectId!): Int
+  deleteExitStageTemplate(_id: ObjectId!): Int
+  deleteIdealCandidateFilter(assignedJobspecId: ObjectId!): Boolean
+  deleteJobinAccountNote(_id: ObjectId!): Int!
+  deleteJobinAccountNotes(_ids: [ObjectId!]!): Int!
+  deleteJobinJob(_id: ObjectId!): Int!
+  deleteJobinLocalJob(_id: ObjectId!): Int!
+  deleteJobspec(_id: ObjectId!): Int!
+  deleteJobspecDescriptionTemplate(_id: ObjectId!): Int
+  deleteJobspecNote(_id: ObjectId!): Int
+  deleteJobspecNotes(_ids: [ObjectId!]!): Int!
+  deleteJobspecType(_id: ObjectId!): Int
+  deleteJobyChatGptPrompt(_id: ObjectId!): Int
+  deleteMessageTemplate(_id: ObjectId!): Int
+  deleteMicrosoftLinkedAccount(_id: ObjectId!): Boolean!
+  deletePendingInvitation(_id: ObjectId!, contactId: ObjectId!): Int!
+  deletePipeline(_id: ObjectId!): Int
+  deletePipelineStageFromContact(_id: ObjectId!, activePipelineStageId: ObjectId!): Int!
+  deletePipelineTemplate(_id: ObjectId!): Int
+  deleteRecentContactsFilter(_id: ObjectId!): Int
+  deleteSkillType(_id: ObjectId!): Int
+  deleteStageTemplate(_id: ObjectId!): Int
+  deleteSubStageTemplate(_id: ObjectId!): Int
+  deleteSuccessfulExitStageTemplate(_id: ObjectId!): Int
+  deleteUser(_id: ObjectId!): Int!
+  deleteWorkGroup(_id: ObjectId!): Int!
+  deleteWorkGroupMemberRoleByUserId(_id: ObjectId!, memberUserId: ObjectId!): Int!
+  downgradeSeats(seats: Int!, selectedProductId: ObjectId!): Boolean!
+  enrichContact(contactId: ObjectId!): ContactEnrichmentObj!
+  exportContacts(_ids: [ObjectId!]!): Boolean!
+  exportContactsByFilter(filter: ContactsFilterInput!): Boolean!
+  failAccountImport(accountId: ObjectId!, errorMsg: String!, jobinJob: JobinJobUpdateInput!): Boolean! @deprecated(reason: "Should be replaced by updateJobinJob")
+  failContactImport(contactId: ObjectId!, errorMsg: String!, jobinJob: JobinJobUpdateInput!): Boolean! @deprecated(reason: "Should be replaced by updateJobinJob")
+  findAndUpdateContactsByEmail(contact: ContactInput!, emailAddress: String!): [Contact!]!
+  forgotPassword(email: String!): Boolean!
+  generatePaymentLink(amount: Int!, currencyCode: String!, freeAccess: Boolean!, isBilledMonthly: Boolean!, jobinJobIdsStr: String!, renewalAmount: Int!, seatsStr: String!, userId: ObjectId!, workGroupId: ObjectId!): String!
+  getOrCreatePeopleSearchFilter(contactsFilter: ContactsFilterInput!): ObjectId!
+  identifyDuplicatesAndAutoMergeBackground: Boolean!
+  importAccountAndOrganization(accountId: ObjectId, importSource: String!, jobinJob: JobinJobUpdateInput, organization: OrganizationInput!): ObjectId!
+  importContactAndSocialProfile(contactId: ObjectId, importSource: String!, jobinJob: JobinJobUpdateInput, newJobinJob: JobinJobInput, overwrite: Boolean, socialProfile: SocialProfileWrapperInput!, withContactInfo: Boolean): ObjectId!
+  importMiniAccounts(importNr: Int, organizations: [OrganizationInput!]!, urlFieldName: String!): Boolean!
+  importMiniSocialProfiles(socialProfiles: [SocialProfileWrapperInput!]!, urlFieldName: String!): Boolean!
+  importOrganization(importSource: String!, organization: OrganizationInput!): Boolean!
+  importPdlSocialProfile(linkingLinkedinUrl: String!, socialProfile: SocialProfileWrapperInput!, socialProfileId: ObjectId!): Boolean!
+  importSocialProfile(socialProfile: AbstractContactInput!): Boolean!
+  importSocialProfileForUser(importSource: String!, socialProfile: AbstractContactInput!): Boolean!
+  importSocialProfiles(activePipelineStage: ActivePipelineStageWithEventIdAndTitle, extractContactInfo: Boolean, jobinEventId: ObjectId!, jobinJobId: ObjectId!, note: String, sendToPendingImportNr: Int, socialProfiles: [SocialProfileWrapperInput!]!, tags: [BaseTemplateColorIconNameInput!], urlFieldName: String!): Boolean!
+  importSocialProfilesAsLinkedinConnections(socialProfiles: [SocialProfileWrapperInput!]!): Boolean!
+  invalidateAllRefreshTokens: Boolean!
+  invalidateRefreshToken(refreshToken: ObjectId!): Boolean!
+  login(capchaToken: String!, email: String!, isCapchaV2: Boolean, password: String!): LoginObject!
+  loginAsId(_id: ObjectId!): LoginObject!
+  massImport(contactNotes: [ContactNoteInput!], contactSpecial: [ContactSpecialInput!], contacts: [ContactInput!], jobspecs: [JobspecInput!], overwriteMode: String): Int!
+  mergeDuplicate(_id: ObjectId!): Int!
+  modifySubscription(isBilledMonthly: Boolean, items: [PaymentItemInput!]!): Boolean!
+  modifyUserPermissions(assignSeatPrivileges: [AssignSeatPrivilegeInput!]!, jobinProductIds: [ObjectId!]!): String!
+  overwriteContacts: Boolean!
+  passwordReset(password: String!, token: String): RegisterObject!
+  pauseDripCampaign(campaignId: ObjectId!, dripCampaignName: String!): Boolean!
+  payWithPreviousMethod(couponName: String, isBilledMonthly: Boolean!, items: [PaymentItemInput!]!): String
+  reOpenJobspec(_id: ObjectId!): Int!
+  redeemCode(capchaToken: String!, email: String!, isCapchaV2: Boolean, token: String!): RegisterObject!
+  redeemCodeForUser(capchaToken: String!, isCapchaV2: Boolean, token: String!): Boolean!
+  refresh(refreshToken: ObjectId!): String! @deprecated(reason: "replaced by refreshAuth")
+  refreshAuth(refreshToken: ObjectId!): RefreshObject!
+  refreshPayoutsStatus(payoutItemIds: [String!]!): Int!
+  register(capchaToken: String!, email: String!, isCapchaV2: Boolean, referralLinkCode: String): RegisterObject!
+  registerAndStartFreeTrial(capchaToken: String!, email: String!, isBilledMonthly: Boolean!, isCapchaV2: Boolean, items: [PaymentItemInput!]!, referralLinkCode: String): RegisterObject!
+  registerForJoby(capchaToken: String!, email: String!, isCapchaV2: Boolean, referralLinkCode: String): RegisterObject!
+  registerWithIp(capchaToken: String!): RegisterObject! @deprecated(reason: "Functionality removed")
+  removeAllDuplicates: Boolean!
+  removeDuplicateFromPair(_id: ObjectId!, duplicateId: ObjectId!): Boolean!
+  removeLinkedinUrl(linkedinUrl: String!): Boolean!
+  renameStage(origStageName: String!, pipelineId: ObjectId!, stageName: String!): Int!
+  replaceIdealCandidateFilter(_id: ObjectId!, idealCandidateFilter: IdealCandidateFilterInput!): Boolean
+  reportImportPdlSocialProfileFailure(linkedinUrl: String!): Boolean!
+  restartDripCampaignForContact(campaignId: ObjectId!, contactId: ObjectId!): Boolean!
+  resumeDripCampaign(campaignId: ObjectId!): Boolean!
+  retryJobinJob(_id: ObjectId!, nextRunAt: DateTimeISO, reset: Boolean): Int!
+  runAgendaCommand(agendaCommand: String!, commandVariables: String): Boolean!
+  runScheduledOperationNow(jobinJobId: ObjectId!, queue: String!): Boolean!
+  scheduleOperation(date: DateTimeISO!, jobinJobId: ObjectId!, queue: String!): Boolean!
+  sendActivationEmail(email: String!): Boolean!
+  sendHelpdeskResponseEmail(answerText: String!, from: String!, fromName: String!, lastMessageCreatedAt: DateTimeISO!, replyingTo: String!, subject: String!, testEmail: String, toEmail: String!): Boolean!
+  sendTestEmails(email: String!, emailGeneratorNames: String!): Boolean!
+  sendWorkGroupInvites(users: [UserActivationInput!]!): Int!
+  sendWorkGroupInvitesToJobinMembers(userIds: [ObjectId!]!): Int!
+  setPairAsNotDuplicate(_id: ObjectId!): Boolean!
+  stopDripCampaignForContact(contactId: ObjectId!): Boolean!
+  throttleJobinJob429(_id: ObjectId!): Boolean!
+  unAssignStage(pipelineId: ObjectId!, stageName: String!): Int!
+  unsubscribeContact(_id: ObjectId!): Boolean!
+  updateAccomplishmentType(_id: ObjectId!, accomplishmentType: AccomplishmentTypeInput!): Int
+  updateAccount(_id: ObjectId!, account: JobinAccountInput!): Int!
+  updateAccountTag(_id: ObjectId!, accountTag: AccountTagInput!): Int
+  updateAffiliateCoupon(name: String!, previousName: String!): Int!
+  updateBenefitTemplate(_id: ObjectId!, benefitTemplate: BenefitTemplateInput!): Int
+  updateChatGptPrompt(_id: ObjectId!, chatGptPrompt: ChatGptPromptInput!): Int
+  updateCommunicationChannelType(_id: ObjectId!, communicationChannelType: CommunicationChannelTypeInput!): Int
+  updateCompletedContactDripCampaignStage(_id: ObjectId!, completedContactDripCampaignStage: CompletedContactDripCampaignStageInput!): Int
+  updateContact(_id: ObjectId!, contact: ContactInput!): Int!
+  updateContactTag(_id: ObjectId!, contactTag: ContactTagInput!): Int
+  updateContactTagSortOrder(sortOrders: [SortOrderInput!]!): Int!
+  updateContactsFilter(_id: ObjectId!, contactsFilter: ContactsFilterSaveInput!): Int
+  updateCurrentUser(currentUser: UserInput!): Int
+  updateCustomField(customFieldsInput: CustomFieldInput!): CustomField!
+  updateDripCampaign(_id: ObjectId!, dripCampaign: DripCampaignInput!): Int!
+  updateDripStageOption(_id: ObjectId!, dripStageOption: DripStageOptionInput!): Boolean!
+  updateEducationalLevel(_id: ObjectId!, educationalLevel: EducationalLevelInput!): Int
+  updateEmailSender(_id: ObjectId!, emailSender: EmailSenderInput!): Int
+  updateEmailTemplate(_id: ObjectId!, emailTemplate: EmailTemplateInput!): Int
+  updateExitStageTemplate(_id: ObjectId!, exitStageTemplate: ExitStageTemplateInput!): Int
+  updateIdealCandidateFilter(_id: ObjectId!, idealCandidateFilter: IdealCandidateFilterInput!): Int
+  updateJobinEvent(_id: ObjectId!, addToContactIds: [ObjectId!], jobinEvent: UpdateJobinEventInput): Int!
+  updateJobinJob(_id: ObjectId!, jobinJob: JobinJobInput!, updateLockedAt: Boolean = true): Int!
+  updateJobspec(_id: ObjectId!, jobspec: JobspecInput!): Int!
+  updateJobspecDescriptionTemplate(_id: ObjectId!, jobspecDescriptionTemplate: JobspecDescriptionTemplateInput!): Int
+  updateJobspecNote(_id: ObjectId!, jobspecNote: JobspecNoteInput!): Int
+  updateJobspecType(_id: ObjectId!, jobspecType: JobspecTypeInput!): Int
+  updateJobyChatGptPrompt(_id: ObjectId!, jobyChatGptPrompt: JobyChatGptPromptInput!): Int
+  updateLinkedinAnalytic(_id: ObjectId!, linkedinAnalytic: LinkedinAnalyticInput!): Int
+  updateLinkedinConnection(_id: ObjectId!, linkedinConnection: UpdateLinkedinConnectionInput!): Int!
+  updateLinkedinConversation(_id: ObjectId!, linkedinConversation: UpdateLinkedinConversationInput!): Int!
+  updateLinkedinSalesConversation(_id: ObjectId!, linkedinSalesConversation: UpdateLinkedinConversationInput!): Int!
+  updateMessageTemplate(_id: ObjectId!, messageTemplate: MessageTemplateInput!): Int
+  updatePaymentMethod(clientSecret: String!): Boolean!
+  updatePipeline(_id: ObjectId!, pipeline: PipelineInput!): Int
+  updatePipelineTemplate(_id: ObjectId!, pipelineTemplate: PipelineTemplateInput!): Int
+  updateRecentContactsFilter(_id: ObjectId!, recentContactsFilter: ContactsFilterSaveInput!): Int
+  updateReplyIdentifications(dripCampaignId: ObjectId!, replyIdentifications: [ReplyIdentificationInput!]!): [ReplyIdentification!]
+  updateSkillType(_id: ObjectId!, skillType: SkillTypeInput!): Int
+  updateStageTemplate(_id: ObjectId!, stageTemplate: StageTemplateInput!): Int
+  updateSubStageTemplate(_id: ObjectId!, subStageTemplate: SubStageTemplateInput!): Int
+  updateSuccessfulExitStageTemplate(_id: ObjectId!, successfulExitStageTemplate: SuccessfulExitStageTemplateInput!): Int
+  updateTokenPayload(workGroupId: ObjectId!): RegisterObject!
+  updateUser(_id: ObjectId!, user: UserInput!): Int
+  updateUserAdditionalDetail(userAdditionalDetail: UserAdditionalDetailInput!): Int
+  updateUserLastLoggedIn: Boolean!
+  updateUserWorkGroupSetting(userWorkGroupSetting: UserWorkGroupSettingInput!): Int
+  updateWorkGroup(_id: ObjectId!, workGroup: WorkGroupInput!): Int!
+  updateWorkGroupBillingDetail(_id: ObjectId!, billingDetail: UpdateBillingDetailInput!): Int!
+  updateWorkInProgressFeedback(_id: ObjectId!, workInProgressFeedback: WorkInProgressFeedbackInput!): Int!
+  upsertContactNotesByContactId(contactId: ObjectId!, contactNotes: [ContactNoteInput!]!): Int!
+  upsertCsvColumnAssociationGroup(_id: ObjectId, csvColumnAssociationGroup: CsvColumnAssociationGroupInput!): Int!
+  upsertJobinAccountNotesByAccountId(jobinAccountId: ObjectId!, jobinAccountNotes: [JobinAccountNoteInput!]!): Int!
+  upsertJobspecNotesByJobspecId(jobspecId: ObjectId!, jobspecNotes: [JobspecNoteInput!]!): Int
+  upsertLinkedinAccount(linkedinAccount: LinkedinAccountInput!): String
+  upsertLinkedinConversations(linkedinConversations: [LinkedinConversationInput!]!): Int!
+  upsertLinkedinSalesConversations(linkedinSalesConversations: [LinkedinConversationInput!]!): Int!
+  upsertRecentContactsFilter(upsertRecentContactsFilter: ContactsFilterInput!): ObjectId
+  userClickedLeaveAReview: Int
+  verifyPassword(_id: ObjectId!, password: String!): Boolean!
+  visitedUrls(urls: [String!]!): Boolean!
+}
+
+type NoticePeriod {
+  _id: ObjectId!
+  isNegotiable: Boolean
+  noticePeriod: Int
+  text: String
+}
+
+input NoticePeriodInput {
+  _id: ObjectId
+  isNegotiable: Boolean
+  noticePeriod: Int
+  text: String
+}
+
+type OauthSetting {
+  _id: ObjectId!
+  homeAccountId: String
+  linkedAccountId: ObjectId!
+  provider: String!
+}
+
+input OauthSettingInput {
+  _id: ObjectId!
+  homeAccountId: String
+  linkedAccountId: ObjectId
+  provider: String
+}
+
+"""Mongo object id scalar type"""
+scalar ObjectId
+
+input OperationOptionsInput {
+  bypass: Boolean
+  followUp: MessageSendWithDelayInput
+  messageSend: MessageSendWithDelayInput
+}
+
+type Organization {
+  _id: ObjectId!
+  calendlyUrl: String
+  communicationChannels: [CommunicationChannel!]
+  companyCrunchbaseUrl: String
+  createdAt: DateTimeISO
+  departments: [String!]
+  description: String
+  emailDomainsAssociated: Boolean
+  emails: [String!]
+  employeeCount: Float
+  employeeCountRange: String
+  facebookUrl: String
+  foundedOn: DateTimeISO
+  githubUrl: String
+  headquarter: MainLocation
+  incorporationType: String
+  industries: [String!]
+  industrySectors: [String!]
+  instagramUrl: String
+  isHiring: Boolean
+  isSchool: Boolean
+  isStaffingCompany: Boolean
+  jobSearchLinkedinPageUrl: String
+  linkedinDetail: LinkedinDetail
+  linkedinSalesUrl: String
+  linkedinUrl: String
+  locations: [MainLocation!]
+  logoUrl: String
+  mobilePhones: [String!]
+  name: String
+  operatingStatus: String
+  organizationTypes: [String!]
+  pageUrls: [String!]
+  phones: [String!]
+  revenueAmount: Float
+  revenueCurrencyCode: String
+  tagline: String
+  tiktokUrl: String
+  twitterUrl: String
+  updatedAt: DateTimeISO
+  website: String
+  xingUrl: String
+  youtubeUrl: String
+}
+
+input OrganizationInput {
+  _id: ObjectId
+  calendlyUrl: String
+  communicationChannels: [CommunicationChannelInput!]
+  companyCrunchbaseUrl: String
+  departments: [String!]
+  description: String
+  emailDomainsAssociated: Boolean
+  emails: [String!]
+  employeeCount: Float
+  employeeCountRange: String
+  facebookUrl: String
+  foundedOn: DateTimeISO
+  githubUrl: String
+  headquarter: MainLocationInput
+  incorporationType: String
+  industries: [String!]
+  industrySectors: [String!]
+  instagramUrl: String
+  isHiring: Boolean
+  isSchool: Boolean
+  isStaffingCompany: Boolean
+  jobSearchLinkedinPageUrl: String
+  linkedinDetail: LinkedinDetailInput
+  linkedinSalesUrl: String
+  linkedinUrl: String
+  locations: [MainLocationInput!]
+  logoUrl: String
+  mobilePhones: [String!]
+  name: String
+  operatingStatus: String
+  organizationDetail: ObjectId
+  organizationTypes: [String!]
+  pageUrls: [String!]
+  phones: [String!]
+  revenueAmount: Float
+  revenueCurrencyCode: String
+  tagline: String
+  tiktokUrl: String
+  twitterUrl: String
+  website: String
+  xingUrl: String
+  youtubeUrl: String
+}
+
+type OrganizationLogoLinkedin {
+  _id: ObjectId!
+  companyFounded: DateTimeISO
+  employeeCountRange: String
+  linkedinId: String
+  linkedinUrl: String
+  logoUrl: String
+  name: String
+
+  """The Full organization)"""
+  organizationId: ObjectId
+}
+
+input OrganizationLogoLinkedinInput {
+  _id: ObjectId
+  companyFounded: DateTimeISO
+  employeeCountRange: String
+  linkedinId: String
+  linkedinUrl: String
+  logoUrl: String
+  name: String
+  organizationId: ObjectId
+}
+
+type OrganizationType {
+  _id: ObjectId!
+  value: String!
+}
+
+type Origin {
+  _id: ObjectId!
+  originSpecification: String
+  originSpecificationIdentifier: Int
+  originType: BaseTemplateStyleIconName!
+}
+
+input OriginInput {
+  _id: ObjectId
+  originSpecification: String
+  originSpecificationIdentifier: Int
+  originType: BaseTemplateStyleIconNameInput!
+}
+
+type OriginType {
+  _id: ObjectId!
+  iconName: String
+  style: String
+  value: String!
+}
+
+type PDLResponse {
+  contactsFilterInput: AbstractContactsFilter!
+  jobinJobId: ObjectId
+  peopleSearchFilterId: ObjectId
+  profile: AbstractContact
+  scrollToken: String
+  total: Int
+}
+
+type PasswordStrengthObject {
+  guesses: String!
+  strength: Int!
+  suggestions: [String!]!
+  time: String!
+  warning: String!
+}
+
+type PaymentItem {
+  _id: ObjectId
+  assignedSeats: Int!
+  jobinProductId: ObjectId!
+  quantity: Int
+}
+
+input PaymentItemInput {
+  _id: ObjectId
+  assignedSeats: Int
+  jobinProductId: ObjectId!
+  quantity: Int
+}
+
+type PayoutItem {
+  _id: ObjectId!
+  amount: MoneyAmountObj!
+  note: String!
+  receiver: String!
+  recipientType: String!
+  senderItemId: String!
+}
+
+input PendingInvitationInput {
+  _id: ObjectId
+  contactId: ObjectId!
+  followUpMessage: FollowUpMessageInput
+  linkedinUrl: String!
+  userLinkedinUrl: String
+}
+
+type Period {
+  _id: ObjectId!
+  from: DateTimeISO
+  isCurrent: Boolean
+  to: DateTimeISO
+}
+
+input PeriodInput {
+  _id: ObjectId
+  from: DateTimeISO
+  isCurrent: Boolean
+  to: DateTimeISO
+}
+
+type PersonalDetail {
+  _id: ObjectId!
+  childrenNumber: Int
+  createdAt: DateTimeISO
+  dob: DateObj
+  drivingLicence: String
+  maidenName: String
+  maritalStatus: String
+  militaryObligations: String
+  minority: String
+  nationality: String
+  placeOfBirth: MainLocation
+  raceOrEthnicity: String
+  socialSecurityNumber: String
+  updatedAt: DateTimeISO
+  visa: String
+  workingPermit: String
+}
+
+input PersonalDetailInput {
+  _id: ObjectId
+  childrenNumber: Int
+  dob: DateObjInput
+  drivingLicence: String
+  maidenName: String
+  maritalStatus: String
+  militaryObligations: String
+  minority: String
+  nationality: String
+  placeOfBirth: MainLocationInput
+  raceOrEthnicity: String
+  socialSecurityNumber: String
+  visa: String
+  workingPermit: String
+}
+
+type Pipeline {
+  _id: ObjectId!
+  createdAt: DateTimeISO
+  description: String
+  exitStages: [SubStage!]
+  mainJobspec: MainJobspec
+  name: String
+
+  """
+  Associate percentage of success at each stage. Used to evaluate the Probability of successful closing of this Business opportunity/Deal
+  """
+  probability: Float
+
+  """
+  To issue a alert/note/todo/message to customer/etc. if a lead spend too much time in one Stage
+  """
+  rottenInDays: Float
+  stages: [Stage!]
+  successfulExitStages: [SubStage!]
+  updatedAt: DateTimeISO
+}
+
+input PipelineIdAndJobTitle {
+  jobspecTitle: String!
+  pipelineId: ObjectId!
+}
+
+input PipelineInput {
+  _id: ObjectId
+  description: String
+  exitStages: [SubStageInput!]
+  mainJobspec: MainJobspecInput
+  milestones: [StageInput!]
+  name: String
+  probability: Float
+  rottenInDays: Float
+  stages: [StageInput!]
+  successfulExitStages: [SubStageInput!]
+}
+
+type PipelineStagesWithCandidates {
+  _id: ObjectId!
+  exitStageCandidates: [Contact!]
+  stagesWithCandidates: [StageWithCandidates!]!
+  successfulExitStageCandidates: [Contact!]
+}
+
+type PipelineStagesWithCandidatesCount {
+  _id: ObjectId!
+  stagesWithCandidatesCount: [StageWithCandidatesCount!]!
+  totalExitStageCandidates: Int!
+  totalSuccessfulExitStageCandidates: Int!
+}
+
+type PipelineTemplate {
+  _id: ObjectId!
+  createdAt: DateTimeISO
+  description: String
+  exitStages: [SubStage!]
+  name: String
+
+  """
+  Associate percentage of success at each stage. Used to evaluate the Probability of successful closing of this Business opportunity/Deal
+  """
+  probability: Float
+
+  """
+  To issue a alert/note/todo/message to customer/etc. if a lead spend too much time in one Stage
+  """
+  rottenInDays: Float
+  stages: [Stage!]
+  successfulExitStages: [SubStage!]
+  updatedAt: DateTimeISO
+}
+
+input PipelineTemplateInput {
+  _id: ObjectId
+  description: String
+  exitStages: [SubStageInput!]
+  milestones: [StageInput!]
+  name: String
+  probability: Float
+  rottenInDays: Float
+  stages: [StageInput!]
+  successfulExitStages: [SubStageInput!]
+}
+
+type Plan {
+  _id: ObjectId!
+  color: String!
+  iconName: String!
+  name: String!
+  subtitle: String!
+}
+
+type PrivacyLevel {
+  _id: ObjectId!
+  description: String
+  iconName: String
+  style: String
+  value: String!
+}
+
+input PrivacyLevelInput {
+  _id: ObjectId
+  description: String
+  iconName: String
+  style: String
+  value: String!
+}
+
+type Privilege {
+  _id: ObjectId!
+  activeFeatureCodename: String!
+  isDaily: Boolean
+  isFixed: Boolean
+  jobinProductId: ObjectId!
+  limit: Int
+  used: Int
+  userId: ObjectId!
+  workGroupId: ObjectId!
+}
+
+type ProfExperience {
+  _id: ObjectId!
+  careerOverview: CareerOverview
+  createdAt: DateTimeISO
+  descriptionResponsibility: String
+  employmentType: String
+  industries: [String!]
+  isValidated: Boolean
+  lastUpdated: [DateTimeISO!]
+  mainLocation: MainLocation
+  managementLevel: BaseTemplateLevel
+  moneyAmount: MoneyAmount
+  organization: OrganizationLogoLinkedin
+  period: Period!
+  refereeIds: [ObjectId!]
+  roleTitle: String
+  updatedAt: DateTimeISO
+}
+
+input ProfExperienceInput {
+  _id: ObjectId
+  careerOverview: CareerOverviewInput
+  descriptionResponsibility: String
+  employmentType: String
+  industries: [String!]
+  isValidated: Boolean
+  lastUpdated: [DateTimeISO!]
+  mainLocation: MainLocationInput
+  managementLevel: BaseTemplateLevelInput
+  moneyAmount: MoneyAmountInput
+  organization: OrganizationLogoLinkedinInput
+  period: PeriodInput
+  refereeIds: [ObjectId!]
+  roleTitle: String
+}
+
+type Query {
+  JobinDailyQuotas: JobinDailyQuotas
+  accomplishmentType(_id: ObjectId!): AccomplishmentType!
+  accomplishmentTypes(searchValue: String, skip: Int = 0, take: Int = 30): [AccomplishmentType!]!
+  account(_id: ObjectId!): JobinAccount!
+  accountByLinkedinUrl(linkedinUrl: String!): JobinAccount
+  accountByPageUrl(url: String!): JobinAccount
+  accountTag(_id: ObjectId!): AccountTag!
+  accountTags(searchValue: String, skip: Int = 0, take: Int = 30): [AccountTag!]!
+  accountType(_id: ObjectId!): AccountType!
+  accountTypes(searchValue: String, skip: Int = 0, take: Int = 30): [AccountType!]!
+  accounts(_ids: [ObjectId!], contactsAvailability: ContactsAvailabilityFilterInput, employeeCountRanges: [String!], industries: [String!], industrySectors: [String!], locations: [MainLocationFilterInput!], mainLocationCoord: MainLocationCoordFilter, searchValue: String, skip: Int = 0, sortBy: ContactsSortByInput, tags: [String!], take: Int = 30): [JobinAccount!]!
+  activePipeline: Pipeline
+  activeSubscriptions: [ActiveSubscription!]!
+  affiliateLeads(skip: Int = 0, take: Int = 30, type: String): [AffiliateLead!]!
+  affiliatePayouts(skip: Int = 0, take: Int = 30): [AffiliatePayout!]!
+  affiliateTotalPayouts: AffiliateTotalPayout!
+  allDisconnectedEmailSenders(skip: Int = 0, take: Int = 30): [EmailSender!]!
+  benefitTemplate(_id: ObjectId!): BenefitTemplate!
+  benefitTemplates(searchValue: String, skip: Int = 0, take: Int = 30): [BenefitTemplate!]!
+  benefitType(_id: ObjectId!): BenefitType!
+  benefitTypes(searchValue: String, skip: Int = 0, take: Int = 30): [BenefitType!]!
+  bestMatchMainLocationFromWorldLocation(locationString: String!): MainLocationWorldLocationMatch! @deprecated(reason: "Moved to agendaJobs")
+  bestMatchMainLocationFromWorldLocationObj(city: String, country: String, countryCode: String, postalCode: String, region: String): MainLocationWorldLocationMatch! @deprecated(reason: "Moved to agendaJobs")
+  chatGptPrompt(_id: ObjectId!): ChatGptPrompt!
+  chatGptPromptOutput(messages: [ChatGptMessage!]!, userName: String): JobyChatGptResponse!
+  chatGptPrompts(searchValue: String, skip: Int = 0, take: Int = 30): [ChatGptPrompt!]!
+  chatGptPublicPrompt(_id: ObjectId!): ChatGptPublicPrompt
+  chatGptPublicPrompts(categoryCode: String, searchValue: String, skip: Int = 0, take: Int = 30): [ChatGptPublicPrompt!]!
+  checkAvailabilityOfAffiliateCodes(couponCode: String, linkCode: String): AffiliateCodeAvailability!
+  checkIfShouldSendFollowUp(dripCampaignId: ObjectId, linkedinConversation: LinkedinConversationInput!, linkedinConversationText: String!, participantLinkedinUrls: [String!]!): Boolean!
+  checkIfShouldSendFollowUpSales(dripCampaignId: ObjectId, linkedinConversation: LinkedinConversationInput!, linkedinConversationText: String!, participantLinkedinUrls: [String!]!): Boolean!
+  checkIfSpecialBypass: Boolean!
+  checkJobinJobIsStopped(_id: ObjectId!): Boolean!
+  checkPasswordStrength(password: String!): PasswordStrengthObject!
+  cities(country: String, postalCode: String, region: String, searchValue: String, skip: Int = 0, take: Int = 30): [BaseTemplate!]!
+  communicationChannelType(_id: ObjectId!): CommunicationChannelType!
+  communicationChannelTypes(searchValue: String, skip: Int = 0, take: Int = 30): [CommunicationChannelType!]!
+  completedContactDripCampaignStage(_id: ObjectId!): CompletedContactDripCampaignStage!
+  completedContactDripCampaignStages(searchValue: String, skip: Int = 0, take: Int = 30): [CompletedContactDripCampaignStage!]!
+  completedDripCampaignsFromContactId(contactId: ObjectId!): [CompletedContactDripCampaignStage!]!
+  contact(_id: ObjectId!): Contact
+  contactByPageUrl(url: String!): Contact
+  contactBySocialProfileId(socialProfileId: ObjectId!): Contact
+  contactCustomFields(contactId: String!): [CustomField!]
+  contactIdByLinkedinUrl(linkedinUrl: String!): ObjectId
+  contactNotesAvailableByContactId(contactId: ObjectId!): Boolean!
+  contactNotesByContactId(contactId: ObjectId!, skip: Int = 0, take: Int = 30): [ContactNote!]!
+  contactPersons(accountId: ObjectId, dealId: ObjectId, jobspecId: ObjectId, skip: Int = 0, take: Int = 30): [ContactPerson!]!
+  contactSubtype(_id: ObjectId!): ContactSubtype!
+  contactSubtypes(searchValue: String, skip: Int = 0, take: Int = 30): [ContactSubtype!]!
+  contactTag(_id: ObjectId!): ContactTag!
+  contactTags(_ids: [ObjectId!], searchValue: String, skip: Int = 0, sortBy: ContactsSortByInput, take: Int = 30): [ContactTag!]!
+  contacts(filter: ContactsFilterInput!, skip: Int = 0, take: Int = 30): [Contact!]!
+  contactsById(_ids: [ObjectId!]!): [Contact!]!
+  contactsFilter(_id: ObjectId!): ContactsFilter!
+  contactsFilterByName(filterName: String!): ContactsFilter
+  contactsFilters(searchValue: String, skip: Int = 0, take: Int = 30): [ContactsFilter!]!
+  countAccounts(_ids: [ObjectId!], contactsAvailability: ContactsAvailabilityFilterInput, employeeCountRanges: [String!], industries: [String!], industrySectors: [String!], locations: [MainLocationFilterInput!], mainLocationCoord: MainLocationCoordFilter, searchValue: String, sortBy: ContactsSortByInput, tags: [String!]): Int!
+  countAffiliateLeads: [AffiliateLead!]!
+  countBypassInvitationsSent(fromDate: DateTimeISO, toDate: DateTimeISO): [Int!]!
+  countContacts(filter: ContactsFilterInput!, take: Int): Int!
+  countDuplicatePairsToIdentify(_id: ObjectId): Int!
+  countDuplicatePairsToMerge(_id: ObjectId): Int!
+  countInvitationsSent(fromDate: DateTimeISO, toDate: DateTimeISO, userLinkedinUrl: String): Int!
+  countJobinEvents(accountId: ObjectId, beforeDate: DateTimeISO, contactId: ObjectId, filterByUserId: ObjectId, jobspecId: ObjectId, typeName: String): Int!
+  countJobinJobs(codename: String, operationType: String, queue: String, selectedUserId: ObjectId, status: String): Int!
+  countJobspecs(jobspecStatus: [String!], searchValue: String, show: String): Int!
+  countLinkedinConnections: Int!
+  countMainAffiliateLeadsTotals: AffiliateLeadTotals!
+  countMessagesSentAndReceived(fromDate: DateTimeISO!, toDate: DateTimeISO!, userLinkedinUrl: String): MessagesSentAndReceivedCount!
+  countWorkGroupMembers(_id: ObjectId!): Int!
+  countries(searchValue: String, skip: Int = 0, take: Int = 30): [Country!]!
+  country(_id: ObjectId!): Country!
+  countryCode(country: String!): String
+  couponByName(name: String!): Coupon!
+  csvColumnAssociationGroup(_id: ObjectId, csvHeaders: [String!]): CsvColumnAssociationGroup
+  currencyFromIp: Currency
+  currencyTemplate(_id: ObjectId!): CurrencyTemplate!
+  currencyTemplateFromCurrencyCode(currencyCode: String!): CurrencyTemplate!
+  currencyTemplates(onlyImportant: Boolean, searchValue: String, skip: Int = 0, take: Int = 30): [CurrencyTemplate!]!
+  currentSubscription: JobinSubscription
+  currentUser: User!
+  customSubscriptionCalculateCheckoutAmount(token: String!): CheckoutAmount!
+  dailyThrottleLimitJobinJob(_id: ObjectId!, skip: Int = 0, take: Int = 30): Int
+  defaultEmailSender: EmailSender!
+  department(_id: ObjectId!): Department!
+  departments(searchValue: String, skip: Int = 0, take: Int = 30): [Department!]!
+  dripCampaign(_id: ObjectId!): DripCampaign
+  dripCampaignFromContactId(_id: ObjectId!): DripCampaignAndContact!
+  dripCampaignIsIncomplete(_id: ObjectId!): Boolean!
+  dripCampaigns(emailSenderId: ObjectId, fromLinkedinUrl: String, isActive: Boolean, searchValue: String, skip: Int = 0, sortByEmailSenderId: Int, sortByFromLinkedinUrl: Int, sortByName: Int, take: Int = 30, userId: ObjectId): [DripCampaign!]!
+  dripStageInformation(
+    dripCampaignId: ObjectId!
+    positionCode: String!
+
+    """
+    When finding use the positionCode after the one selected. If positionCode is 01 and useNextPositionCode is true. The returned stage will have positionCode 02
+    """
+    useNextPositionCode: Boolean
+  ): DripStageInformation
+  dripStageOption(_id: ObjectId!): DripStageOption
+  dripStageOptionByStageId(dripStageId: ObjectId!): DripStageOption
+  dripStageOptions(dripCampaignId: ObjectId!): [DripStageOption!]!
+  duplicate(_id: ObjectId, skip: Int! = 0): DuplicateContainer
+  educationalLevel(_id: ObjectId!): EducationalLevel!
+  educationalLevels(searchValue: String, skip: Int = 0, take: Int = 30): [EducationalLevel!]!
+  emailSender(_id: ObjectId!): EmailSender!
+  emailSenders(skip: Int = 0, take: Int = 30): [EmailSender!]!
+  emailSendersByWorkGroup(skip: Int = 0, take: Int = 30): [EmailSendersByWorkGroup!]!
+  emailTemplate(_id: ObjectId!): EmailTemplate!
+  emailTemplateType(_id: ObjectId!): EmailTemplateType!
+  emailTemplateTypes(searchValue: String, skip: Int = 0, take: Int = 30): [EmailTemplateType!]!
+  emailTemplates(searchValue: String, skip: Int = 0, take: Int = 30): [EmailTemplate!]!
+  emailTemplatesByType(emailTemplateTypeId: ObjectId, searchValue: String, skip: Int = 0, take: Int = 30): [EmailTemplate!]!
+  employeeCountRange(_id: ObjectId!): EmployeeCountRange!
+  employeeCountRanges(searchValue: String, skip: Int = 0, take: Int = 30): [EmployeeCountRange!]!
+  enterpriseGetCheckoutAmount(token: String!): CheckoutAmount!
+  evaluationStage(_id: ObjectId!): EvaluationStage!
+  evaluationStages(searchValue: String, skip: Int = 0, take: Int = 30): [EvaluationStage!]!
+  eventType(_id: ObjectId!): EventType!
+  eventTypes(searchValue: String, skip: Int = 0, take: Int = 30): [EventType!]!
+  exitStageTemplate(_id: ObjectId!): ExitStageTemplate!
+  exitStageTemplates(searchValue: String, skip: Int = 0, take: Int = 30): [ExitStageTemplate!]!
+  field(_id: ObjectId!): Field!
+  fieldGroup(_id: ObjectId!): FieldGroup!
+  fieldGroups(searchValue: String, skip: Int = 0, take: Int = 30): [FieldGroup!]!
+  fieldGroupsByFieldGroupType(fieldGroupTypeId: ObjectId!): [FieldGroup!]!
+  fields(searchValue: String, skip: Int = 0, take: Int = 30): [Field!]!
+  fieldsByFieldGroup(fieldGroupId: ObjectId!): [Field!]!
+  fieldsById(_ids: [ObjectId!]!): [Field!]!
+  fieldsByInputObjectName(inputObjectNames: [String!]!, searchValue: String, skip: Int = 0, take: Int = 30): [Field!]!
+  fieldsUsedInTemplatesByInputObjectName(inputObjectName: String!): [Field!]!
+  findAndLockJobinJob(queue: String!): JobinJob
+  frequentlyAskedQuestion(_id: ObjectId!): FrequentlyAskedQuestion!
+  frequentlyAskedQuestionType(_id: ObjectId!): FrequentlyAskedQuestionType!
+  frequentlyAskedQuestionTypes(searchValue: String, skip: Int = 0, take: Int = 30): [FrequentlyAskedQuestionType!]!
+  frequentlyAskedQuestions(frequentlyAskedQuestionTags: [String!], frequentlyAskedQuestionTypes: [String!], searchValue: String, take: Int): [FrequentlyAskedQuestion!]!
+  fullContactPersons(accountId: ObjectId, dealId: ObjectId, jobspecId: ObjectId, loadAccounts: Boolean, loadJobspecs: Boolean, skip: Int = 0, take: Int = 30): [FullContactPerson!]!
+  funnelFromPipelineId(pipelineId: ObjectId!): Funnel
+  generateInvoiceAndDownloadLink(_id: ObjectId!): String!
+  getExtensionVersion: String!
+  getLinkedinUrlsOfOutDatedSocialProfiles(skip: Int = 0, take: Int = 30, userLinkedinUrl: String!): [LinkedinUrlAndId!]!
+  getManualMerge(_id: ObjectId, skip: Int! = 0): DuplicateContainer
+  getMessagePreview(chatGptPostCleaning: Boolean, contactId: ObjectId, emailSenderId: ObjectId, filter: ContactsFilterInput, jobspecId: ObjectId, message: SendEmailInput!): SendEmail!
+  getMicrosoftAuthRedirectLink(businessOnly: Boolean): String!
+  getOutdatedConversations(skip: Int = 0, take: Int = 30): [LinkedinConversation!]!
+  getOutdatedSalesConversations(skip: Int = 0, take: Int = 30): [LinkedinSalesConversation!]!
+  gravatarUrlFromEmail(email: String!): String
+  hasDuplicates: Boolean!
+  hasPendingConnectionImports: Int
+  hasUpToDateContact(url: String!, urlFieldName: String!): Boolean!
+  hasUpToDateFullOrganization(url: String!, urlFieldName: String!): Boolean!
+  hasUpToDateFullSocialProfile(url: String!, urlFieldName: String!): Boolean!
+  helpdeskMessagesByThreadId(skip: Int = 0, take: Int = 30, threadId: ObjectId!): [HelpdeskMessage!]!
+  idealCandidateFilter(_id: ObjectId!): IdealCandidateFilter!
+  idealCandidateFilterByAssignedJobspec(assignedJobspecId: ObjectId!): IdealCandidateFilter
+  idealCandidateFilters(searchValue: String, skip: Int = 0, take: Int = 30): [IdealCandidateFilter!]!
+  indicator(_id: ObjectId!): Indicator!
+  indicators(searchValue: String, skip: Int = 0, take: Int = 30): [Indicator!]!
+  industries(searchValue: String, skip: Int = 0, take: Int = 30): [Industry!]!
+  industry(_id: ObjectId!): Industry!
+  industrySector(_id: ObjectId!): IndustrySector!
+  industrySectors(searchValue: String, skip: Int = 0, take: Int = 30): [IndustrySector!]!
+  isWorkgroupMember(userId: ObjectId!, workGroupId: ObjectId!): Boolean!
+  jobinAccountNotesByAccountId(jobinAccountId: ObjectId!, skip: Int = 0, take: Int = 30): [JobinAccountNote!]!
+  jobinCompletedJob(_id: ObjectId!): JobinCompletedJob!
+  jobinCompletedJobs(selectedUserId: ObjectId, skip: Int = 0, take: Int = 30): [JobinCompletedJob!]!
+  jobinDailyQuotaByEventTypeIds(eventTypeIds: [ObjectId!]!): JobinQuotaAndLimit
+  jobinDailyQuotas: JobinDailyQuotas
+  jobinEvents(accountId: ObjectId, beforeDate: DateTimeISO, contactId: ObjectId, filterByUserId: ObjectId, jobspecId: ObjectId, take: Int = 10, typeName: String): [JobinEvent!]!
+  jobinFeatureGroups(solutionId: ObjectId): [JobinFeatureGroup!]!
+  jobinFeatures(jobinFeatureGroupId: ObjectId): [JobinFeature!]!
+  jobinInvoices(skip: Int = 0, take: Int = 30): [JobinInvoice!]!
+  jobinJob(_id: ObjectId!): JobinJob!
+  jobinJobs(codename: String, operationType: String, queue: String, selectedUserId: ObjectId, skip: Int = 0, status: String, take: Int = 30): [JobinJob!]!
+  jobinProductActiveFeature(_id: ObjectId!, codename: String!): ActiveFeature
+  jobinProducts(_ids: [ObjectId!], solutionId: ObjectId): [JobinProduct!]!
+  jobinSolution(_id: ObjectId!): JobinSolution!
+  jobinSolutions(_ids: [ObjectId!]): [JobinSolution!]!
+  jobinSubFeatures(jobinFeatureId: ObjectId!): [JobinSubFeature!]!
+  jobseekerAim(_id: ObjectId!): JobseekerAim!
+  jobseekerAims(searchValue: String, skip: Int = 0, take: Int = 30): [JobseekerAim!]!
+  jobseekerStatus(_id: ObjectId!): JobseekerStatus!
+  jobseekerStatuses(searchValue: String, skip: Int = 0, take: Int = 30): [JobseekerStatus!]!
+  jobspec(_id: ObjectId!): Jobspec!
+  jobspecDescriptionTemplate(_id: ObjectId!): JobspecDescriptionTemplate!
+  jobspecDescriptionTemplates(searchValue: String, skip: Int = 0, take: Int = 30): [JobspecDescriptionTemplate!]!
+  jobspecDescriptionTemplatesByType(jobspecDescriptionTemplateTypeId: ObjectId, searchValue: String, skip: Int = 0, take: Int = 30): [JobspecDescriptionTemplate!]!
+  jobspecDescriptionType(_id: ObjectId!): JobspecDescriptionType!
+  jobspecDescriptionTypes(searchValue: String, skip: Int = 0, take: Int = 30): [JobspecDescriptionType!]!
+  jobspecNote(_id: ObjectId!): JobspecNote!
+  jobspecNotes(searchValue: String, skip: Int = 0, take: Int = 30): [JobspecNote!]!
+  jobspecNotesByJobspecId(jobspecId: ObjectId!, skip: Int = 0, take: Int = 30): [JobspecNote!]!
+  jobspecStatuses: [JobspecStatus!]!
+  jobspecTag(_id: ObjectId!): JobspecTag!
+  jobspecTags(searchValue: String, skip: Int = 0, take: Int = 30): [JobspecTag!]!
+  jobspecType(_id: ObjectId!): JobspecType!
+  jobspecTypes(searchValue: String, skip: Int = 0, take: Int = 30): [JobspecType!]!
+  jobspecTypesByType(jobspecTypeTypeId: ObjectId, searchValue: String, skip: Int = 0, take: Int = 30): [JobspecType!]!
+  jobspecs(jobspecStatus: [String!], searchValue: String, skip: Int = 0, sortBy: ContactsSortByInput, take: Int = 30): [Jobspec!]!
+  jobspecsByAccountId(accountId: ObjectId!, skip: Int = 0, take: Int = 30): [Jobspec!]!
+  jobspecsByEmployers(jobspecStatus: [String!], searchValue: String, skip: Int = 0, take: Int = 30): [AccountWithJobspecs!]!
+  jobspecsById(_ids: [ObjectId!]!): [Jobspec!]!
+  jobyChatGptPrompt(_id: ObjectId!): JobyChatGptPrompt!
+  jobyChatGptPrompts(searchValue: String, skip: Int = 0, take: Int = 30): [JobyChatGptPrompt!]!
+  languageName(_id: ObjectId!): LanguageName!
+  languageNames(searchValue: String, skip: Int = 0, take: Int = 30): [LanguageName!]!
+  latestEvent(accountId: ObjectId, beforeDate: DateTimeISO, contactId: ObjectId, filterByUserId: ObjectId, jobspecId: ObjectId, typeName: String, userSocialProfileId: ObjectId): JobinEvent
+  latestLinkedinConnectionConnectedOnDate: LatestLinkedinConnectionConnectedOnDate!
+  linkedinAccount: LinkedinAccountWithDefaultCountry
+  linkedinAnalytic(_id: ObjectId!): LinkedinAnalytic
+  linkedinAnalytics(skip: Int = 0, take: Int = 30): [LinkedinAnalytic!]!
+  linkedinConversationsByParticipantUrls(participantLinkedinUrls: [String!]!): [LinkedinConversation!]
+  linkedinSalesConversationByParticipantUrls(participantLinkedinUrls: [String!]!): LinkedinSalesConversation
+  mainUserByEmail(email: String!): User
+  maritalStatus(_id: ObjectId!): MaritalStatus!
+  maritalStatuses(searchValue: String, skip: Int = 0, take: Int = 30): [MaritalStatus!]!
+  messageTemplate(_id: ObjectId!): MessageTemplate!
+  messageTemplates(searchValue: String, skip: Int = 0, take: Int = 30): [MessageTemplate!]!
+  messageTemplatesByType(emailTemplateTypeId: ObjectId, searchValue: String, skip: Int = 0, take: Int = 30): [MessageTemplate!]!
+  microsoftLinkedAccounts: [MicrosoftLinkedAccount!]!
+  moneyAmountPercentageType(_id: ObjectId!): MoneyAmountPercentageType!
+  moneyAmountPercentageTypes(searchValue: String, skip: Int = 0, take: Int = 30): [MoneyAmountPercentageType!]!
+  moneyAmountType(_id: ObjectId!): MoneyAmountType!
+  moneyAmountTypes(searchValue: String, skip: Int = 0, take: Int = 30): [MoneyAmountType!]!
+  myLinkedinAnalyticsCurrent(userLinkedinUrl: String): LinkedinAnalytic
+  myLinkedinAnalyticsTimeline(fromDate: DateTimeISO!, toDate: DateTimeISO!, userLinkedinUrl: String): LinkedinAnalyticTimeline
+  myLinkedinAnalyticsTotals(fromDate: DateTimeISO!, toDate: DateTimeISO!, userLinkedinUrl: String): LinkedinAnalyticTotals
+  organization(_id: ObjectId, linkedinUrl: String): Organization
+  organizationType(_id: ObjectId!): OrganizationType!
+  organizationTypes(searchValue: String, skip: Int = 0, take: Int = 30): [OrganizationType!]!
+  organizations(organizationTypeId: ObjectId, searchValue: String, skip: Int = 0, take: Int = 30): [Organization!]!
+  origin(_id: ObjectId!): Origin!
+  originType(_id: ObjectId!): OriginType!
+  originTypes(searchValue: String, skip: Int = 0, take: Int = 30): [OriginType!]!
+  origins(searchValue: String, skip: Int = 0, take: Int = 30): [Origin!]!
+  pdlAutocomplete(field: String!, text: String!): [BaseTemplate!]!
+  pipeline(_id: ObjectId!): Pipeline!
+  pipelineByJobspecId(jobspecId: ObjectId!): Pipeline
+  pipelineStagesWithCandidates(filter: ContactsFilterInput!, invertSort: Boolean, pipelineId: ObjectId!): PipelineStagesWithCandidates!
+  pipelineStagesWithCandidatesCount(filter: ContactsFilterInput!, invertSort: Boolean, pipelineId: ObjectId!): PipelineStagesWithCandidatesCount!
+  pipelineTemplate(_id: ObjectId!): PipelineTemplate!
+  pipelineTemplates(searchValue: String, skip: Int = 0, take: Int = 30): [PipelineTemplate!]!
+  pipelines(_ids: [ObjectId!], searchValue: String, skip: Int = 0, take: Int = 30): [Pipeline!]!
+  plans(noFree: Boolean): [Plan!]!
+  postalCodes(city: String, country: String, region: String, searchValue: String, skip: Int = 0, take: Int = 30): [BaseTemplate!]!
+  privacyLevel(_id: ObjectId!): PrivacyLevel!
+  privacyLevels(searchValue: String, skip: Int = 0, take: Int = 30): [PrivacyLevel!]!
+  privilegeByCodename(codename: String!): Privilege
+  privileges: [Privilege!]!
+  privilegesByCodenames(codenames: [String!]!): [Privilege!]!
+  publicUser(_id: ObjectId!): User!
+  publicUserByPageUrl(url: String!): User
+  recentContactsFilter(_id: ObjectId!): RecentContactsFilter!
+  recentContactsFilters(searchValue: String, skip: Int = 0, take: Int = 30): [RecentContactsFilter!]!
+  recommendedSubscriptionUpgrade(activeFeatureCodename: String!, limitExceeded: Boolean): RecommendedProduct
+  regions(city: String, country: String, postalCode: String, searchValue: String, skip: Int = 0, take: Int = 30): [BaseTemplate!]!
+  removeDuplicateFromPair(accountId: ObjectId, beforeDate: DateTimeISO, contactId: ObjectId, filterByUserId: ObjectId, jobspecId: ObjectId, typeName: String): Int!
+  replyIdentifications(dripCampaignId: ObjectId!): [ReplyIdentification!]
+  role(_id: ObjectId!): Role!
+  roleTitle(_id: ObjectId!): RoleTitle!
+  roleTitles(searchValue: String, skip: Int = 0, take: Int = 30): [RoleTitle!]!
+  roles(searchValue: String, skip: Int = 0, take: Int = 30): [Role!]!
+  skillName(_id: ObjectId!): SkillName!
+  skillNames(searchValue: String, skip: Int = 0, take: Int = 30): [SkillName!]!
+  skillType(_id: ObjectId!): SkillType!
+  skillTypes(searchValue: String, skip: Int = 0, take: Int = 30): [SkillType!]!
+  socialProfileFromFilterId(index: Int, socialProfileFilterId: ObjectId!): PDLResponse
+  stageTemplate(_id: ObjectId!): StageTemplate!
+  stageTemplates(searchValue: String, skip: Int = 0, take: Int = 30): [StageTemplate!]!
+  subStageTemplate(_id: ObjectId!): SubStageTemplate!
+  subStageTemplates(searchValue: String, skip: Int = 0, take: Int = 30): [SubStageTemplate!]!
+  subscriptionCalculateCheckoutAmount(couponName: String, isBilledMonthly: Boolean!, items: [PaymentItemInput!]!, renewal: Boolean): CheckoutAmount!
+  successfulExitStageTemplate(_id: ObjectId!): SuccessfulExitStageTemplate!
+  successfulExitStageTemplates(searchValue: String, skip: Int = 0, take: Int = 30): [SuccessfulExitStageTemplate!]!
+  test: Boolean!
+  testAuth: [Contact!]!
+  timeDelay(_id: ObjectId!): TimeDelay!
+  timeDelays(searchValue: String, skip: Int = 0, take: Int = 30): [TimeDelay!]!
+  timeUnit(_id: ObjectId!): TimeUnit!
+  timeUnits(searchValue: String, skip: Int = 0, take: Int = 30): [TimeUnit!]!
+  totalInvitationsSentAndPending(fromDate: DateTimeISO, toDate: DateTimeISO): TotalInvitationsSentAndPending!
+  user(_id: ObjectId!): User
+  userAdditionalDetail: UserAdditionalDetail
+  userByEmail(email: String!): User
+  userCountry: Country
+  userIdByEmail(email: String!): ObjectId
+  userIsWorkGroupAdmin: Boolean!
+  userLogin(_id: ObjectId!): User
+  users(searchValue: String, skip: Int = 0, take: Int = 30, userIds: [ObjectId!]): [User!]!
+  usesChatGptJobspec(chatGptCodes: [String!]!): Boolean!
+  verifyVatId(country: String, countryCode: String, vatNumber: String!): VatIdResponse!
+  volunteerCause(_id: ObjectId!): VolunteerCause!
+  volunteerCauses(searchValue: String, skip: Int = 0, take: Int = 30): [VolunteerCause!]!
+  workGroup(_id: ObjectId!): WorkGroup!
+  workGroupMembers(searchValue: String, skip: Int = 0, take: Int = 30): [User!]!
+  workGroupUser(_id: ObjectId!): User
+  workGroups(userId: ObjectId!): [WorkGroup!]!
+  workInProgressFeedbackByFeature(feature: String!): WorkInProgressFeedback!
+  worldLocation(city: String, country: String, postalCode: String, region: String): MainLocationWorldLocationMatch
+}
+
+type RecentContactsFilter {
+  _id: ObjectId!
+  _ids: [ObjectId!]
+  companyEmployeeCountRanges: [StrCurrentOrPastAdvancedFilter!]
+  contactsAvailability: ContactsAvailabilityFilter
+  contactsCareer: ContactsCareerFilter
+  contactsEducation: ContactsEducationFilter
+  contactsLastEvent: ContactsDateRangeFilter
+  contactsLastInteraction: ContactsDateRangeFilter
+  contactsLastUnansweredReply: ContactsDateRangeFilter
+  createdAt: DateTimeISO
+  dripCampaignFilter: DripCampaignFilter
+  dripCampaignsFilter: [IdAdvancedFilter!]
+  gender: StrAdvancedFilter
+  hasCv: Boolean
+  hasInteraction: Boolean
+  hasLinkedinId: Boolean
+  hasUnansweredReply: Boolean
+  insertionDate: InsertionDateFilter
+  isMiniProfile: Boolean
+  jobseekerStatuses: [StrAdvancedFilter!]
+  jobspecFilter: ContactsJobspecFilter
+  languageNames: [StrAdvancedFilter!]
+  linkedinTagsFilter: LinkedinTagsFilter
+  locations: [MainLocationFilter!]
+  minShouldMatch: MinShouldMatch
+  ownerId: ObjectId
+  searchName: String
+  searchSurname: String
+  searchValue: String
+  showNoCurrentCompany: Boolean
+  showUnsubscribed: Boolean
+  skillNames: [StrAdvancedFilter!]
+  sortBy: ContactsSortBy
+  summary: [StrAdvancedFilter!]
+  tags: [IdAdvancedFilter!]
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  yearsInCurrentRole: [ContactsTimeRangeFilter!]
+  yearsOfExperience: [ContactsTimeRangeFilter!]
+}
+
+type RecommendedProduct {
+  _id: ObjectId!
+  currency: String!
+  currencyCode: String!
+  currentPlanName: String!
+  currentPrice: Int!
+  enterpriseRequired: Boolean!
+  iconName: String!
+  isBilledMonthly: Boolean!
+  otherCurrentPaymentItems: [PaymentItem!]
+  planName: String!
+  price: Int!
+  productId: ObjectId!
+  seats: Int!
+  solutionName: String!
+  userIsAdmin: Boolean!
+}
+
+type ReferenceField {
+  fieldName: String!
+  inputObjectName: String!
+  path: String!
+}
+
+type RefreshObject {
+  status: String!
+  token: String
+}
+
+type RegisterObject {
+  refreshToken: String
+  status: String!
+  token: String
+}
+
+type RemoteWork {
+  _id: ObjectId!
+  favIsHybrid: Boolean
+  favIsOnSite: Boolean
+  favIsRemote: Boolean
+  isHybrid: Boolean
+  isOnSite: Boolean
+  isRemote: Boolean
+  level: Int
+  text: String
+}
+
+input RemoteWorkInput {
+  _id: ObjectId
+  favIsHybrid: Boolean
+  favIsOnSite: Boolean
+  favIsRemote: Boolean
+  isHybrid: Boolean
+  isOnSite: Boolean
+  isRemote: Boolean
+  level: Int
+  text: String
+}
+
+type ReplyIdentification {
+  _id: ObjectId!
+  activePipelineStage: ActivePipelineStage
+  categories: [String!]
+  dripCampaignId: ObjectId
+  order: Int
+  replyCategorizationUserInputs: String
+  tagIds: [ObjectId!]
+  userId: ObjectId
+  workGroupId: ObjectId
+}
+
+input ReplyIdentificationInput {
+  _id: ObjectId
+  activePipelineStage: ActivePipelineStageInput
+  categories: [String!]
+  dripCampaignId: ObjectId
+  order: Int
+  replyCategorizationUserInputs: String
+  tagIds: [ObjectId!]
+  userId: ObjectId
+  workGroupId: ObjectId
+}
+
+type Role {
+  _id: ObjectId!
+  defaultPrivileges: [Privilege!]
+  description: String
+  iconName: String
+  style: String
+  value: String
+}
+
+type RoleTitle {
+  _id: ObjectId!
+  value: String!
+}
+
+type Score {
+  _id: ObjectId!
+  calculatedAt: Float
+  change: Float
+  overall: Float
+  subScores: [SubScore!]
+}
+
+input ScoreInput {
+  _id: ObjectId
+  calculatedAt: Float
+  change: Float
+  overall: Float
+  subScores: [SubScoreInput!]
+}
+
+type SendEmail {
+  hasMissingFields: Boolean!
+  status: String
+  subject: String
+  text: String!
+}
+
+input SendEmailInput {
+  attachments: [UploadedFileInput!]
+  subject: String
+  text: String!
+}
+
+type Skill {
+  _id: ObjectId!
+  level: Int
+  monthsOfExperience: Int
+  note: String
+  period: Period!
+  profExperienceId: ObjectId
+  skillType: String
+  topSkill: Boolean
+  value: String
+}
+
+input SkillInput {
+  _id: ObjectId
+  level: Int
+  monthsOfExperience: Int
+  note: String
+  period: PeriodInput
+  profExperienceId: ObjectId
+  skillType: String
+  topSkill: Boolean
+  value: String
+}
+
+type SkillName {
+  _id: ObjectId!
+  skillTypeId: ObjectId
+  value: String!
+}
+
+type SkillType {
+  _id: ObjectId!
+  iconName: String
+  style: String
+  value: String!
+}
+
+input SkillTypeInput {
+  _id: ObjectId
+  iconName: String
+  style: String
+  value: String
+}
+
+type SmtpSetting {
+  _id: ObjectId!
+  host: String!
+  imapHost: String
+  imapPort: Int
+  imapTls: Boolean
+  name: String
+  pass: String!
+  port: Int
+  secure: Boolean!
+  sslV3: Boolean
+  user: String!
+}
+
+input SmtpSettingInput {
+  _id: ObjectId!
+  host: String!
+  imapHost: String
+  imapPort: Int
+  imapTls: Boolean
+  name: String
+  pass: String!
+  port: Int
+  secure: Boolean!
+  sslV3: Boolean
+  user: String!
+}
+
+type SocialProfile {
+  _id: ObjectId!
+  academicTitle: String
+  accomplishments: [Accomplishment!]
+  attachments: [UploadedFile!]
+  avatarUrl: String
+  calendlyUrl: String
+  communicationChannels: [CommunicationChannel!]
+
+  """e.g. BestTimeToCall, preferredSN, Origin, etc."""
+  contactSpecification: ContactSpecification
+  createdAt: DateTimeISO
+  cvExtRepoUrl: String
+  cvFile: UploadedFile
+  educExperiences: [EducExperience!]
+  facebookId: String
+  facebookUrl: String
+  facebookUsername: String
+  firstName: String
+  fullAvatarUrl: String
+  gender: String
+  githubUrl: String
+  githubUsername: String
+  gravatarCheckTimestamp: Int
+  gravatarUrl: String
+  hasEmail: Boolean
+  hasMobilePhone: Boolean
+  hasPageUrls: Boolean
+  hasPhone: Boolean
+  industry: String
+  instagramUrl: String
+  jobseekerCriterion: JobseekerCriterion
+  languageUsed: String
+  languages: [Language!]
+  lastLinkedinUpdate: DateTimeISO
+  lastName: String
+  linkedinDetail: LinkedinDetail
+  linkedinSalesUrl: String
+  linkedinTalentId: String
+  linkedinUrl: String
+  mainLocation: MainLocation
+  mainProfExperience: ProfExperience
+  mainRoleTitle: String
+  mediumUrl: String
+  middleName: String
+  oldLinkedinUrls: [String!]
+  otherEmails: [String!]
+  otherMobilePhones: [String!]
+  otherPhones: [String!]
+  pageUrls: [String!]
+  pdlId: String
+
+  """DoB, Nationality, marital status, etc"""
+  personalDetail: PersonalDetail
+  personalInterest: String
+  privateEmail: String
+  privateMobilePhone: String
+  privatePhone: String
+  profExperiences: [ProfExperience!]
+  quoraUrl: String
+  skills: [Skill!]
+  summary: String
+  tiktokUrl: String
+  twitterUrl: String
+  twitterUsername: String
+  updatedAt: DateTimeISO
+  voluntExperiences: [VoluntExperience!]
+  want: String
+  wechatUrl: String
+  workEmail: String
+  workMobilePhone: String
+  workPhone: String
+  xingUrl: String
+  yearsInCurrentRole: Int
+  yearsOfExperience: Int
+  youtubeUrl: String
+}
+
+input SocialProfileWrapperInput {
+  _id: ObjectId
+  connectedOn: DateTimeISO
+  isPending: Boolean
+  linkedinConnectionLevel: String
+  notes: [LinkedinNoteInput!]
+  socialProfile: AbstractContactInput!
+}
+
+type SolutionWithProduct {
+  _id: ObjectId!
+  jobinProductId: ObjectId!
+  planId: ObjectId!
+  planName: String!
+  price: Int!
+  seats: Int!
+  solutionIconName: String!
+  solutionId: ObjectId!
+  solutionName: String!
+  totalPrice: Int!
+}
+
+input SortOrderInput {
+  _id: ObjectId!
+  rank: Int!
+}
+
+type Stage {
+  _id: ObjectId!
+  color: String!
+  description: String
+  name: String!
+  position: Int!
+  subStages: [SubStage!]
+}
+
+input StageInput {
+  _id: ObjectId
+  color: String
+  description: String
+  name: String
+  position: Int!
+  subStages: [SubStageInput!]
+}
+
+type StageTemplate {
+  _id: ObjectId!
+  color: String
+  createdAt: DateTimeISO
+  description: String
+  name: String!
+  subStages: [SubStage!]
+  updatedAt: DateTimeISO
+}
+
+input StageTemplateInput {
+  _id: ObjectId
+  color: String
+  description: String
+  name: String
+  subStages: [SubStageInput!]
+}
+
+type StageWithCandidates {
+  _id: ObjectId!
+  candidates: [Contact!]!
+  stage: Stage!
+}
+
+type StageWithCandidatesCount {
+  _id: ObjectId!
+  stage: Stage!
+  totalCandidates: Int!
+}
+
+type StrAdvancedFilter {
+  _id: ObjectId
+  boost: Float
+  type: String
+  value: String
+}
+
+input StrAdvancedFilterInput {
+  _id: ObjectId
+  boost: Float
+  type: String = "should"
+  value: String
+}
+
+type StrCurrentOrPastAdvancedFilter {
+  _id: ObjectId
+  boost: Float
+  currentOrPast: String
+  type: String
+  value: String
+}
+
+input StrCurrentOrPastAdvancedFilterInput {
+  _id: ObjectId
+  boost: Float
+  currentOrPast: String = "current"
+  type: String = "should"
+  value: String
+}
+
+type StripeCard {
+  _id: ObjectId!
+  brand: String!
+  checks: String!
+  country: String!
+  expMonth: Int!
+  expYear: Int!
+  fingerprint: String!
+  funding: String!
+  generatedFrom: String!
+  last4: String!
+  networks: String!
+  threeDSecureUsage: String!
+  wallet: String!
+}
+
+type StripePaymentMethod {
+  _id: ObjectId!
+  card: StripeCard!
+}
+
+type SubScore {
+  _id: ObjectId!
+  pillar: String
+  score: Float
+}
+
+input SubScoreInput {
+  _id: ObjectId
+  pillar: String
+  score: Float
+}
+
+type SubStage {
+  _id: ObjectId!
+  description: String
+  name: String!
+}
+
+input SubStageInput {
+  _id: ObjectId
+  description: String
+  name: String
+}
+
+type SubStageTemplate {
+  _id: ObjectId!
+  description: String
+  name: String!
+}
+
+input SubStageTemplateInput {
+  _id: ObjectId
+  description: String
+  name: String
+}
+
+type Subscription {
+  aiResponse(requestId: String): String
+  filterReady: ObjectId
+  icpFilterReady: ContactsFilter
+  jobinJobUpdated(codename: String, operationType: String, queue: String, selectedUserId: ObjectId, status: String): JobinJobSubscription
+  pdlSocialProfileImported(linkedinUrl: String): SocialProfile!
+}
+
+type SuccessfulExitStageTemplate {
+  _id: ObjectId!
+  description: String
+  name: String!
+}
+
+input SuccessfulExitStageTemplateInput {
+  _id: ObjectId
+  description: String
+  name: String
+}
+
+type TimeDelay {
+  _id: ObjectId!
+  value: String!
+}
+
+type TimeUnit {
+  _id: ObjectId!
+  conversionToMinutes: Int!
+  value: String!
+}
+
+type TotalInvitationsSentAndPending {
+  _id: ObjectId!
+  invitationsPending: Int
+  invitationsSent: Int
+  isSalesNavigator: Boolean
+}
+
+type TravelRequired {
+  _id: ObjectId!
+  level: Int
+  text: String
+  workInCustomerSite: Boolean
+}
+
+input TravelRequiredInput {
+  _id: ObjectId
+  level: Int
+  text: String
+  workInCustomerSite: Boolean
+}
+
+type TutorialProgress {
+  _id: ObjectId!
+  completedCourses: [Int!]
+  currentChapterId: Int
+  currentCourseId: Int
+}
+
+input TutorialProgressInput {
+  _id: ObjectId
+  completedCourses: [Int!]
+  currentChapterId: Int
+  currentCourseId: Int
+}
+
+input UpdateBillingDetailInput {
+  _id: ObjectId
+  addressLine1: String
+  addressLine2: String
+  city: String
+  companyName: String
+  companyRegistrationNr: String
+  country: String
+  countryCode: String
+  currency: CurrencyInput
+  removeCountryCodeOnVatId: Boolean
+  stateProvinceRegion: String
+  vatId: String
+  zipCode: String
+}
+
+input UpdateJobinEventInput {
+  _id: ObjectId
+  accountId: ObjectId
+  arguments: [String!]
+  attachments: [EventAttachmentInput!]
+  content: String
+  dealId: ObjectId
+  eventCreatedAt: DateTimeISO!
+  fromContactId: ObjectId
+  indicators: [BaseTemplateStyleIconNameInput!]
+  jobspecId: ObjectId
+  subject: String
+  toContactIds: [ObjectId!]
+  toUserIds: [ObjectId!]
+  type: EventTypeInput
+}
+
+input UpdateLinkedinConnectionInput {
+  _id: ObjectId
+  lastFullDownloadedAt: DateTimeISO
+  linkedinUrl: String
+  profileId: String
+}
+
+input UpdateLinkedinConversationInput {
+  _id: ObjectId
+  conversationId: String
+  importedAt: DateTimeISO
+  lastActivityAt: Float
+  participantLinkedinUrls: [String!]
+  totalEventCount: Int
+}
+
+type UploadedFile {
+  _id: ObjectId!
+  extension: String
+  fileSize: Int
+  mimetype: String
+  name: String!
+  path: String!
+}
+
+input UploadedFileInput {
+  _id: ObjectId
+  extension: String
+  fileSize: Int
+  mimetype: String
+  name: String!
+  path: String!
+}
+
+type User {
+  _id: ObjectId!
+  academicTitle: String
+  affiliatePaypalEmail: String
+  affiliateReferralCouponCode: String
+  affiliateReferralLinkCode: String
+  affiliateSince: DateTimeISO
+  avatarUrl: String
+  country: Country
+  countryISO: String
+  createdAt: DateTimeISO
+  currency: Currency
+  defaultEmailSender: EmailSender
+  email: String
+  firstName: String
+  fullAvatarUrl: String
+  gender: String
+  gravatarCheckTimestamp: Int
+  gravatarUrl: String
+  hadTrial: Boolean
+  hasPassword: Boolean
+  hasReviewed: Boolean
+  ip: String
+  isInTutorial: Boolean
+  isLinkedinRecruiter: Boolean
+  lastLoggedIn: DateTimeISO
+  lastName: String
+  latestConnectedOn: DateTimeISO
+  linkedinAvatarUrl: String
+  linkedinConversationsLatestTimestamp: DateTimeISO
+  linkedinConversationsRunningAt: DateTimeISO
+  linkedinPremium: Boolean
+  linkedinProfileId: String
+  linkedinSalesConversationsLatestTimestamp: DateTimeISO
+  linkedinSalesConversationsRunningAt: DateTimeISO
+  linkedinSalesUrl: String
+  linkedinThrottling: LinkedinThrottlingSetting
+  linkedinUrl: String
+  lockNewMessagesImport: DateTimeISO
+  loginCounter: Int
+  loginTime: Int
+  mobilePhone: String
+  nightMode: Boolean
+  occupation: String
+  pendingConnectionImportCount: Int
+  pendingLatestConnectedOn: DateTimeISO
+  pendingLinkedinConversationsLatestTimestamp: DateTimeISO
+  pendingLinkedinSalesConversationsLatestTimestamp: DateTimeISO
+  phone: String
+  reviewEmail: Int
+  scrapeOnConnect: Boolean
+  selectedWorkGroupId: ObjectId @deprecated(reason: "exists in authentication-service")
+  showGettingStartedPage: Boolean
+  tutorialProgress: TutorialProgress
+  updatedAt: DateTimeISO
+}
+
+input UserActivationInput {
+  _id: ObjectId
+  email: String!
+  firstName: String
+  lastName: String
+}
+
+type UserAdditionalDetail {
+  _id: ObjectId!
+  clickedLeaveReview: Boolean
+  doNotShowCapterraReviewBanner: Boolean
+  doNotShowJobyBanner: Boolean
+  hasReviewed: Boolean
+  lastJobyExtensionLoggedIn: DateTimeISO
+  showCapterraBanner: Boolean
+}
+
+input UserAdditionalDetailInput {
+  _id: ObjectId
+  clickedLeaveReview: Boolean
+  doNotShowCapterraReviewBanner: Boolean
+  doNotShowJobyBanner: Boolean
+  lastJobyExtensionLoggedIn: DateTimeISO
+}
+
+input UserInput {
+  _id: ObjectId
+  academicTitle: String
+  affiliatePaypalEmail: String
+  affiliateReferralCouponCode: String
+  affiliateReferralLinkCode: String
+  affiliateSince: DateTimeISO
+  avatarUrl: String
+  countryISO: String
+  currency: CurrencyInput
+  email: String
+  firstName: String
+  gender: String
+  hadTrial: Boolean
+  hasPassword: Boolean
+  hasReviewed: Boolean
+  ip: String
+  isInTutorial: Boolean
+  isLinkedinRecruiter: Boolean
+  lastLoggedIn: DateTimeISO
+  lastName: String
+  latestConnectedOn: DateTimeISO
+  linkedinAvatarUrl: String
+  linkedinConversationsLatestTimestamp: DateTimeISO
+  linkedinConversationsRunningAt: DateTimeISO
+  linkedinPremium: Boolean
+  linkedinProfileId: String
+  linkedinSalesConversationsLatestTimestamp: DateTimeISO
+  linkedinSalesConversationsRunningAt: DateTimeISO
+  linkedinSalesUrl: String
+  linkedinUrl: String
+  lockNewMessagesImport: DateTimeISO
+  loginCounter: Int
+  loginTime: Int
+  mobilePhone: String
+  nightMode: Boolean
+  occupation: String
+  pendingConnectionImportCount: Int
+  pendingLatestConnectedOn: DateTimeISO
+  pendingLinkedinConversationsLatestTimestamp: DateTimeISO
+  pendingLinkedinSalesConversationsLatestTimestamp: DateTimeISO
+  phone: String
+  reviewEmail: Int
+  scrapeOnConnect: Boolean
+  tutorialProgress: TutorialProgressInput
+}
+
+input UserWorkGroupSettingInput {
+  _id: ObjectId
+  linkedinThrottling: LinkedinThrottlingSettingInput
+}
+
+type VatIdResponse {
+  _id: ObjectId!
+  address: String
+  countryCode: String
+  errorMsg: String
+  name: String
+  requestDate: String
+  valid: Boolean
+  vatNumber: String
+}
+
+type VoluntExperience {
+  _id: ObjectId!
+  cause: String
+  descriptionResponsibility: String
+  mainLocation: MainLocation
+  organization: OrganizationLogoLinkedin
+  period: Period!
+  roleTitle: String
+}
+
+input VoluntExperienceInput {
+  _id: ObjectId
+  cause: String
+  descriptionResponsibility: String
+  mainLocation: MainLocationInput
+  organization: OrganizationLogoLinkedinInput
+  period: PeriodInput
+  roleTitle: String
+}
+
+type VolunteerCause {
+  _id: ObjectId!
+  value: String!
+}
+
+type WorkGroup {
+  _id: ObjectId!
+  billingDetail: BillingDetail
+  createdAt: DateTimeISO
+  description: String
+  imageLogoUrl: String
+  isAgency: Boolean
+  limboUserIds: [ObjectId!]
+  memberRoles: [MemberRole!]
+  name: String
+  stripeCustomerId: String
+  stripePaymentMethodId: String
+  updatedAt: DateTimeISO
+  userId: ObjectId
+}
+
+input WorkGroupInput {
+  _id: ObjectId
+  billingDetail: BillingDetailInput
+  description: String
+  imageLogoUrl: String
+  isAgency: Boolean
+  limboUserIds: [ObjectId!]
+  memberRoles: [MemberRoleInput!]
+  name: String
+  stripeCustomerId: String
+  stripePaymentMethodId: String
+}
+
+type WorkInProgressFeedback {
+  _id: ObjectId!
+  createdAt: DateTimeISO
+  feature: String!
+  importanceRank: Int
+  keepMeUpToDate: Boolean
+  sent: Boolean
+  suggestionTxt: String
+  updatedAt: DateTimeISO
+  userId: ObjectId
+  workGroupId: ObjectId
+}
+
+input WorkInProgressFeedbackInput {
+  _id: ObjectId
+  feature: String
+  importanceRank: Int
+  keepMeUpToDate: Boolean
+  sent: Boolean
+  suggestionTxt: String
+}

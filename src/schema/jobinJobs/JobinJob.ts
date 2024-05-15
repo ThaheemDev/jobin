@@ -10,6 +10,7 @@ import {
 } from "@jobin-cloud/subgraph-mongodb";
 import {Contact, JobinAccount, User, WorkGroup} from "../../external";
 import {CampaignStage} from "@jobin-cloud/shared-schema";
+import {JobinJobCodename} from "./JobCodenameEnum";
 
 // ============================= STATUS =============================
 // Status is unneccessary because it will be available through it's properties
@@ -45,8 +46,8 @@ export class JobinJob extends TimeStamps {
     @GraphqlProp()
     isInRedis!: boolean;
 
-    @RequiredGraphqlProp()
-    codename!: string // code name for the job (ex. dedup)
+    @RequiredGraphqlProp(JobinJobCodename)
+    codename!: JobinJobCodename // code name for the job (ex. dedup)
 
     @RequiredGraphqlProp()
     title!: string // display name for the job (ex. Deduplicate profiles)

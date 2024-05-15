@@ -849,7 +849,7 @@ export type Contact = {
   lastUnansweredReplyDate?: Maybe<Scalars['DateTimeISO']['output']>;
   linkedinConnectionLevel?: Maybe<Scalars['String']['output']>;
   linkedinConnectionLevelAvatars?: Maybe<Array<AvatarWithValue>>;
-  linkedinConnectionLevels?: Maybe<Array<UserLinkedinUrlOwnedBaseTemplate>>;
+  linkedinConnectionLevels?: Maybe<Array<LinkedinConnectionLevel>>;
   linkedinDetail?: Maybe<LinkedinDetail>;
   linkedinSalesUrl?: Maybe<Scalars['String']['output']>;
   linkedinTalentId?: Maybe<Scalars['String']['output']>;
@@ -954,7 +954,7 @@ export type ContactInput = {
   lastLinkedinUpdate?: InputMaybe<Scalars['DateTimeISO']['input']>;
   lastName?: InputMaybe<Scalars['String']['input']>;
   lastUnansweredReplyDate?: InputMaybe<Scalars['DateTimeISO']['input']>;
-  linkedinConnectionLevels?: InputMaybe<Array<UserLinkedinUrlOwnedBaseTemplateInput>>;
+  linkedinConnectionLevels?: InputMaybe<Array<LinkedinConnectionLevelInput>>;
   linkedinDetail?: InputMaybe<LinkedinDetailInput>;
   linkedinSalesUrl?: InputMaybe<Scalars['String']['input']>;
   linkedinTalentId?: InputMaybe<Scalars['String']['input']>;
@@ -1561,28 +1561,29 @@ export type DripAssignOption = {
   _id: Scalars['ObjectId']['output'];
   activePipelineStage?: Maybe<ActivePipelineStage>;
   categories?: Maybe<Array<Scalars['String']['output']>>;
-  tagIds?: Maybe<Array<Scalars['ObjectId']['output']>>;
+  tags?: Maybe<Array<ContactTag>>;
 };
 
 export type DripAssignOptionInput = {
   _id?: InputMaybe<Scalars['ObjectId']['input']>;
   activePipelineStage?: InputMaybe<ActivePipelineStageInput>;
   categories?: InputMaybe<Array<Scalars['String']['input']>>;
-  tagIds?: InputMaybe<Array<Scalars['ObjectId']['input']>>;
+  tags?: InputMaybe<Array<ExternalInput>>;
 };
 
 export type DripCampaign = {
   __typename?: 'DripCampaign';
   _id: Scalars['ObjectId']['output'];
   contactSubtype?: Maybe<Scalars['String']['output']>;
+  continueSequence?: Maybe<Scalars['Boolean']['output']>;
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   dripStages?: Maybe<Array<DripStage>>;
   emailSender?: Maybe<EmailSender>;
-  emailSenderId?: Maybe<Scalars['ObjectId']['output']>;
   fromLinkedinUrl?: Maybe<Scalars['String']['output']>;
   fromLinkedinUser?: Maybe<User>;
   goal?: Maybe<Scalars['String']['output']>;
   isActive?: Maybe<Scalars['Boolean']['output']>;
+  isMessaging?: Maybe<Scalars['Boolean']['output']>;
   name: Scalars['String']['output'];
   pendingEmailCheck?: Maybe<Scalars['Boolean']['output']>;
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
@@ -1621,11 +1622,13 @@ export type DripCampaignFilterInput = {
 export type DripCampaignInput = {
   _id?: InputMaybe<Scalars['ObjectId']['input']>;
   contactSubtype?: InputMaybe<Scalars['String']['input']>;
+  continueSequence?: InputMaybe<Scalars['Boolean']['input']>;
   dripStages?: InputMaybe<Array<DripStageInput>>;
-  emailSenderId?: InputMaybe<Scalars['ObjectId']['input']>;
+  emailSender?: InputMaybe<ExternalInput>;
   fromLinkedinUrl?: InputMaybe<Scalars['String']['input']>;
   goal?: InputMaybe<Scalars['String']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  isMessaging?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   pendingEmailCheck?: InputMaybe<Scalars['Boolean']['input']>;
   useAnyAsFallback?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1636,6 +1639,7 @@ export type DripCampaignInput = {
 export type DripConditionOption = {
   __typename?: 'DripConditionOption';
   _id: Scalars['ObjectId']['output'];
+  categories?: Maybe<Array<Scalars['String']['output']>>;
   hasEmail?: Maybe<Scalars['Boolean']['output']>;
   hasLinkedinSalesUrl?: Maybe<Scalars['Boolean']['output']>;
   hasLinkedinTalentId?: Maybe<Scalars['Boolean']['output']>;
@@ -1656,6 +1660,7 @@ export type DripConditionOption = {
 
 export type DripConditionOptionInput = {
   _id?: InputMaybe<Scalars['ObjectId']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
   hasEmail?: InputMaybe<Scalars['Boolean']['input']>;
   hasLinkedinSalesUrl?: InputMaybe<Scalars['Boolean']['input']>;
   hasLinkedinTalentId?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1710,8 +1715,8 @@ export type DripLinkedinMessageOption = {
   __typename?: 'DripLinkedinMessageOption';
   _id: Scalars['ObjectId']['output'];
   attachment?: Maybe<UploadedFile>;
+  jobCodename: Scalars['String']['output'];
   jobspecId?: Maybe<Scalars['ObjectId']['output']>;
-  method?: Maybe<Scalars['String']['output']>;
   subject?: Maybe<Scalars['String']['output']>;
   text?: Maybe<Scalars['String']['output']>;
 };
@@ -1719,8 +1724,8 @@ export type DripLinkedinMessageOption = {
 export type DripLinkedinMessageOptionInput = {
   _id?: InputMaybe<Scalars['ObjectId']['input']>;
   attachment?: InputMaybe<UploadedFileInput>;
+  jobCodename?: InputMaybe<Scalars['String']['input']>;
   jobspecId?: InputMaybe<Scalars['ObjectId']['input']>;
-  method?: InputMaybe<Scalars['String']['input']>;
   subject?: InputMaybe<Scalars['String']['input']>;
   text?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1732,6 +1737,13 @@ export type DripStage = {
   name: Scalars['String']['output'];
   positionCode?: Maybe<Scalars['String']['output']>;
   selectedBranches?: Maybe<Array<Scalars['String']['output']>>;
+};
+
+export type DripStageInformation = {
+  __typename?: 'DripStageInformation';
+  dripCampaign: DripCampaign;
+  dripStage?: Maybe<DripStage>;
+  dripStageOption?: Maybe<DripStageOption>;
 };
 
 export type DripStageInput = {
@@ -1851,10 +1863,17 @@ export type EmailSender = {
   addUnsubscribeButton?: Maybe<Scalars['Boolean']['output']>;
   applyRandomDelay?: Maybe<Scalars['Boolean']['output']>;
   emailAddress: Scalars['String']['output'];
+  html?: Maybe<Scalars['String']['output']>;
   imapDownloadFrom?: Maybe<Scalars['Int']['output']>;
   isDefault?: Maybe<Scalars['Boolean']['output']>;
+  isMailboxOnline: Scalars['Boolean']['output'];
+  isOutboundMailerOnline?: Maybe<Scalars['Boolean']['output']>;
+  lastOnlineCheck?: Maybe<Scalars['DateTimeISO']['output']>;
   latestMicrosoftEmailId?: Maybe<Scalars['String']['output']>;
+  mailboxError?: Maybe<Scalars['String']['output']>;
   oauthSetting?: Maybe<OauthSetting>;
+  outboundMailerErrorCode?: Maybe<Scalars['String']['output']>;
+  outboundMailerErrorMessage?: Maybe<Scalars['String']['output']>;
   perDayLimit?: Maybe<Scalars['Int']['output']>;
   perHourLimit?: Maybe<Scalars['Int']['output']>;
   perMinuteLimit?: Maybe<Scalars['Int']['output']>;
@@ -1867,6 +1886,7 @@ export type EmailSenderInput = {
   addUnsubscribeButton?: InputMaybe<Scalars['Boolean']['input']>;
   applyRandomDelay?: InputMaybe<Scalars['Boolean']['input']>;
   emailAddress?: InputMaybe<Scalars['String']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
   isDefault?: InputMaybe<Scalars['Boolean']['input']>;
   oauthSetting?: InputMaybe<OauthSettingInput>;
   perDayLimit?: InputMaybe<Scalars['Int']['input']>;
@@ -1977,6 +1997,10 @@ export type ExitStageTemplateInput = {
   _id?: InputMaybe<Scalars['ObjectId']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ExternalInput = {
+  _id: Scalars['ObjectId']['input'];
 };
 
 export type Field = {
@@ -2381,37 +2405,27 @@ export type JobinAccountNoteInput = {
 export type JobinCompletedJob = {
   __typename?: 'JobinCompletedJob';
   _id: Scalars['ObjectId']['output'];
+  account?: Maybe<JobinAccount>;
   campaignStage?: Maybe<CampaignStage>;
   codename: Scalars['String']['output'];
-  contactStatuses: Array<JobinJobContact>;
+  contact?: Maybe<Contact>;
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   data?: Maybe<Scalars['String']['output']>;
   error?: Maybe<Scalars['String']['output']>;
-  hasNothingToProcess?: Maybe<Scalars['Boolean']['output']>;
   iconName: Scalars['String']['output'];
   isIdempotent?: Maybe<Scalars['Boolean']['output']>;
-  linkedinUser?: Maybe<User>;
-  loaded: Scalars['Float']['output'];
+  isInRedis?: Maybe<Scalars['Boolean']['output']>;
   lockedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   nextRunAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  noResume?: Maybe<Scalars['Boolean']['output']>;
   operationType?: Maybe<Scalars['String']['output']>;
   previousNextRunAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  priority: Scalars['Float']['output'];
   queue: Scalars['String']['output'];
-  stop?: Maybe<Scalars['Boolean']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
-  totalCount: Scalars['Float']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  userId?: Maybe<Scalars['ObjectId']['output']>;
+  user?: Maybe<User>;
   userLinkedinUrl?: Maybe<Scalars['String']['output']>;
-  waitTimeMs?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type JobinCompletedJobContactStatusesArgs = {
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
+  workGroup?: Maybe<WorkGroup>;
 };
 
 export type JobinDailyQuotas = {
@@ -2514,38 +2528,27 @@ export type JobinInvoice = {
 export type JobinJob = {
   __typename?: 'JobinJob';
   _id: Scalars['ObjectId']['output'];
+  account?: Maybe<JobinAccount>;
   campaignStage?: Maybe<CampaignStage>;
   codename: Scalars['String']['output'];
-  contactStatuses?: Maybe<Array<JobinJobContact>>;
+  contact?: Maybe<Contact>;
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   data?: Maybe<Scalars['String']['output']>;
   error?: Maybe<Scalars['String']['output']>;
-  hasNothingToProcess?: Maybe<Scalars['Boolean']['output']>;
   iconName: Scalars['String']['output'];
   isIdempotent?: Maybe<Scalars['Boolean']['output']>;
-  linkedinUser?: Maybe<User>;
-  loaded: Scalars['Float']['output'];
+  isInRedis?: Maybe<Scalars['Boolean']['output']>;
   lockedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   nextRunAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  noResume?: Maybe<Scalars['Boolean']['output']>;
   operationType?: Maybe<Scalars['String']['output']>;
   previousNextRunAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  priority: Scalars['Float']['output'];
   queue: Scalars['String']['output'];
-  stop?: Maybe<Scalars['Boolean']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
-  totalCount: Scalars['Float']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  userId?: Maybe<Scalars['ObjectId']['output']>;
+  user?: Maybe<User>;
   userLinkedinUrl?: Maybe<Scalars['String']['output']>;
-  waitTimeMs?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type JobinJobContactStatusesArgs = {
-  isLive?: InputMaybe<Scalars['Boolean']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
+  workGroup?: Maybe<WorkGroup>;
 };
 
 export type JobinJobContact = {
@@ -2581,34 +2584,32 @@ export type JobinJobContactInput = {
 
 export type JobinJobFromFilterResult = {
   __typename?: 'JobinJobFromFilterResult';
-  _id?: Maybe<Scalars['ObjectId']['output']>;
+  jobinJobIds?: Maybe<Array<Scalars['ObjectId']['output']>>;
   totalContactIds?: Maybe<Array<Scalars['ObjectId']['output']>>;
   totalContacts?: Maybe<Scalars['Int']['output']>;
 };
 
 export type JobinJobInput = {
   _id?: InputMaybe<Scalars['ObjectId']['input']>;
+  account?: InputMaybe<ExternalInput>;
   campaignStage?: InputMaybe<CampaignStageInput>;
-  codename: Scalars['String']['input'];
-  contactStatuses?: InputMaybe<Array<JobinJobContactInput>>;
+  codename?: InputMaybe<Scalars['String']['input']>;
+  contact?: InputMaybe<ExternalInput>;
   data?: InputMaybe<Scalars['String']['input']>;
   error?: InputMaybe<Scalars['String']['input']>;
-  hasNothingToProcess?: InputMaybe<Scalars['Boolean']['input']>;
-  iconName: Scalars['String']['input'];
+  iconName?: InputMaybe<Scalars['String']['input']>;
   isIdempotent?: InputMaybe<Scalars['Boolean']['input']>;
-  loaded: Scalars['Float']['input'];
+  isInRedis?: InputMaybe<Scalars['Boolean']['input']>;
   lockedAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
   nextRunAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
-  noResume?: InputMaybe<Scalars['Boolean']['input']>;
   operationType?: InputMaybe<Scalars['String']['input']>;
   previousNextRunAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
-  priority?: InputMaybe<Scalars['Float']['input']>;
-  queue: Scalars['String']['input'];
-  stop?: InputMaybe<Scalars['Boolean']['input']>;
-  title: Scalars['String']['input'];
-  totalCount?: Scalars['Int']['input'];
+  queue?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<ExternalInput>;
   userLinkedinUrl?: InputMaybe<Scalars['String']['input']>;
-  waitTimeMs?: InputMaybe<Scalars['Float']['input']>;
+  workGroup?: InputMaybe<ExternalInput>;
 };
 
 export type JobinJobSubscription = {
@@ -3158,6 +3159,23 @@ export type LinkedinAnalyticTotals = {
   last: LinkedinAnalytic;
 };
 
+export type LinkedinConnectionLevel = {
+  __typename?: 'LinkedinConnectionLevel';
+  _id: Scalars['ObjectId']['output'];
+  connectedOn?: Maybe<Scalars['DateTimeISO']['output']>;
+  isPending?: Maybe<Scalars['Boolean']['output']>;
+  userLinkedinUrl: Scalars['String']['output'];
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+export type LinkedinConnectionLevelInput = {
+  _id?: InputMaybe<Scalars['ObjectId']['input']>;
+  connectedOn?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  isPending?: InputMaybe<Scalars['Boolean']['input']>;
+  userLinkedinUrl: Scalars['String']['input'];
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type LinkedinConversation = {
   __typename?: 'LinkedinConversation';
   _id: Scalars['ObjectId']['output'];
@@ -3689,6 +3707,7 @@ export type Mutation = {
   /** @deprecated Always require email for login even in sandbox */
   activateAccount: RegisterObject;
   activateFreeAccount: Scalars['Boolean']['output'];
+  addBulkCustomFields: Scalars['Boolean']['output'];
   addCustomField?: Maybe<Array<CustomField>>;
   addLinkedinAnalytic: Scalars['Int']['output'];
   addReferralToAffiliateLeads: Scalars['Boolean']['output'];
@@ -3845,6 +3864,7 @@ export type Mutation = {
   failAccountImport: Scalars['Boolean']['output'];
   /** @deprecated Should be replaced by updateJobinJob */
   failContactImport: Scalars['Boolean']['output'];
+  findAndUpdateContactsByEmail: Array<Contact>;
   forgotPassword: Scalars['Boolean']['output'];
   generatePaymentLink: Scalars['String']['output'];
   getOrCreatePeopleSearchFilter: Scalars['ObjectId']['output'];
@@ -3893,7 +3913,6 @@ export type Mutation = {
   resumeDripCampaign: Scalars['Boolean']['output'];
   retryJobinJob: Scalars['Int']['output'];
   runAgendaCommand: Scalars['Boolean']['output'];
-  runDripOperations: Scalars['Boolean']['output'];
   runScheduledOperationNow: Scalars['Boolean']['output'];
   scheduleOperation: Scalars['Boolean']['output'];
   sendActivationEmail: Scalars['Boolean']['output'];
@@ -3901,10 +3920,8 @@ export type Mutation = {
   sendTestEmails: Scalars['Boolean']['output'];
   sendWorkGroupInvites: Scalars['Int']['output'];
   sendWorkGroupInvitesToJobinMembers: Scalars['Int']['output'];
-  setContactStatusesToPending: Scalars['Int']['output'];
   setPairAsNotDuplicate: Scalars['Boolean']['output'];
   stopDripCampaignForContact: Scalars['Boolean']['output'];
-  throttleJobinJob: Scalars['Boolean']['output'];
   throttleJobinJob429: Scalars['Boolean']['output'];
   unAssignStage: Scalars['Int']['output'];
   unsubscribeContact: Scalars['Boolean']['output'];
@@ -3922,7 +3939,7 @@ export type Mutation = {
   updateContactsFilter?: Maybe<Scalars['Int']['output']>;
   updateCurrentUser?: Maybe<Scalars['Int']['output']>;
   updateCustomField: CustomField;
-  updateDripCampaign?: Maybe<Scalars['Int']['output']>;
+  updateDripCampaign: Scalars['Int']['output'];
   updateDripStageOption: Scalars['Boolean']['output'];
   updateEducationalLevel?: Maybe<Scalars['Int']['output']>;
   updateEmailSender?: Maybe<Scalars['Int']['output']>;
@@ -3945,7 +3962,7 @@ export type Mutation = {
   updatePipeline?: Maybe<Scalars['Int']['output']>;
   updatePipelineTemplate?: Maybe<Scalars['Int']['output']>;
   updateRecentContactsFilter?: Maybe<Scalars['Int']['output']>;
-  updateReplyIdentifications: Scalars['Boolean']['output'];
+  updateReplyIdentifications?: Maybe<Array<ReplyIdentification>>;
   updateSkillType?: Maybe<Scalars['Int']['output']>;
   updateStageTemplate?: Maybe<Scalars['Int']['output']>;
   updateSubStageTemplate?: Maybe<Scalars['Int']['output']>;
@@ -3982,6 +3999,12 @@ export type MutationActivateAccountArgs = {
   _id: Scalars['ObjectId']['input'];
   email: Scalars['String']['input'];
   referralLinkCode?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationAddBulkCustomFieldsArgs = {
+  contacts: Array<Scalars['String']['input']>;
+  customFieldsInput: Array<CustomFieldInput>;
 };
 
 
@@ -4085,7 +4108,6 @@ export type MutationCloseJobspecArgs = {
 
 export type MutationCompleteJobinJobArgs = {
   error?: InputMaybe<Scalars['String']['input']>;
-  hasNothingToProcess?: InputMaybe<Scalars['Boolean']['input']>;
   jobinJobId: Scalars['ObjectId']['input'];
 };
 
@@ -4785,6 +4807,12 @@ export type MutationFailContactImportArgs = {
 };
 
 
+export type MutationFindAndUpdateContactsByEmailArgs = {
+  contact: ContactInput;
+  emailAddress: Scalars['String']['input'];
+};
+
+
 export type MutationForgotPasswordArgs = {
   email: Scalars['String']['input'];
 };
@@ -5064,12 +5092,6 @@ export type MutationRunAgendaCommandArgs = {
 };
 
 
-export type MutationRunDripOperationsArgs = {
-  campaignId: Scalars['ObjectId']['input'];
-  contactIds: Array<Scalars['ObjectId']['input']>;
-};
-
-
 export type MutationRunScheduledOperationNowArgs = {
   jobinJobId: Scalars['ObjectId']['input'];
   queue: Scalars['String']['input'];
@@ -5116,12 +5138,6 @@ export type MutationSendWorkGroupInvitesToJobinMembersArgs = {
 };
 
 
-export type MutationSetContactStatusesToPendingArgs = {
-  _id: Scalars['ObjectId']['input'];
-  linkedinUrls: Array<Scalars['String']['input']>;
-};
-
-
 export type MutationSetPairAsNotDuplicateArgs = {
   _id: Scalars['ObjectId']['input'];
 };
@@ -5129,11 +5145,6 @@ export type MutationSetPairAsNotDuplicateArgs = {
 
 export type MutationStopDripCampaignForContactArgs = {
   contactId: Scalars['ObjectId']['input'];
-};
-
-
-export type MutationThrottleJobinJobArgs = {
-  _id: Scalars['ObjectId']['input'];
 };
 
 
@@ -5285,10 +5296,8 @@ export type MutationUpdateJobinEventArgs = {
 
 export type MutationUpdateJobinJobArgs = {
   _id: Scalars['ObjectId']['input'];
-  contactStatus?: InputMaybe<JobinJobContactInput>;
-  contactStatuses?: InputMaybe<Array<JobinJobContactInput>>;
-  jobinJob: JobinJobUpdateInput;
-  updateLockedAt?: Scalars['Boolean']['input'];
+  jobinJob: JobinJobInput;
+  updateLockedAt?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
@@ -5376,7 +5385,8 @@ export type MutationUpdateRecentContactsFilterArgs = {
 
 
 export type MutationUpdateReplyIdentificationsArgs = {
-  ReplyIdentifications: ReplyIdentificationsInput;
+  dripCampaignId: Scalars['ObjectId']['input'];
+  replyIdentifications: Array<ReplyIdentificationInput>;
 };
 
 
@@ -5955,6 +5965,7 @@ export type Query = {
   affiliateLeads: Array<AffiliateLead>;
   affiliatePayouts: Array<AffiliatePayout>;
   affiliateTotalPayouts: AffiliateTotalPayout;
+  allDisconnectedEmailSenders: Array<EmailSender>;
   benefitTemplate: BenefitTemplate;
   benefitTemplates: Array<BenefitTemplate>;
   benefitType: BenefitType;
@@ -6031,7 +6042,8 @@ export type Query = {
   dripCampaignFromContactId: DripCampaignAndContact;
   dripCampaignIsIncomplete: Scalars['Boolean']['output'];
   dripCampaigns: Array<DripCampaign>;
-  dripStageOptionByPositionCode?: Maybe<DripStageOption>;
+  dripStageInformation?: Maybe<DripStageInformation>;
+  dripStageOption?: Maybe<DripStageOption>;
   dripStageOptionByStageId?: Maybe<DripStageOption>;
   dripStageOptions: Array<DripStageOption>;
   duplicate?: Maybe<DuplicateContainer>;
@@ -6189,9 +6201,7 @@ export type Query = {
   recommendedSubscriptionUpgrade?: Maybe<RecommendedProduct>;
   regions: Array<BaseTemplate>;
   removeDuplicateFromPair: Scalars['Int']['output'];
-  replyIdentifications?: Maybe<ReplyIdentifications>;
-  replyTag?: Maybe<ReplyTag>;
-  replyTags: Array<ReplyTag>;
+  replyIdentifications?: Maybe<Array<ReplyIdentification>>;
   role: Role;
   roleTitle: RoleTitle;
   roleTitles: Array<RoleTitle>;
@@ -6200,7 +6210,6 @@ export type Query = {
   skillNames: Array<SkillName>;
   skillType: SkillType;
   skillTypes: Array<SkillType>;
-  smtpTransportVerifyConnection: SmtpTransportVerification;
   socialProfileFromFilterId?: Maybe<PdlResponse>;
   stageTemplate: StageTemplate;
   stageTemplates: Array<StageTemplate>;
@@ -6312,6 +6321,12 @@ export type QueryAffiliateLeadsArgs = {
 
 
 export type QueryAffiliatePayoutsArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryAllDisconnectedEmailSendersArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -6738,10 +6753,15 @@ export type QueryDripCampaignsArgs = {
 };
 
 
-export type QueryDripStageOptionByPositionCodeArgs = {
+export type QueryDripStageInformationArgs = {
   dripCampaignId: Scalars['ObjectId']['input'];
   positionCode: Scalars['String']['input'];
   useNextPositionCode?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type QueryDripStageOptionArgs = {
+  _id: Scalars['ObjectId']['input'];
 };
 
 
@@ -7137,7 +7157,7 @@ export type QueryJobinEventsArgs = {
   contactId?: InputMaybe<Scalars['ObjectId']['input']>;
   filterByUserId?: InputMaybe<Scalars['ObjectId']['input']>;
   jobspecId?: InputMaybe<Scalars['ObjectId']['input']>;
-  take?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
   typeName?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -7668,19 +7688,6 @@ export type QueryReplyIdentificationsArgs = {
 };
 
 
-export type QueryReplyTagArgs = {
-  _id: Scalars['ObjectId']['input'];
-};
-
-
-export type QueryReplyTagsArgs = {
-  _ids?: InputMaybe<Array<Scalars['ObjectId']['input']>>;
-  searchValue?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type QueryRoleArgs = {
   _id: Scalars['ObjectId']['input'];
 };
@@ -7726,11 +7733,6 @@ export type QuerySkillTypesArgs = {
   searchValue?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type QuerySmtpTransportVerifyConnectionArgs = {
-  smtpSettings: SmtpSettingInput;
 };
 
 
@@ -8010,46 +8012,26 @@ export type RemoteWorkInput = {
 export type ReplyIdentification = {
   __typename?: 'ReplyIdentification';
   _id: Scalars['ObjectId']['output'];
-  action?: Maybe<Scalars['String']['output']>;
+  activePipelineStage?: Maybe<ActivePipelineStage>;
+  categories?: Maybe<Array<Scalars['String']['output']>>;
+  dripCampaignId?: Maybe<Scalars['ObjectId']['output']>;
   order?: Maybe<Scalars['Int']['output']>;
   replyCategorizationUserInputs?: Maybe<Scalars['String']['output']>;
   tagIds?: Maybe<Array<Scalars['ObjectId']['output']>>;
+  userId?: Maybe<Scalars['ObjectId']['output']>;
+  workGroupId?: Maybe<Scalars['ObjectId']['output']>;
 };
 
 export type ReplyIdentificationInput = {
   _id?: InputMaybe<Scalars['ObjectId']['input']>;
-  action?: InputMaybe<Scalars['String']['input']>;
+  activePipelineStage?: InputMaybe<ActivePipelineStageInput>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  dripCampaignId?: InputMaybe<Scalars['ObjectId']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   replyCategorizationUserInputs?: InputMaybe<Scalars['String']['input']>;
   tagIds?: InputMaybe<Array<Scalars['ObjectId']['input']>>;
-};
-
-export type ReplyIdentifications = {
-  __typename?: 'ReplyIdentifications';
-  _id: Scalars['ObjectId']['output'];
-  dripCampaignId?: Maybe<Scalars['ObjectId']['output']>;
-  replyIdentifications?: Maybe<Array<ReplyIdentification>>;
-  userId?: Maybe<Scalars['ObjectId']['output']>;
-  workGroupId?: Maybe<Scalars['ObjectId']['output']>;
-};
-
-export type ReplyIdentificationsInput = {
-  _id?: InputMaybe<Scalars['ObjectId']['input']>;
-  dripCampaignId?: InputMaybe<Scalars['ObjectId']['input']>;
-  replyIdentifications?: InputMaybe<Array<ReplyIdentificationInput>>;
   userId?: InputMaybe<Scalars['ObjectId']['input']>;
   workGroupId?: InputMaybe<Scalars['ObjectId']['input']>;
-};
-
-export type ReplyTag = {
-  __typename?: 'ReplyTag';
-  _id: Scalars['ObjectId']['output'];
-  color?: Maybe<Scalars['String']['output']>;
-  iconName?: Maybe<Scalars['String']['output']>;
-  rank?: Maybe<Scalars['Int']['output']>;
-  userId?: Maybe<Scalars['ObjectId']['output']>;
-  value: Scalars['String']['output'];
-  workGroupId?: Maybe<Scalars['ObjectId']['output']>;
 };
 
 export type Role = {
@@ -8173,12 +8155,6 @@ export type SmtpSettingInput = {
   secure: Scalars['Boolean']['input'];
   sslV3?: InputMaybe<Scalars['Boolean']['input']>;
   user: Scalars['String']['input'];
-};
-
-export type SmtpTransportVerification = {
-  __typename?: 'SmtpTransportVerification';
-  code: Scalars['String']['output'];
-  message?: Maybe<Scalars['String']['output']>;
 };
 
 export type SocialProfile = {
@@ -8724,23 +8700,6 @@ export type UserInput = {
   tutorialProgress?: InputMaybe<TutorialProgressInput>;
 };
 
-export type UserLinkedinUrlOwnedBaseTemplate = {
-  __typename?: 'UserLinkedinUrlOwnedBaseTemplate';
-  _id: Scalars['ObjectId']['output'];
-  connectedOn?: Maybe<Scalars['DateTimeISO']['output']>;
-  isPending?: Maybe<Scalars['Boolean']['output']>;
-  userLinkedinUrl: Scalars['String']['output'];
-  value?: Maybe<Scalars['String']['output']>;
-};
-
-export type UserLinkedinUrlOwnedBaseTemplateInput = {
-  _id?: InputMaybe<Scalars['ObjectId']['input']>;
-  connectedOn?: InputMaybe<Scalars['DateTimeISO']['input']>;
-  isPending?: InputMaybe<Scalars['Boolean']['input']>;
-  userLinkedinUrl: Scalars['String']['input'];
-  value?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type UserWorkGroupSettingInput = {
   _id?: InputMaybe<Scalars['ObjectId']['input']>;
   linkedinThrottling?: InputMaybe<LinkedinThrottlingSettingInput>;
@@ -9043,6 +9002,7 @@ export type ResolversTypes = ResolversObject<{
   DripLinkedinMessageOption: ResolverTypeWrapper<DripLinkedinMessageOption>;
   DripLinkedinMessageOptionInput: DripLinkedinMessageOptionInput;
   DripStage: ResolverTypeWrapper<DripStage>;
+  DripStageInformation: ResolverTypeWrapper<DripStageInformation>;
   DripStageInput: DripStageInput;
   DripStageOption: ResolverTypeWrapper<DripStageOption>;
   DripStageOptionInput: DripStageOptionInput;
@@ -9066,6 +9026,7 @@ export type ResolversTypes = ResolversObject<{
   EventTypeInput: EventTypeInput;
   ExitStageTemplate: ResolverTypeWrapper<ExitStageTemplate>;
   ExitStageTemplateInput: ExitStageTemplateInput;
+  ExternalInput: ExternalInput;
   Field: ResolverTypeWrapper<Field>;
   FieldGroup: ResolverTypeWrapper<FieldGroup>;
   FittingIndex: ResolverTypeWrapper<FittingIndex>;
@@ -9151,6 +9112,8 @@ export type ResolversTypes = ResolversObject<{
   LinkedinAnalyticTimeline: ResolverTypeWrapper<LinkedinAnalyticTimeline>;
   LinkedinAnalyticTimelineRecords: ResolverTypeWrapper<LinkedinAnalyticTimelineRecords>;
   LinkedinAnalyticTotals: ResolverTypeWrapper<LinkedinAnalyticTotals>;
+  LinkedinConnectionLevel: ResolverTypeWrapper<LinkedinConnectionLevel>;
+  LinkedinConnectionLevelInput: LinkedinConnectionLevelInput;
   LinkedinConversation: ResolverTypeWrapper<LinkedinConversation>;
   LinkedinConversationInput: LinkedinConversationInput;
   LinkedinDetail: ResolverTypeWrapper<LinkedinDetail>;
@@ -9248,9 +9211,6 @@ export type ResolversTypes = ResolversObject<{
   RemoteWorkInput: RemoteWorkInput;
   ReplyIdentification: ResolverTypeWrapper<ReplyIdentification>;
   ReplyIdentificationInput: ReplyIdentificationInput;
-  ReplyIdentifications: ResolverTypeWrapper<ReplyIdentifications>;
-  ReplyIdentificationsInput: ReplyIdentificationsInput;
-  ReplyTag: ResolverTypeWrapper<ReplyTag>;
   Role: ResolverTypeWrapper<Role>;
   RoleTitle: ResolverTypeWrapper<RoleTitle>;
   Score: ResolverTypeWrapper<Score>;
@@ -9264,7 +9224,6 @@ export type ResolversTypes = ResolversObject<{
   SkillTypeInput: SkillTypeInput;
   SmtpSetting: ResolverTypeWrapper<SmtpSetting>;
   SmtpSettingInput: SmtpSettingInput;
-  SmtpTransportVerification: ResolverTypeWrapper<SmtpTransportVerification>;
   SocialProfile: ResolverTypeWrapper<SocialProfile>;
   SocialProfileWrapperInput: SocialProfileWrapperInput;
   SolutionWithProduct: ResolverTypeWrapper<SolutionWithProduct>;
@@ -9309,8 +9268,6 @@ export type ResolversTypes = ResolversObject<{
   UserAdditionalDetail: ResolverTypeWrapper<UserAdditionalDetail>;
   UserAdditionalDetailInput: UserAdditionalDetailInput;
   UserInput: UserInput;
-  UserLinkedinUrlOwnedBaseTemplate: ResolverTypeWrapper<UserLinkedinUrlOwnedBaseTemplate>;
-  UserLinkedinUrlOwnedBaseTemplateInput: UserLinkedinUrlOwnedBaseTemplateInput;
   UserWorkGroupSettingInput: UserWorkGroupSettingInput;
   VatIdResponse: ResolverTypeWrapper<VatIdResponse>;
   VoluntExperience: ResolverTypeWrapper<VoluntExperience>;
@@ -9457,6 +9414,7 @@ export type ResolversParentTypes = ResolversObject<{
   DripLinkedinMessageOption: DripLinkedinMessageOption;
   DripLinkedinMessageOptionInput: DripLinkedinMessageOptionInput;
   DripStage: DripStage;
+  DripStageInformation: DripStageInformation;
   DripStageInput: DripStageInput;
   DripStageOption: DripStageOption;
   DripStageOptionInput: DripStageOptionInput;
@@ -9480,6 +9438,7 @@ export type ResolversParentTypes = ResolversObject<{
   EventTypeInput: EventTypeInput;
   ExitStageTemplate: ExitStageTemplate;
   ExitStageTemplateInput: ExitStageTemplateInput;
+  ExternalInput: ExternalInput;
   Field: Field;
   FieldGroup: FieldGroup;
   FittingIndex: FittingIndex;
@@ -9565,6 +9524,8 @@ export type ResolversParentTypes = ResolversObject<{
   LinkedinAnalyticTimeline: LinkedinAnalyticTimeline;
   LinkedinAnalyticTimelineRecords: LinkedinAnalyticTimelineRecords;
   LinkedinAnalyticTotals: LinkedinAnalyticTotals;
+  LinkedinConnectionLevel: LinkedinConnectionLevel;
+  LinkedinConnectionLevelInput: LinkedinConnectionLevelInput;
   LinkedinConversation: LinkedinConversation;
   LinkedinConversationInput: LinkedinConversationInput;
   LinkedinDetail: LinkedinDetail;
@@ -9662,9 +9623,6 @@ export type ResolversParentTypes = ResolversObject<{
   RemoteWorkInput: RemoteWorkInput;
   ReplyIdentification: ReplyIdentification;
   ReplyIdentificationInput: ReplyIdentificationInput;
-  ReplyIdentifications: ReplyIdentifications;
-  ReplyIdentificationsInput: ReplyIdentificationsInput;
-  ReplyTag: ReplyTag;
   Role: Role;
   RoleTitle: RoleTitle;
   Score: Score;
@@ -9678,7 +9636,6 @@ export type ResolversParentTypes = ResolversObject<{
   SkillTypeInput: SkillTypeInput;
   SmtpSetting: SmtpSetting;
   SmtpSettingInput: SmtpSettingInput;
-  SmtpTransportVerification: SmtpTransportVerification;
   SocialProfile: SocialProfile;
   SocialProfileWrapperInput: SocialProfileWrapperInput;
   SolutionWithProduct: SolutionWithProduct;
@@ -9723,8 +9680,6 @@ export type ResolversParentTypes = ResolversObject<{
   UserAdditionalDetail: UserAdditionalDetail;
   UserAdditionalDetailInput: UserAdditionalDetailInput;
   UserInput: UserInput;
-  UserLinkedinUrlOwnedBaseTemplate: UserLinkedinUrlOwnedBaseTemplate;
-  UserLinkedinUrlOwnedBaseTemplateInput: UserLinkedinUrlOwnedBaseTemplateInput;
   UserWorkGroupSettingInput: UserWorkGroupSettingInput;
   VatIdResponse: VatIdResponse;
   VoluntExperience: VoluntExperience;
@@ -10301,7 +10256,7 @@ export type ContactResolvers<ContextType = any, ParentType extends ResolversPare
   lastUnansweredReplyDate?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   linkedinConnectionLevel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   linkedinConnectionLevelAvatars?: Resolver<Maybe<Array<ResolversTypes['AvatarWithValue']>>, ParentType, ContextType>;
-  linkedinConnectionLevels?: Resolver<Maybe<Array<ResolversTypes['UserLinkedinUrlOwnedBaseTemplate']>>, ParentType, ContextType>;
+  linkedinConnectionLevels?: Resolver<Maybe<Array<ResolversTypes['LinkedinConnectionLevel']>>, ParentType, ContextType>;
   linkedinDetail?: Resolver<Maybe<ResolversTypes['LinkedinDetail']>, ParentType, ContextType>;
   linkedinSalesUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   linkedinTalentId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -10658,21 +10613,22 @@ export type DripAssignOptionResolvers<ContextType = any, ParentType extends Reso
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   activePipelineStage?: Resolver<Maybe<ResolversTypes['ActivePipelineStage']>, ParentType, ContextType>;
   categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
-  tagIds?: Resolver<Maybe<Array<ResolversTypes['ObjectId']>>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<ResolversTypes['ContactTag']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type DripCampaignResolvers<ContextType = any, ParentType extends ResolversParentTypes['DripCampaign'] = ResolversParentTypes['DripCampaign']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   contactSubtype?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  continueSequence?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   dripStages?: Resolver<Maybe<Array<ResolversTypes['DripStage']>>, ParentType, ContextType>;
   emailSender?: Resolver<Maybe<ResolversTypes['EmailSender']>, ParentType, ContextType>;
-  emailSenderId?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
   fromLinkedinUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   fromLinkedinUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   goal?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isMessaging?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pendingEmailCheck?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
@@ -10704,6 +10660,7 @@ export type DripCampaignFilterResolvers<ContextType = any, ParentType extends Re
 
 export type DripConditionOptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['DripConditionOption'] = ResolversParentTypes['DripConditionOption']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
+  categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   hasEmail?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   hasLinkedinSalesUrl?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   hasLinkedinTalentId?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -10743,8 +10700,8 @@ export type DripLinkedinConnectionOptionResolvers<ContextType = any, ParentType 
 export type DripLinkedinMessageOptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['DripLinkedinMessageOption'] = ResolversParentTypes['DripLinkedinMessageOption']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   attachment?: Resolver<Maybe<ResolversTypes['UploadedFile']>, ParentType, ContextType>;
+  jobCodename?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   jobspecId?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
-  method?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   subject?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   text?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -10756,6 +10713,13 @@ export type DripStageResolvers<ContextType = any, ParentType extends ResolversPa
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   positionCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   selectedBranches?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type DripStageInformationResolvers<ContextType = any, ParentType extends ResolversParentTypes['DripStageInformation'] = ResolversParentTypes['DripStageInformation']> = ResolversObject<{
+  dripCampaign?: Resolver<ResolversTypes['DripCampaign'], ParentType, ContextType>;
+  dripStage?: Resolver<Maybe<ResolversTypes['DripStage']>, ParentType, ContextType>;
+  dripStageOption?: Resolver<Maybe<ResolversTypes['DripStageOption']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -10827,10 +10791,17 @@ export type EmailSenderResolvers<ContextType = any, ParentType extends Resolvers
   addUnsubscribeButton?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   applyRandomDelay?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   emailAddress?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  html?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   imapDownloadFrom?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   isDefault?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isMailboxOnline?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isOutboundMailerOnline?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  lastOnlineCheck?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   latestMicrosoftEmailId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  mailboxError?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   oauthSetting?: Resolver<Maybe<ResolversTypes['OauthSetting']>, ParentType, ContextType>;
+  outboundMailerErrorCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  outboundMailerErrorMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   perDayLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   perHourLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   perMinuteLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -11161,31 +11132,27 @@ export type JobinAccountNoteResolvers<ContextType = any, ParentType extends Reso
 
 export type JobinCompletedJobResolvers<ContextType = any, ParentType extends ResolversParentTypes['JobinCompletedJob'] = ResolversParentTypes['JobinCompletedJob']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
+  account?: Resolver<Maybe<ResolversTypes['JobinAccount']>, ParentType, ContextType>;
   campaignStage?: Resolver<Maybe<ResolversTypes['CampaignStage']>, ParentType, ContextType>;
   codename?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  contactStatuses?: Resolver<Array<ResolversTypes['JobinJobContact']>, ParentType, ContextType, RequireFields<JobinCompletedJobContactStatusesArgs, 'skip' | 'take'>>;
+  contact?: Resolver<Maybe<ResolversTypes['Contact']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   data?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  hasNothingToProcess?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   iconName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   isIdempotent?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  linkedinUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  loaded?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  isInRedis?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   lockedAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   nextRunAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
-  noResume?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   operationType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   previousNextRunAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
-  priority?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   queue?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  stop?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  totalCount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
-  userId?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   userLinkedinUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  waitTimeMs?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  workGroup?: Resolver<Maybe<ResolversTypes['WorkGroup']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -11268,31 +11235,27 @@ export type JobinInvoiceResolvers<ContextType = any, ParentType extends Resolver
 
 export type JobinJobResolvers<ContextType = any, ParentType extends ResolversParentTypes['JobinJob'] = ResolversParentTypes['JobinJob']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
+  account?: Resolver<Maybe<ResolversTypes['JobinAccount']>, ParentType, ContextType>;
   campaignStage?: Resolver<Maybe<ResolversTypes['CampaignStage']>, ParentType, ContextType>;
   codename?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  contactStatuses?: Resolver<Maybe<Array<ResolversTypes['JobinJobContact']>>, ParentType, ContextType, RequireFields<JobinJobContactStatusesArgs, 'skip' | 'take'>>;
+  contact?: Resolver<Maybe<ResolversTypes['Contact']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   data?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  hasNothingToProcess?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   iconName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   isIdempotent?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  linkedinUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  loaded?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  isInRedis?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   lockedAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
   nextRunAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
-  noResume?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   operationType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   previousNextRunAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
-  priority?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   queue?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  stop?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  totalCount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
-  userId?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   userLinkedinUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  waitTimeMs?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  workGroup?: Resolver<Maybe<ResolversTypes['WorkGroup']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -11314,7 +11277,7 @@ export type JobinJobContactResolvers<ContextType = any, ParentType extends Resol
 }>;
 
 export type JobinJobFromFilterResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['JobinJobFromFilterResult'] = ResolversParentTypes['JobinJobFromFilterResult']> = ResolversObject<{
-  _id?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
+  jobinJobIds?: Resolver<Maybe<Array<ResolversTypes['ObjectId']>>, ParentType, ContextType>;
   totalContactIds?: Resolver<Maybe<Array<ResolversTypes['ObjectId']>>, ParentType, ContextType>;
   totalContacts?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -11674,6 +11637,15 @@ export type LinkedinAnalyticTotalsResolvers<ContextType = any, ParentType extend
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type LinkedinConnectionLevelResolvers<ContextType = any, ParentType extends ResolversParentTypes['LinkedinConnectionLevel'] = ResolversParentTypes['LinkedinConnectionLevel']> = ResolversObject<{
+  _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
+  connectedOn?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
+  isPending?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  userLinkedinUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type LinkedinConversationResolvers<ContextType = any, ParentType extends ResolversParentTypes['LinkedinConversation'] = ResolversParentTypes['LinkedinConversation']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   conversationId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -11984,6 +11956,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   acquireMicrosoftTokenByCode?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationAcquireMicrosoftTokenByCodeArgs, 'clientInfo' | 'code'>>;
   activateAccount?: Resolver<ResolversTypes['RegisterObject'], ParentType, ContextType, RequireFields<MutationActivateAccountArgs, '_id' | 'email'>>;
   activateFreeAccount?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  addBulkCustomFields?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddBulkCustomFieldsArgs, 'contacts' | 'customFieldsInput'>>;
   addCustomField?: Resolver<Maybe<Array<ResolversTypes['CustomField']>>, ParentType, ContextType, RequireFields<MutationAddCustomFieldArgs, 'customFieldsInput'>>;
   addLinkedinAnalytic?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationAddLinkedinAnalyticArgs, 'linkedinAnalytic'>>;
   addReferralToAffiliateLeads?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddReferralToAffiliateLeadsArgs, 'referralLinkCode'>>;
@@ -12138,6 +12111,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   exportContactsByFilter?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationExportContactsByFilterArgs, 'filter'>>;
   failAccountImport?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationFailAccountImportArgs, 'accountId' | 'errorMsg' | 'jobinJob'>>;
   failContactImport?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationFailContactImportArgs, 'contactId' | 'errorMsg' | 'jobinJob'>>;
+  findAndUpdateContactsByEmail?: Resolver<Array<ResolversTypes['Contact']>, ParentType, ContextType, RequireFields<MutationFindAndUpdateContactsByEmailArgs, 'contact' | 'emailAddress'>>;
   forgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'email'>>;
   generatePaymentLink?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationGeneratePaymentLinkArgs, 'amount' | 'currencyCode' | 'freeAccess' | 'isBilledMonthly' | 'jobinJobIdsStr' | 'renewalAmount' | 'seatsStr' | 'userId' | 'workGroupId'>>;
   getOrCreatePeopleSearchFilter?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType, RequireFields<MutationGetOrCreatePeopleSearchFilterArgs, 'contactsFilter'>>;
@@ -12184,7 +12158,6 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   resumeDripCampaign?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationResumeDripCampaignArgs, 'campaignId'>>;
   retryJobinJob?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationRetryJobinJobArgs, '_id'>>;
   runAgendaCommand?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRunAgendaCommandArgs, 'agendaCommand'>>;
-  runDripOperations?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRunDripOperationsArgs, 'campaignId' | 'contactIds'>>;
   runScheduledOperationNow?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRunScheduledOperationNowArgs, 'jobinJobId' | 'queue'>>;
   scheduleOperation?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationScheduleOperationArgs, 'date' | 'jobinJobId' | 'queue'>>;
   sendActivationEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendActivationEmailArgs, 'email'>>;
@@ -12192,10 +12165,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   sendTestEmails?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendTestEmailsArgs, 'email' | 'emailGeneratorNames'>>;
   sendWorkGroupInvites?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationSendWorkGroupInvitesArgs, 'users'>>;
   sendWorkGroupInvitesToJobinMembers?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationSendWorkGroupInvitesToJobinMembersArgs, 'userIds'>>;
-  setContactStatusesToPending?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationSetContactStatusesToPendingArgs, '_id' | 'linkedinUrls'>>;
   setPairAsNotDuplicate?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetPairAsNotDuplicateArgs, '_id'>>;
   stopDripCampaignForContact?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationStopDripCampaignForContactArgs, 'contactId'>>;
-  throttleJobinJob?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationThrottleJobinJobArgs, '_id'>>;
   throttleJobinJob429?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationThrottleJobinJob429Args, '_id'>>;
   unAssignStage?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationUnAssignStageArgs, 'pipelineId' | 'stageName'>>;
   unsubscribeContact?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUnsubscribeContactArgs, '_id'>>;
@@ -12213,7 +12184,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateContactsFilter?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUpdateContactsFilterArgs, '_id' | 'contactsFilter'>>;
   updateCurrentUser?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUpdateCurrentUserArgs, 'currentUser'>>;
   updateCustomField?: Resolver<ResolversTypes['CustomField'], ParentType, ContextType, RequireFields<MutationUpdateCustomFieldArgs, 'customFieldsInput'>>;
-  updateDripCampaign?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUpdateDripCampaignArgs, '_id' | 'dripCampaign'>>;
+  updateDripCampaign?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationUpdateDripCampaignArgs, '_id' | 'dripCampaign'>>;
   updateDripStageOption?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateDripStageOptionArgs, '_id' | 'dripStageOption'>>;
   updateEducationalLevel?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUpdateEducationalLevelArgs, '_id' | 'educationalLevel'>>;
   updateEmailSender?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUpdateEmailSenderArgs, '_id' | 'emailSender'>>;
@@ -12236,7 +12207,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updatePipeline?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUpdatePipelineArgs, '_id' | 'pipeline'>>;
   updatePipelineTemplate?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUpdatePipelineTemplateArgs, '_id' | 'pipelineTemplate'>>;
   updateRecentContactsFilter?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUpdateRecentContactsFilterArgs, '_id' | 'recentContactsFilter'>>;
-  updateReplyIdentifications?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateReplyIdentificationsArgs, 'ReplyIdentifications'>>;
+  updateReplyIdentifications?: Resolver<Maybe<Array<ResolversTypes['ReplyIdentification']>>, ParentType, ContextType, RequireFields<MutationUpdateReplyIdentificationsArgs, 'dripCampaignId' | 'replyIdentifications'>>;
   updateSkillType?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUpdateSkillTypeArgs, '_id' | 'skillType'>>;
   updateStageTemplate?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUpdateStageTemplateArgs, '_id' | 'stageTemplate'>>;
   updateSubStageTemplate?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUpdateSubStageTemplateArgs, '_id' | 'subStageTemplate'>>;
@@ -12541,6 +12512,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   affiliateLeads?: Resolver<Array<ResolversTypes['AffiliateLead']>, ParentType, ContextType, RequireFields<QueryAffiliateLeadsArgs, 'skip' | 'take'>>;
   affiliatePayouts?: Resolver<Array<ResolversTypes['AffiliatePayout']>, ParentType, ContextType, RequireFields<QueryAffiliatePayoutsArgs, 'skip' | 'take'>>;
   affiliateTotalPayouts?: Resolver<ResolversTypes['AffiliateTotalPayout'], ParentType, ContextType>;
+  allDisconnectedEmailSenders?: Resolver<Array<ResolversTypes['EmailSender']>, ParentType, ContextType, RequireFields<QueryAllDisconnectedEmailSendersArgs, 'skip' | 'take'>>;
   benefitTemplate?: Resolver<ResolversTypes['BenefitTemplate'], ParentType, ContextType, RequireFields<QueryBenefitTemplateArgs, '_id'>>;
   benefitTemplates?: Resolver<Array<ResolversTypes['BenefitTemplate']>, ParentType, ContextType, RequireFields<QueryBenefitTemplatesArgs, 'skip' | 'take'>>;
   benefitType?: Resolver<ResolversTypes['BenefitType'], ParentType, ContextType, RequireFields<QueryBenefitTypeArgs, '_id'>>;
@@ -12615,7 +12587,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   dripCampaignFromContactId?: Resolver<ResolversTypes['DripCampaignAndContact'], ParentType, ContextType, RequireFields<QueryDripCampaignFromContactIdArgs, '_id'>>;
   dripCampaignIsIncomplete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryDripCampaignIsIncompleteArgs, '_id'>>;
   dripCampaigns?: Resolver<Array<ResolversTypes['DripCampaign']>, ParentType, ContextType, RequireFields<QueryDripCampaignsArgs, 'skip' | 'take'>>;
-  dripStageOptionByPositionCode?: Resolver<Maybe<ResolversTypes['DripStageOption']>, ParentType, ContextType, RequireFields<QueryDripStageOptionByPositionCodeArgs, 'dripCampaignId' | 'positionCode'>>;
+  dripStageInformation?: Resolver<Maybe<ResolversTypes['DripStageInformation']>, ParentType, ContextType, RequireFields<QueryDripStageInformationArgs, 'dripCampaignId' | 'positionCode'>>;
+  dripStageOption?: Resolver<Maybe<ResolversTypes['DripStageOption']>, ParentType, ContextType, RequireFields<QueryDripStageOptionArgs, '_id'>>;
   dripStageOptionByStageId?: Resolver<Maybe<ResolversTypes['DripStageOption']>, ParentType, ContextType, RequireFields<QueryDripStageOptionByStageIdArgs, 'dripStageId'>>;
   dripStageOptions?: Resolver<Array<ResolversTypes['DripStageOption']>, ParentType, ContextType, RequireFields<QueryDripStageOptionsArgs, 'dripCampaignId'>>;
   duplicate?: Resolver<Maybe<ResolversTypes['DuplicateContainer']>, ParentType, ContextType, RequireFields<QueryDuplicateArgs, 'skip'>>;
@@ -12773,9 +12746,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   recommendedSubscriptionUpgrade?: Resolver<Maybe<ResolversTypes['RecommendedProduct']>, ParentType, ContextType, RequireFields<QueryRecommendedSubscriptionUpgradeArgs, 'activeFeatureCodename'>>;
   regions?: Resolver<Array<ResolversTypes['BaseTemplate']>, ParentType, ContextType, RequireFields<QueryRegionsArgs, 'skip' | 'take'>>;
   removeDuplicateFromPair?: Resolver<ResolversTypes['Int'], ParentType, ContextType, Partial<QueryRemoveDuplicateFromPairArgs>>;
-  replyIdentifications?: Resolver<Maybe<ResolversTypes['ReplyIdentifications']>, ParentType, ContextType, RequireFields<QueryReplyIdentificationsArgs, 'dripCampaignId'>>;
-  replyTag?: Resolver<Maybe<ResolversTypes['ReplyTag']>, ParentType, ContextType, RequireFields<QueryReplyTagArgs, '_id'>>;
-  replyTags?: Resolver<Array<ResolversTypes['ReplyTag']>, ParentType, ContextType, RequireFields<QueryReplyTagsArgs, 'skip' | 'take'>>;
+  replyIdentifications?: Resolver<Maybe<Array<ResolversTypes['ReplyIdentification']>>, ParentType, ContextType, RequireFields<QueryReplyIdentificationsArgs, 'dripCampaignId'>>;
   role?: Resolver<ResolversTypes['Role'], ParentType, ContextType, RequireFields<QueryRoleArgs, '_id'>>;
   roleTitle?: Resolver<ResolversTypes['RoleTitle'], ParentType, ContextType, RequireFields<QueryRoleTitleArgs, '_id'>>;
   roleTitles?: Resolver<Array<ResolversTypes['RoleTitle']>, ParentType, ContextType, RequireFields<QueryRoleTitlesArgs, 'skip' | 'take'>>;
@@ -12784,7 +12755,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   skillNames?: Resolver<Array<ResolversTypes['SkillName']>, ParentType, ContextType, RequireFields<QuerySkillNamesArgs, 'skip' | 'take'>>;
   skillType?: Resolver<ResolversTypes['SkillType'], ParentType, ContextType, RequireFields<QuerySkillTypeArgs, '_id'>>;
   skillTypes?: Resolver<Array<ResolversTypes['SkillType']>, ParentType, ContextType, RequireFields<QuerySkillTypesArgs, 'skip' | 'take'>>;
-  smtpTransportVerifyConnection?: Resolver<ResolversTypes['SmtpTransportVerification'], ParentType, ContextType, RequireFields<QuerySmtpTransportVerifyConnectionArgs, 'smtpSettings'>>;
   socialProfileFromFilterId?: Resolver<Maybe<ResolversTypes['PDLResponse']>, ParentType, ContextType, RequireFields<QuerySocialProfileFromFilterIdArgs, 'socialProfileFilterId'>>;
   stageTemplate?: Resolver<ResolversTypes['StageTemplate'], ParentType, ContextType, RequireFields<QueryStageTemplateArgs, '_id'>>;
   stageTemplates?: Resolver<Array<ResolversTypes['StageTemplate']>, ParentType, ContextType, RequireFields<QueryStageTemplatesArgs, 'skip' | 'take'>>;
@@ -12917,29 +12887,13 @@ export type RemoteWorkResolvers<ContextType = any, ParentType extends ResolversP
 
 export type ReplyIdentificationResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReplyIdentification'] = ResolversParentTypes['ReplyIdentification']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
-  action?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  activePipelineStage?: Resolver<Maybe<ResolversTypes['ActivePipelineStage']>, ParentType, ContextType>;
+  categories?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  dripCampaignId?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
   order?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   replyCategorizationUserInputs?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tagIds?: Resolver<Maybe<Array<ResolversTypes['ObjectId']>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type ReplyIdentificationsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReplyIdentifications'] = ResolversParentTypes['ReplyIdentifications']> = ResolversObject<{
-  _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
-  dripCampaignId?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
-  replyIdentifications?: Resolver<Maybe<Array<ResolversTypes['ReplyIdentification']>>, ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
-  workGroupId?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type ReplyTagResolvers<ContextType = any, ParentType extends ResolversParentTypes['ReplyTag'] = ResolversParentTypes['ReplyTag']> = ResolversObject<{
-  _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
-  color?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  iconName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  rank?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  userId?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
-  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   workGroupId?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -13017,12 +12971,6 @@ export type SmtpSettingResolvers<ContextType = any, ParentType extends Resolvers
   secure?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   sslV3?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   user?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type SmtpTransportVerificationResolvers<ContextType = any, ParentType extends ResolversParentTypes['SmtpTransportVerification'] = ResolversParentTypes['SmtpTransportVerification']> = ResolversObject<{
-  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -13342,15 +13290,6 @@ export type UserAdditionalDetailResolvers<ContextType = any, ParentType extends 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type UserLinkedinUrlOwnedBaseTemplateResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserLinkedinUrlOwnedBaseTemplate'] = ResolversParentTypes['UserLinkedinUrlOwnedBaseTemplate']> = ResolversObject<{
-  _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
-  connectedOn?: Resolver<Maybe<ResolversTypes['DateTimeISO']>, ParentType, ContextType>;
-  isPending?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  userLinkedinUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  value?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type VatIdResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['VatIdResponse'] = ResolversParentTypes['VatIdResponse']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -13488,6 +13427,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   DripLinkedinConnectionOption?: DripLinkedinConnectionOptionResolvers<ContextType>;
   DripLinkedinMessageOption?: DripLinkedinMessageOptionResolvers<ContextType>;
   DripStage?: DripStageResolvers<ContextType>;
+  DripStageInformation?: DripStageInformationResolvers<ContextType>;
   DripStageOption?: DripStageOptionResolvers<ContextType>;
   Duplicate?: DuplicateResolvers<ContextType>;
   DuplicateContainer?: DuplicateContainerResolvers<ContextType>;
@@ -13560,6 +13500,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   LinkedinAnalyticTimeline?: LinkedinAnalyticTimelineResolvers<ContextType>;
   LinkedinAnalyticTimelineRecords?: LinkedinAnalyticTimelineRecordsResolvers<ContextType>;
   LinkedinAnalyticTotals?: LinkedinAnalyticTotalsResolvers<ContextType>;
+  LinkedinConnectionLevel?: LinkedinConnectionLevelResolvers<ContextType>;
   LinkedinConversation?: LinkedinConversationResolvers<ContextType>;
   LinkedinDetail?: LinkedinDetailResolvers<ContextType>;
   LinkedinInvitation?: LinkedinInvitationResolvers<ContextType>;
@@ -13620,8 +13561,6 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   RegisterObject?: RegisterObjectResolvers<ContextType>;
   RemoteWork?: RemoteWorkResolvers<ContextType>;
   ReplyIdentification?: ReplyIdentificationResolvers<ContextType>;
-  ReplyIdentifications?: ReplyIdentificationsResolvers<ContextType>;
-  ReplyTag?: ReplyTagResolvers<ContextType>;
   Role?: RoleResolvers<ContextType>;
   RoleTitle?: RoleTitleResolvers<ContextType>;
   Score?: ScoreResolvers<ContextType>;
@@ -13630,7 +13569,6 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   SkillName?: SkillNameResolvers<ContextType>;
   SkillType?: SkillTypeResolvers<ContextType>;
   SmtpSetting?: SmtpSettingResolvers<ContextType>;
-  SmtpTransportVerification?: SmtpTransportVerificationResolvers<ContextType>;
   SocialProfile?: SocialProfileResolvers<ContextType>;
   SolutionWithProduct?: SolutionWithProductResolvers<ContextType>;
   Stage?: StageResolvers<ContextType>;
@@ -13654,7 +13592,6 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   UploadedFile?: UploadedFileResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserAdditionalDetail?: UserAdditionalDetailResolvers<ContextType>;
-  UserLinkedinUrlOwnedBaseTemplate?: UserLinkedinUrlOwnedBaseTemplateResolvers<ContextType>;
   VatIdResponse?: VatIdResponseResolvers<ContextType>;
   VoluntExperience?: VoluntExperienceResolvers<ContextType>;
   VolunteerCause?: VolunteerCauseResolvers<ContextType>;

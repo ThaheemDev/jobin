@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "codegen": "graphql-codegen",
+    "codegen": "graphql-codegen --config ./codegen-ast.ts && graphql-codegen",
     "compile": "tsc",
     "start": "npm run compile && node ./dist/index.js",
     "test": "ts-jest"

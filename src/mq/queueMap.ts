@@ -1,6 +1,7 @@
 import {queues} from "./bootstrapBullMq";
 import {JobinJobCodenameT} from "@jobin-cloud/shared-schema";
 import {Job} from "bullmq";
+import {JobinJobCodename} from "../schema/jobinJobs/JobCodenameEnum";
 
 
 export function getQueueByJobCodename (codename: JobinJobCodenameT) {
@@ -14,28 +15,37 @@ export type QueueNameT =
     'jobinJobEmailQueue' |
     'jobinJobBulkEnrichContactsQueue' |
     'jobinJobConditionQueue' |
-    'jobinJobAssignQueue'
+    'jobinJobAssignQueue' |
+    'jobinJobZapierQueue'
 
-type QueueMapT = {codename: JobinJobCodenameT, queue: QueueNameT, localWorker?: (job: Job) => Promise<void>}
+type QueueMapT = {
+    codename: JobinJobCodename,
+    queue: QueueNameT,
+    localWorker?: (job: Job) => Promise<void>
+}
 
 export const queueMap: QueueMapT[] = [
     {
-        codename: 'sendBulkEmails',
+        codename: JobinJobCodename.sendBulkEmails,
         queue: 'jobinJobEmailQueue'
     },
     {
-        codename: 'bulkEnrichContacts',
+        codename: JobinJobCodename.bulkEnrichContacts,
         queue: 'jobinJobBulkEnrichContactsQueue',
         // todo implement
     },
     {
-        codename: 'condition',
+        codename: JobinJobCodename.condition,
         queue: 'jobinJobConditionQueue',
     },
     {
-        codename: 'assign',
+        codename: JobinJobCodename.assign,
         queue: 'jobinJobAssignQueue'
     },
+    {
+        codename: JobinJobCodename.zapier,
+        queue: 'jobinJobZapierQueue'
+    }
 
     // Linkedin Operations are directly sent to extension (no queue)
     // {

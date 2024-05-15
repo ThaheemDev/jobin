@@ -27,18 +27,16 @@ export async function stopJobinJobsWithError (dripCampaignId: ObjectId, contactI
         // ContactModel.updateMany({_id: {$in: contactIds}}, { $unset: { campaignStage: true} }) as unknown as Promise<any>
     // ]
 
-    if(singleJobinJobs.length) {
-        const singleJobinJobIds = singleJobinJobs.map(r => r._id)
+    const singleJobinJobIds = singleJobinJobs.map(r => r._id)
 
-        for (const jobinJob of singleJobinJobs) {
-            if(!jobinJob.nextRunAt || !isWithinNextDay(jobinJob.nextRunAt)) continue
-            const queue = getQueueByJobCodename(jobinJob.codename as JobinJobCodenameT)
-            if(!queue) continue
+    for (const jobinJob of singleJobinJobs) {
+        if(!jobinJob.nextRunAt || !isWithinNextDay(jobinJob.nextRunAt)) continue
+        const queue = getQueueByJobCodename(jobinJob.codename as JobinJobCodenameT)
+        if(!queue) continue
 
-            queue.getJob(getRedisId('jobinJob', jobinJob._id)).then(j => { j?.remove() })
-        }
-
-        if(error) JobinJobModel.updateMany({_id: {$in: singleJobinJobIds}}, {error, stop: true, nextRunAt: null!})
-        else JobinJobModel.deleteMany({_id: {$in: singleJobinJobIds}})
+        queue.getJob(getRedisId('jobinJob', jobinJob._id)).then(j => { j?.remove() })
     }
+
+    if(error) JobinJobModel.updateMany({_id: {$in: singleJobinJobIds}}, {error, stop: true, nextRunAt: null!})
+    else JobinJobModel.deleteMany({_id: {$in: singleJobinJobIds}})
 }
